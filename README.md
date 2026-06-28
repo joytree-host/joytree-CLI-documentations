@@ -5,12 +5,12 @@ Deploy and manage your Joytree-hosted sites from the terminal.
 ## Installation
 
 ```bash
-npm install -g @joytreeapp/joytree
+npm install -g @joytreesite/joytree
 ```
 
 Or run without installing:
 ```bash
-npx @joytreeapp/joytree login
+npx @joytreesite/joytree login
 ```
 
 ---
@@ -149,21 +149,10 @@ export JOYTREE_API_KEY=jtk_your_key_here
 export JOYTREE_BASE_URL=https://joytree.site
 ```
 
----
 
-## Publishing to npm
-
-To publish this CLI so users can `npm install -g @joytreeapp/joytree`:
-
+users install with:
 ```bash
-cd joytree-cli
-npm login    # login to npm as @joytreeapp
-npm publish --access public
-```
-
-Then users install with:
-```bash
-npm install -g @joytreeapp/joytree
+npm install -g @joytreesite/joytree
 # or
-npx @joytreeapp/joytree login
+npx @joytreesite/joytree login
 ```
