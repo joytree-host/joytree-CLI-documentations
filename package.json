@@ -1,0 +1,12 @@
+{
+  "name": "joytree-docs",
+  "version": "1.0.0",
+  "description": "Joytree platform documentation site",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
