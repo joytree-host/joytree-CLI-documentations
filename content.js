@@ -2331,10 +2331,7 @@ The JoyTree MCP server lets any MCP-compatible AI client \u2014 Claude chat, Cla
 ## Connecting
 
 1. Get your API key from **joytree.site/dashboard/account** (or \`joytree apikey show\` from the CLI).
-2. In Claude, add a custom connector pointing at:
-   \`\`\`text
-   https://mcp.joytree.site/mcp
-   \`\`\`
+2. In Claude, add a custom connector pointing at \`https://mcp.joytree.site/mcp\`.
 3. Authenticate with your API key (\`jtk_...\`) when prompted.
 4. Try asking Claude something like *"list my JoyTree projects"* or *"what's in my JoyTree account?"* to confirm the connection.
 
