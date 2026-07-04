@@ -55,6 +55,7 @@ const NAV = [
       { key: 'db-query-studio', title: 'Query Studio' },
       { key: 'db-connecting', title: 'Connection strings' },
       { key: 'db-logs-metrics', title: 'Logs & metrics' },
+      { key: 'db-migration', title: 'Data Migration' },
     ]
   },
   {
@@ -1281,6 +1282,85 @@ POST /api/databases/:id/query
 `
   },
 
+  'db-migration': {
+    title: 'Data Migration', group: 'Databases', eyebrow: 'Databases',
+    lede: 'Move data into a Joytree database from anywhere — another Joytree database, a real MongoDB Atlas cluster, a Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance — regardless of engine.',
+    md: `
+Data Migration copies everything from a **source** into a **destination**, translating between data models automatically where needed (document ↔ relational ↔ key/value). The destination is always one of your own Joytree databases. The source can be:
+
+- **Another Joytree database** — copy data between two of your own instances.
+- **MongoDB Atlas** (or any external Mongo cluster) — not Docker-provisioned.
+- **Firebase Realtime Database** — pulls the whole tree in one pass.
+- **External MySQL, PostgreSQL, or MariaDB** — any server reachable by connection string.
+- **External Redis** — any instance reachable by connection string.
+
+Cross-engine moves are fully supported — Mongo to MySQL, Firebase to Postgres, Redis to MariaDB, and so on. Each table/collection/key becomes a collection on the read side; the writer for whatever engine you're migrating into decides how to represent that data natively (rows for SQL, documents for Mongo, hash keys for Redis).
+
+:::warn
+A MongoDB connection string **must include a database name** — the part after the last \`/\` before any \`?\`. Atlas's default "Copy connection string" button gives you something like \`mongodb+srv://user:pass@cluster.mongodb.net/?retryWrites=true\`, with **no database name at all**. Without one, MongoDB silently falls back to its own default database named \`test\` — meaning a migration could run "successfully" while reading from the wrong (probably empty) database, with no error at all. Add the name explicitly: \`mongodb+srv://user:pass@cluster.mongodb.net/YOUR_DB_NAME?retryWrites=true\`. The dashboard, CLI, and MCP tool all check for this and refuse to proceed without it.
+:::
+
+## From the dashboard
+
+1. Go to **Databases** in the sidebar, then open **Data Migration**.
+2. Pick a **source**: JoyTree Database, MongoDB Atlas, Firebase Realtime DB, MySQL, PostgreSQL, MariaDB, or Redis. External sources ask for a connection string (and Firebase asks for its database URL plus an optional legacy database secret, only needed if your RTDB security rules require auth).
+3. Pick a **destination** — always one of your own provisioned Joytree databases.
+4. Click **Start Migration**. It runs in the background; **Migration History** below shows live progress and, once finished, the full result (collections/rows moved) or error with logs.
+
+Each history entry can be deleted individually, or cleared all at once with **Clear All** — migrations still in progress are always left running untouched by either action.
+
+## From the CLI
+
+\`\`\`bash
+joytree migrate start
+\`\`\`
+
+With no flags, this drops into the same interactive wizard as the dashboard: pick a source kind, fill in its fields, then pick a destination database.
+
+For scripting or CI, pass everything as flags instead:
+
+\`\`\`bash
+# From another Joytree database
+joytree migrate start --source-kind joytree --source-database-id <id> --destination-id <id>
+
+# From MongoDB Atlas — note the database name in the connection string
+joytree migrate start --source-kind mongo \\
+  --connection-string "mongodb+srv://user:pass@cluster.mongodb.net/mydb" \\
+  --destination-id <id>
+
+# From Firebase Realtime Database
+joytree migrate start --source-kind firebase --firebase-url https://your-project-default-rtdb.firebaseio.com --destination-id <id>
+
+# From an external MySQL/PostgreSQL/MariaDB server
+joytree migrate start --source-kind sql --sql-engine mysql \\
+  --connection-string "mysql://user:pass@host:3306/mydb" \\
+  --destination-id <id>
+
+# From an external Redis instance
+joytree migrate start --source-kind redis --connection-string "redis://:password@host:6379" --destination-id <id>
+\`\`\`
+
+Add \`--wait\` to any of the above to block and poll until the migration finishes, instead of returning immediately with just a job id.
+
+\`\`\`bash
+joytree migrate list                 # every migration, most recent first
+joytree migrate status <job-id>      # progress, result, and logs for one migration
+joytree migrate delete <job-id>      # remove one history entry
+joytree migrate clear                # remove ALL history (running migrations untouched)
+\`\`\`
+
+## From the MCP Server
+
+The MCP server exposes the same feature as five tools: \`joytree_start_migration\`, \`joytree_list_migrations\`, \`joytree_get_migration\`, \`joytree_delete_migration\`, and \`joytree_clear_migration_history\` — see the **[Tool reference](#/mcp-tools)** for full parameters.
+
+## Notes & limits
+
+- Each table/collection/key is capped at 50,000 rows per migration — designed for moving working datasets and test/staging data, not multi-million-row production tables.
+- External connection strings are used once, for the duration of that migration, and are never stored.
+- A migration that's still running can't be deleted from history — wait for it to finish first.
+`
+  },
+
   // ───────────────────────── Domains ─────────────────────────
   'domains-custom': {
     title: 'Custom domains', group: 'Domains & DNS', eyebrow: 'Domains',
@@ -2256,6 +2336,30 @@ joytree db logs <db-id>             Fetch recent database logs
 joytree db delete <db-id>           Delete a database — irreversible (-y, --yes to skip confirmation)
 \`\`\`
 
+## Data Migration
+
+\`\`\`text
+joytree migrate start                     Start a migration — interactive wizard if no flags given
+joytree migrate start --source-kind ...   Non-interactive: joytree | mongo | firebase | sql | redis
+joytree migrate start ... --wait          Block and poll until the migration finishes
+joytree migrate list                      List all migrations, most recent first
+joytree migrate status <job-id>           Check progress, result, and logs for one migration
+joytree migrate delete <job-id>           Delete one migration from history
+joytree migrate clear                     Delete ALL migration history — running migrations untouched
+\`\`\`
+
+\`joytree migrate start\` accepts different flags depending on \`--source-kind\`:
+
+\`\`\`text
+--source-kind joytree      --source-database-id <id>
+--source-kind mongo        --connection-string <uri>          (must include a database name — see below)
+--source-kind firebase     --firebase-url <url> [--firebase-secret <secret>]
+--source-kind sql          --sql-engine <mysql|postgres|mariadb> --connection-string <uri>
+--source-kind redis        --connection-string <uri>
+\`\`\`
+
+Every \`start\` invocation also needs \`--destination-id <id>\` — always one of your own Joytree databases. See **[Data Migration](#/db-migration)** for the full walkthrough, including the MongoDB connection-string gotcha that this command validates before ever hitting the network.
+
 ## AI agent
 
 \`\`\`text
@@ -2347,6 +2451,7 @@ Once connected, Claude can:
 - **Check** deployment history and live runtime logs
 - **Manage environment variables** on a project
 - **Provision and manage databases** (PostgreSQL, MySQL, MariaDB, MongoDB, Redis)
+- **Migrate data** into a JoyTree database from another JoyTree database, MongoDB Atlas, Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance, regardless of engine
 - **Generate a REST API from a prompt** using the [Realtime API Builder](#/dev-flows-overview), and turn it into a persistent container
 
 See the full list with exact inputs on the **[Tool reference](#/mcp-tools)** page.
@@ -2397,6 +2502,20 @@ Every tool below is a thin, direct wrapper around a real JoyTree REST endpoint \
 | \`joytree_create_database\` | Provision a new database (postgres / mysql / mariadb / mongodb / redis), optionally linked to a project |
 | \`joytree_get_database\` | Connection strings and status for one database |
 | \`joytree_database_lifecycle\` | Start, stop, restart, or delete a database |
+
+## Data Migration
+
+| Tool | What it does |
+|---|---|
+| \`joytree_start_migration\` | Start a migration into one of your JoyTree databases from another JoyTree database, MongoDB Atlas, Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance. Takes \`sourceKind\` plus whichever fields that kind needs (\`sourceDatabaseId\`, \`connectionString\`, \`sqlEngine\`, \`firebaseDatabaseUrl\`, \`firebaseAuthSecret\`) and \`destinationDatabaseId\`. Runs in the background \u2014 returns a \`migrationId\` to poll |
+| \`joytree_list_migrations\` | List every migration (in-progress and history), most recent first |
+| \`joytree_get_migration\` | Full status, result, and logs for one migration by ID |
+| \`joytree_delete_migration\` | Remove one migration from history \u2014 refuses if it's still running |
+| \`joytree_clear_migration_history\` | Delete ALL finished migration history at once; running migrations are left untouched |
+
+:::warn
+When \`sourceKind\` is \`"mongo"\`, \`connectionString\` **must include a database name** (the part after the last \`/\` before any \`?\`). Atlas's default "Copy connection string" button omits it \u2014 without one, MongoDB silently falls back to its own default database named \`test\` instead of erroring, so a migration could "succeed" while reading the wrong data entirely.
+:::
 
 ## Realtime API Builder
 
