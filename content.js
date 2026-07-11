@@ -56,6 +56,7 @@ const NAV = [
       { key: 'db-connecting', title: 'Connection strings' },
       { key: 'db-logs-metrics', title: 'Logs & metrics' },
       { key: 'db-migration', title: 'Data Migration' },
+      { key: 'db-diff', title: 'Compare Databases' },
     ]
   },
   {
@@ -1361,6 +1362,67 @@ The MCP server exposes the same feature as five tools: \`joytree_start_migration
 `
   },
 
+  'db-diff': {
+    title: 'Compare Databases', group: 'Databases', eyebrow: 'Databases',
+    lede: 'Compare any two databases — even across completely different engines — and see exactly what\'s added, removed, and changed.',
+    md: `
+Compare Databases reports exactly what differs between two databases, collection by collection and row by row — even when the two sides are completely different engines (a MongoDB collection vs. a PostgreSQL table vs. a Redis keyspace). This works because every source is already normalized to the same shape for migrations (a collection is just a name plus a list of rows); the comparison never needs to know which engine either side actually is.
+
+Both sides use the exact same source types as [Data Migration](#/db-migration): **another Joytree database**, **MongoDB Atlas**, **Firebase Realtime Database**, **external MySQL/PostgreSQL/MariaDB**, or **external Redis**.
+
+Rows are matched by identity, not position, so reordered or reinserted data still compares correctly:
+
+- If a common id-like field exists (\`_id\`, \`id\`, \`uuid\`, etc.), rows are matched by that field.
+- Otherwise (schemaless/keyless data), rows are matched by a content hash — so even a Redis keyspace with no id concept at all still compares meaningfully, rather than being reported as 100% added and 100% removed.
+
+For each collection, the report gives you:
+
+- **Added** — present in Database B, not in Database A.
+- **Removed** — present in Database A, not in Database B.
+- **Changed** — present in both, with field-level before/after values for exactly what's different.
+- **Unchanged** — present in both, identical.
+
+## From the dashboard
+
+1. Go to **Databases** in the sidebar, then open **Compare Databases**.
+2. Pick a source for **Database A** and **Database B** — either one of your own Joytree databases, or an external connection.
+3. Click **Compare**. Results appear below: summary counts at the top, then a collapsible breakdown per collection — click any collection with differences to expand the changed/added/removed rows.
+
+## From the CLI
+
+\`\`\`bash
+joytree diff
+\`\`\`
+
+With no flags, this drops into the same interactive wizard used for each side (pick a source kind, fill in its fields) — once for Database A, once for Database B.
+
+For scripting, pass everything as flags instead, prefixed \`--a-\` and \`--b-\`:
+
+\`\`\`bash
+joytree diff \\
+  --a-source-kind joytree --a-database-id <id> \\
+  --b-source-kind joytree --b-database-id <id>
+
+# Compare a Joytree database against an external Postgres server
+joytree diff \\
+  --a-source-kind joytree --a-database-id <id> \\
+  --b-source-kind sql --b-sql-engine postgres --b-connection-string "postgresql://user:pass@host:5432/mydb"
+\`\`\`
+
+Add \`--json\` to print the raw report instead of the formatted summary — useful for piping into other tooling or CI checks.
+
+## From the MCP Server
+
+The MCP server exposes this as \`joytree_compare_databases\` — see the **[Tool reference](#/mcp-tools)** for full parameters. Both \`databaseA\` and \`databaseB\` use the same source shape as \`joytree_start_migration\`.
+
+## Notes & limits
+
+- Like Data Migration, each collection reads up to 50,000 rows per side — designed for comparing working datasets and staging/production snapshots, not multi-million-row tables.
+- The response includes exact counts always, but caps example rows shown per added/removed/changed bucket at 200 per collection.
+- External connection strings are used once, for the duration of the comparison, and are never stored.
+`
+  },
+
   // ───────────────────────── Domains ─────────────────────────
   'domains-custom': {
     title: 'Custom domains', group: 'Domains & DNS', eyebrow: 'Domains',
@@ -2348,6 +2410,14 @@ joytree migrate delete <job-id>           Delete one migration from history
 joytree migrate clear                     Delete ALL migration history — running migrations untouched
 \`\`\`
 
+## Compare Databases
+
+\`\`\`text
+joytree diff                              Compare two databases — interactive wizard if no flags given
+joytree diff --a-source-kind ... --b-source-kind ...   Non-interactive, prefixed --a-/--b- for each side
+joytree diff --json                       Print the raw JSON report instead of a formatted summary
+\`\`\`
+
 \`joytree migrate start\` accepts different flags depending on \`--source-kind\`:
 
 \`\`\`text
@@ -2512,6 +2582,12 @@ Every tool below is a thin, direct wrapper around a real JoyTree REST endpoint \
 | \`joytree_get_migration\` | Full status, result, and logs for one migration by ID |
 | \`joytree_delete_migration\` | Remove one migration from history \u2014 refuses if it's still running |
 | \`joytree_clear_migration_history\` | Delete ALL finished migration history at once; running migrations are left untouched |
+
+## Compare Databases
+
+| Tool | What it does |
+|---|---|
+| \`joytree_compare_databases\` | Compare two databases and see exactly what's added, removed, and changed \u2014 even across completely different engines. Takes \`databaseA\` and \`databaseB\`, each using the same shape as \`joytree_start_migration\`'s source (\`sourceKind\` plus whichever fields that kind needs). Rows are matched by id where one exists, or by content otherwise. Returns per-collection counts plus example rows and field-level before/after values for changed rows |
 
 :::warn
 When \`sourceKind\` is \`"mongo"\`, \`connectionString\` **must include a database name** (the part after the last \`/\` before any \`?\`). Atlas's default "Copy connection string" button omits it \u2014 without one, MongoDB silently falls back to its own default database named \`test\` instead of erroring, so a migration could "succeed" while reading the wrong data entirely.
