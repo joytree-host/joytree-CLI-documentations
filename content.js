@@ -2619,37 +2619,56 @@ The server is open in **[github.com/Joy-tree/joytree-mcp-server](https://github.
 ## Base URL
 
 \`\`\`text
-https://joytree.site
+https://joytree.site/api/v1
 \`\`\`
+
+Rate limit: **120 requests/minute** per API key.
 
 ## Authentication
 
-Send your API key as a bearer token on every request:
+Every personal API key starts with \`jtk_\`. Find (or rotate) yours under **Dashboard → Settings → Personal API Key**. Send it as a bearer token:
 
 \`\`\`bash
-curl https://joytree.site/api/v1/projects \\
-  -H "Authorization: Bearer $JOYTREE_API_KEY"
+curl "https://joytree.site/api/v1/projects" \\
+  -H "Authorization: Bearer jtk_your_key_here"
 \`\`\`
 
-See **[Authentication](#/authentication)** for how to obtain a key.
+Or pass it as a query param if headers aren't convenient:
 
-## Endpoint groups
+\`\`\`bash
+curl "https://joytree.site/api/v1/ping?api_key=jtk_your_key_here"
+\`\`\`
 
-| Area | Base path |
-|---|---|
-| Account | \`/api/v1/account\`, \`/api/account/api-key\` |
-| Projects | \`/api/v1/projects\`, \`/api/projects\` |
-| Deployments | \`/api/deploy\`, \`/api/deployments\` |
-| Environment variables | \`/api/v1/projects/:id/env\` |
-| Runtime logs (SSE) | \`/api/projects/:id/runtime-logs\` |
-| Databases | \`/api/databases\` |
-| Domains | \`/api/domains\` |
-| GitHub | \`/api/github\` |
-| SSH keys | \`/api/ssh-keys\` |
-| AI agent | \`/api/ai/agent\` |
-| Developer flows | \`/api/developer\` |
-| Webhooks | \`/api/webhook\` |
-| Billing | \`/api/billing/paystack\` |
+See **[Authentication](#/authentication)** for more on obtaining a key, and **[API key management](#/account-apikey)** for rotating one.
+
+## Endpoint reference
+
+| Method | Path | Description |
+|---|---|---|
+| \`GET\` | \`/ping\` | Health check & API key validation |
+| \`GET\` | \`/transfer\` | Public transfer endpoint — no session needed. Returns all projects + GitHub URLs + build configs + env key names, for importing into another host |
+| \`GET\` | \`/account\` | Your account profile |
+| \`GET\` | \`/workspace\` | Full workspace snapshot (projects, deployments, env, settings) |
+| \`GET\` | \`/projects\` | List all projects. Query: \`?status=live&subdomain=myapp&limit=50\` |
+| \`GET\` | \`/projects/:id\` | Get one project by id or subdomain |
+| \`PATCH\` | \`/projects/:id\` | Update project: name, branch, buildCommand, startCommand, nodeVersion, autoDeploy, envVars |
+| \`DELETE\` | \`/projects/:id\` | Remove project from workspace |
+| \`POST\` | \`/projects/:id/redeploy\` | Trigger a full redeploy |
+| \`POST\` | \`/projects/:id/stop\` | Send stop signal to active deployment |
+| \`POST\` | \`/projects/:id/restart\` | Restart the live Docker container in-place |
+| \`GET\` | \`/projects/:id/status\` | Live container status + real-time CPU / RAM stats |
+| \`GET\` | \`/projects/:id/logs\` | Deployment history. Query: \`?limit=20\` |
+| \`GET\` | \`/projects/:id/env\` | Env vars (masked). Add \`?reveal=1\` to unmask |
+| \`PUT\` | \`/projects/:id/env\` | Set / merge env vars. Body: \`{"KEY":"value"}\` |
+| \`GET\` | \`/deployments\` | All deployments. Query: \`?projectId=&status=success&limit=50\` |
+| \`GET\` | \`/deployments/:id\` | Single deployment by id |
+| \`GET\` | \`/databases\` | List your managed databases (Redis, Postgres, MySQL…) |
+| \`GET\` | \`/usage\` | Plan usage: projects used, build seconds, bandwidth |
+| \`GET\` | \`/settings\` | Your workspace settings |
+| \`PATCH\` | \`/settings\` | Update settings: timezone, notification prefs, name |
+| \`GET\` | \`/activity\` | Recent activity log. Query: \`?limit=25\` |
+| \`GET\` | \`/export/:id\` | Export project. \`?format=joytree\|render\|dockerfile\|dotenv\` |
+| \`POST\` | \`/import\` | Import a project from Render / pxxl / Railway etc. |
 
 ## Response format
 
