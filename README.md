@@ -6,7 +6,7 @@ Deploy and manage your Joytree-hosted sites from the terminal.
 
 ```bash
 npm install -g @joytreesite/joytree
-```
+``
 
 Or run without installing:
 ```bash
