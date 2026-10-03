@@ -281,7 +281,7 @@
 
     content.innerHTML = `
       <div class="hero">
-        <div class="hero-badge">◈ Joytree Platform Docs</div>
+        <div class="hero-badge">Joytree Platform Docs</div>
         <h1>Deploy, manage, and scale from one platform</h1>
         <p class="doc-lede">The dashboard, deployments, projects, managed databases, custom domains, an AI coding agent, and a full CLI — all documented in one place. Start with the <a class="md-link" href="#/quickstart" data-link>Quickstart</a>, or jump straight to a section below.</p>
       </div>
