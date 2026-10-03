@@ -55,5 +55,5 @@ http.createServer((req, res) => {
     res.end(data);
   });
 }).listen(PORT, () => {
-  console.log(`Joytree docs running on port ${PORT}`);
+  console.log(`JOYTREE docs running on port ${PORT}`);
 });

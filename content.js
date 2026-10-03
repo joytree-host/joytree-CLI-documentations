@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Joytree Docs — content model
+   JOYTREE Docs — content model
    NAV   = hierarchical sidebar (groups -> pages)
    PAGES = { key: { title, group, eyebrow, lede, md } }
    ========================================================================== */
@@ -139,9 +139,9 @@ const PAGES = {
   // ───────────────────────── Getting started ─────────────────────────
   introduction: {
     title: 'Introduction', group: 'Getting Started', eyebrow: 'Overview',
-    lede: 'Joytree deploys, hosts, and manages your apps, databases, and domains from one dashboard, one CLI, or one API.',
+    lede: 'JOYTREE deploys, hosts, and manages your apps, databases, and domains from one dashboard, one CLI, or one API.',
     md: `
-Joytree is a hosting platform built for shipping fast. Point it at a GitHub repository, or upload a folder directly, and Joytree detects your framework, builds it, and gives every project a live URL at \`https://<your-project>.joytree.site\` within minutes.
+JOYTREE is a hosting platform built for shipping fast. Point it at a GitHub repository, or upload a folder directly, and JOYTREE detects your framework, builds it, and gives every project a live URL at \`https://<your-project>.joytree.site\` within minutes.
 
 This documentation covers everything the platform can do, and every way to control it:
 
@@ -151,7 +151,7 @@ This documentation covers everything the platform can do, and every way to contr
 
 ## What you can build
 
-Joytree hosts **static sites** (built HTML/CSS/JS output with no running process) and **server sites** (a persistent process — Node, Python, Go, Rust, Java, .NET, PHP, Bun, Deno). Alongside your app you can provision **managed databases** (PostgreSQL, MySQL, MariaDB, MongoDB, Redis), attach **custom domains**, stream **runtime logs**, manage **environment variables**, and even hand a task to the built-in **AI agent** to fix or extend your code.
+JOYTREE hosts **static sites** (built HTML/CSS/JS output with no running process) and **server sites** (a persistent process — Node, Python, Go, Rust, Java, .NET, PHP, Bun, Deno). Alongside your app you can provision **managed databases** (PostgreSQL, MySQL, MariaDB, MongoDB, Redis), attach **custom domains**, stream **runtime logs**, manage **environment variables**, and even hand a task to the built-in **AI agent** to fix or extend your code.
 
 :::tip
 Every feature in the dashboard has a CLI command and a REST endpoint behind it. If you can click it, you can script it.
@@ -159,7 +159,7 @@ Every feature in the dashboard has a CLI command and a REST endpoint behind it. 
 
 ## Where to start
 
-- New to Joytree? Read the **[Quickstart](#/quickstart)**.
+- New to JOYTREE? Read the **[Quickstart](#/quickstart)**.
 - Want a guided walkthrough of the dashboard itself? See the **[Command Center tour](#/dashboard-tour)**.
 - Already have a project? Jump to **[Deploy from GitHub](#/deploy-github)**.
 - Automating deploys? See the **[CLI reference](#/cli-reference)** or the **[REST API overview](#/api-overview)**.
@@ -171,13 +171,13 @@ Every feature in the dashboard has a CLI command and a REST endpoint behind it. 
     title: 'Quickstart', group: 'Getting Started', eyebrow: 'Getting Started',
     lede: 'Go from zero to a live URL in under five minutes — from the dashboard or the terminal.',
     md: `
-Joytree has two front doors that do the same thing: the **dashboard** at \`joytree.site/dashboard\`, and the **CLI**. Pick whichever fits how you work — most people use the dashboard for day-to-day project management and reach for the CLI when scripting or wiring up CI.
+JOYTREE has two front doors that do the same thing: the **dashboard** at \`joytree.site/dashboard\`, and the **CLI**. Pick whichever fits how you work — most people use the dashboard for day-to-day project management and reach for the CLI when scripting or wiring up CI.
 
 ## Option A — From the dashboard
 
 1. Sign in at **[joytree.site/dashboard](https://joytree.site/dashboard)**. You'll land on the **Command Center** — a real-time overview of your projects, deployments, and traffic.
 2. Click **+ New Deployment** in the top of the Command Center.
-3. Choose **GitHub repo**, pick the repository and branch, and Joytree auto-detects your framework and fills in sensible build/start commands. Review them, then hit **Deploy**.
+3. Choose **GitHub repo**, pick the repository and branch, and JOYTREE auto-detects your framework and fills in sensible build/start commands. Review them, then hit **Deploy**.
 4. Watch the build stream live in the deployment's **Build status & logs** panel. When it finishes, the project card flips to **Live** and shows its URL.
 5. From the project page you can open **Runtime logs**, add **environment variables**, attach a **custom domain**, or provision a **database** — all without leaving the browser.
 
@@ -210,7 +210,7 @@ Running \`joytree deploy\` with no flags starts the same interactive wizard the 
     lede: 'The joytree command wraps the full REST API in a scriptable interface.',
     md: `
 :::tip
-Coding with Claude in a browser tab (claude.ai chat, Cowork) rather than Claude Code or your own terminal? The CLI won't be reachable from there — see the **[MCP Server](#/mcp-overview)** instead, which lets Claude deploy and manage JoyTree directly without a terminal at all.
+Coding with Claude in a browser tab (claude.ai chat, Cowork) rather than Claude Code or your own terminal? The CLI won't be reachable from there — see the **[MCP Server](#/mcp-overview)** instead, which lets Claude deploy and manage JOYTREE directly without a terminal at all.
 :::
 
 ## Install globally
@@ -270,7 +270,7 @@ npm update -g @joytreesite/joytree
     title: 'Authentication', group: 'Getting Started', eyebrow: 'Getting Started',
     lede: 'Every CLI command and API request is authenticated with a single bearer token.',
     md: `
-Joytree uses **API keys** for the CLI and REST API, and a separate session-based login (email/password, GitHub, or Google) for the web dashboard.
+JOYTREE uses **API keys** for the CLI and REST API, and a separate session-based login (email/password, GitHub, or Google) for the web dashboard.
 
 ## API keys
 
@@ -374,9 +374,9 @@ Everything you can do in the Command Center has a CLI command and a REST endpoin
 
   'dashboard-appearance': {
     title: 'Appearance & theme', group: 'Dashboard', eyebrow: 'Dashboard',
-    lede: 'The dashboard — and these docs — default to a dark theme with a green accent, matching the Joytree brand.',
+    lede: 'The dashboard — and these docs — default to a dark theme with a green accent, matching the JOYTREE brand.',
     md: `
-The Joytree dashboard ships **dark by default**: a near-black background with a single green accent (\`#10B981\`) used consistently for primary actions like **+ New Deployment**, status indicators like "routing healthy," and active-state highlights in the sidebar. Cards and panels sit one step lighter than the page background rather than introducing new hues, so the accent green stays the only color doing visual work.
+The JOYTREE dashboard ships **dark by default**: a near-black background with a single green accent (\`#10B981\`) used consistently for primary actions like **+ New Deployment**, status indicators like "routing healthy," and active-state highlights in the sidebar. Cards and panels sit one step lighter than the page background rather than introducing new hues, so the accent green stays the only color doing visual work.
 
 ## Switching themes
 
@@ -388,7 +388,7 @@ If you're building an integration or a custom preview and want to match the bran
 
 ## Light mode
 
-Light mode is available for accessibility and preference — it swaps the palette to a soft off-white background while keeping the same green as the brand accent, so the platform still reads as unmistakably Joytree in either mode.
+Light mode is available for accessibility and preference — it swaps the palette to a soft off-white background while keeping the same green as the brand accent, so the platform still reads as unmistakably JOYTREE in either mode.
 `
   },
 
@@ -397,7 +397,7 @@ Light mode is available for accessibility and preference — it swaps the palett
     title: 'Deployments Overview', group: 'Deployments', eyebrow: 'Deployments',
     lede: 'A deployment turns a repository, or a local folder, into a running site with its own URL.',
     md: `
-Every project on Joytree is backed by one or more **deployments**. A deployment records the source (repo + branch, or an uploaded archive), the build configuration, and the resulting status.
+Every project on JOYTREE is backed by one or more **deployments**. A deployment records the source (repo + branch, or an uploaded archive), the build configuration, and the resulting status.
 
 ## Ways to deploy
 
@@ -428,7 +428,7 @@ Next: **[Deploy from GitHub](#/deploy-github)** for the full walkthrough of the 
 
   'deploy-github': {
     title: 'Deploy from GitHub', group: 'Deployments', eyebrow: 'Deployments',
-    lede: 'Connect a repository and Joytree builds, deploys, and hosts it automatically.',
+    lede: 'Connect a repository and JOYTREE builds, deploys, and hosts it automatically.',
     md: `
 ## From the dashboard
 
@@ -509,7 +509,7 @@ curl -X POST https://joytree.site/api/deploy \\
 \`\`\`
 
 :::tip
-Not sure what to pass for \`buildCmd\`, \`startCmd\`, or \`siteType\`? Leave them out — Joytree falls back to auto-detection based on your repo's contents, same as picking Auto-detect in the dashboard.
+Not sure what to pass for \`buildCmd\`, \`startCmd\`, or \`siteType\`? Leave them out — JOYTREE falls back to auto-detection based on your repo's contents, same as picking Auto-detect in the dashboard.
 :::
 `
   },
@@ -631,7 +631,7 @@ joytree upload --dir ./my-app --name my-app
 ## What happens under the hood
 
 1. Your folder or file is archived/uploaded and sent to \`POST /api/upload-project\`.
-2. Joytree extracts it, then triggers a build via \`POST /api/upload-deploy\`.
+2. JOYTREE extracts it, then triggers a build via \`POST /api/upload-deploy\`.
 3. The same build pipeline (install → build → start) runs as for a GitHub-sourced deploy.
 
 :::warn
@@ -693,7 +693,7 @@ joytree autodeploy my-site --disable
 
 ## How it works
 
-1. Joytree registers a webhook against \`POST /api/github/webhook/:projectId\`.
+1. JOYTREE registers a webhook against \`POST /api/github/webhook/:projectId\`.
 2. GitHub calls that endpoint on every push.
 3. If the pushed branch matches the project's tracked branch, a new deployment starts automatically using the saved build configuration.
 
@@ -930,7 +930,7 @@ joytree delete my-site --yes
 - SSH keys and GitHub links, which are account-level, not project-level
 
 :::warn
-There's no recovery for a deleted project. If you need the code back, it still exists in your GitHub repository — only the Joytree deployment is gone.
+There's no recovery for a deleted project. If you need the code back, it still exists in your GitHub repository — only the JOYTREE deployment is gone.
 :::
 `
   },
@@ -940,7 +940,7 @@ There's no recovery for a deleted project. If you need the code back, it still e
     title: 'Databases overview', group: 'Databases', eyebrow: 'Databases',
     lede: 'Provision a managed database in the same workspace as your app — no separate hosting account needed.',
     md: `
-Joytree provisions and manages five database engines, each a real Docker-backed container with its own persistent volume: **MongoDB**, **PostgreSQL**, **MySQL**, **MariaDB**, and **Redis**.
+JOYTREE provisions and manages five database engines, each a real Docker-backed container with its own persistent volume: **MongoDB**, **PostgreSQL**, **MySQL**, **MariaDB**, and **Redis**.
 
 ## From the dashboard
 
@@ -1211,8 +1211,8 @@ Long-running or destructive queries (large deletes, table alterations) are best 
     md: `
 | | Use from | Speed |
 |---|---|---|
-| **Internal** | Other projects hosted on Joytree | Fastest — same network |
-| **External** | Your laptop, CI, or any host outside Joytree | Slightly slower, works anywhere |
+| **Internal** | Other projects hosted on JOYTREE | Fastest — same network |
+| **External** | Your laptop, CI, or any host outside JOYTREE | Slightly slower, works anywhere |
 
 Both strings are visible any time on the database's detail page in the dashboard (**Databases → your database**), and are printed once by the CLI right after creation:
 
@@ -1220,10 +1220,10 @@ Both strings are visible any time on the database's detail page in the dashboard
 Connection Strings
 ──────────────────────────────
 Internal   postgres://user:••••@internal-host:5432/db
-  Use this from other projects deployed on Joytree (same host).
+  Use this from other projects deployed on JOYTREE (same host).
 
 External   postgres://user:••••@external-host:5432/db
-  Use this to connect from outside Joytree (your laptop, another server).
+  Use this to connect from outside JOYTREE (your laptop, another server).
 \`\`\`
 
 :::tip
@@ -1241,7 +1241,7 @@ joytree redeploy my-site
 
 Or add it from the dashboard: open the project → **Environment** tab → **Add Variable**.
 
-Use the **internal** URL whenever the consuming app is also hosted on Joytree — it avoids a hop over the public internet.
+Use the **internal** URL whenever the consuming app is also hosted on JOYTREE — it avoids a hop over the public internet.
 `
   },
 
@@ -1285,11 +1285,11 @@ POST /api/databases/:id/query
 
   'db-migration': {
     title: 'Data Migration', group: 'Databases', eyebrow: 'Databases',
-    lede: 'Move data into a Joytree database from anywhere — another Joytree database, a real MongoDB Atlas cluster, a Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance — regardless of engine.',
+    lede: 'Move data into a JOYTREE database from anywhere — another JOYTREE database, a real MongoDB Atlas cluster, a Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance — regardless of engine.',
     md: `
-Data Migration copies everything from a **source** into a **destination**, translating between data models automatically where needed (document ↔ relational ↔ key/value). The destination is always one of your own Joytree databases. The source can be:
+Data Migration copies everything from a **source** into a **destination**, translating between data models automatically where needed (document ↔ relational ↔ key/value). The destination is always one of your own JOYTREE databases. The source can be:
 
-- **Another Joytree database** — copy data between two of your own instances.
+- **Another JOYTREE database** — copy data between two of your own instances.
 - **MongoDB Atlas** (or any external Mongo cluster) — not Docker-provisioned.
 - **Firebase Realtime Database** — pulls the whole tree in one pass.
 - **External MySQL, PostgreSQL, or MariaDB** — any server reachable by connection string.
@@ -1304,8 +1304,8 @@ A MongoDB connection string **must include a database name** — the part after 
 ## From the dashboard
 
 1. Go to **Databases** in the sidebar, then open **Data Migration**.
-2. Pick a **source**: JoyTree Database, MongoDB Atlas, Firebase Realtime DB, MySQL, PostgreSQL, MariaDB, or Redis. External sources ask for a connection string (and Firebase asks for its database URL plus an optional legacy database secret, only needed if your RTDB security rules require auth).
-3. Pick a **destination** — always one of your own provisioned Joytree databases.
+2. Pick a **source**: JOYTREE Database, MongoDB Atlas, Firebase Realtime DB, MySQL, PostgreSQL, MariaDB, or Redis. External sources ask for a connection string (and Firebase asks for its database URL plus an optional legacy database secret, only needed if your RTDB security rules require auth).
+3. Pick a **destination** — always one of your own provisioned JOYTREE databases.
 4. Click **Start Migration**. It runs in the background; **Migration History** below shows live progress and, once finished, the full result (collections/rows moved) or error with logs.
 
 Each history entry can be deleted individually, or cleared all at once with **Clear All** — migrations still in progress are always left running untouched by either action.
@@ -1321,7 +1321,7 @@ With no flags, this drops into the same interactive wizard as the dashboard: pic
 For scripting or CI, pass everything as flags instead:
 
 \`\`\`bash
-# From another Joytree database
+# From another JOYTREE database
 joytree migrate start --source-kind joytree --source-database-id <id> --destination-id <id>
 
 # From MongoDB Atlas — note the database name in the connection string
@@ -1368,7 +1368,7 @@ The MCP server exposes the same feature as five tools: \`joytree_start_migration
     md: `
 Compare Databases reports exactly what differs between two databases, collection by collection and row by row — even when the two sides are completely different engines (a MongoDB collection vs. a PostgreSQL table vs. a Redis keyspace). This works because every source is already normalized to the same shape for migrations (a collection is just a name plus a list of rows); the comparison never needs to know which engine either side actually is.
 
-Both sides use the exact same source types as [Data Migration](#/db-migration): **another Joytree database**, **MongoDB Atlas**, **Firebase Realtime Database**, **external MySQL/PostgreSQL/MariaDB**, or **external Redis**.
+Both sides use the exact same source types as [Data Migration](#/db-migration): **another JOYTREE database**, **MongoDB Atlas**, **Firebase Realtime Database**, **external MySQL/PostgreSQL/MariaDB**, or **external Redis**.
 
 Rows are matched by identity, not position, so reordered or reinserted data still compares correctly:
 
@@ -1385,7 +1385,7 @@ For each collection, the report gives you:
 ## From the dashboard
 
 1. Go to **Databases** in the sidebar, then open **Compare Databases**.
-2. Pick a source for **Database A** and **Database B** — either one of your own Joytree databases, or an external connection.
+2. Pick a source for **Database A** and **Database B** — either one of your own JOYTREE databases, or an external connection.
 3. Click **Compare**. Results appear below: summary counts at the top, then a collapsible breakdown per collection — click any collection with differences to expand the changed/added/removed rows.
 
 ## From the CLI
@@ -1403,7 +1403,7 @@ joytree diff \\
   --a-source-kind joytree --a-database-id <id> \\
   --b-source-kind joytree --b-database-id <id>
 
-# Compare a Joytree database against an external Postgres server
+# Compare a JOYTREE database against an external Postgres server
 joytree diff \\
   --a-source-kind joytree --a-database-id <id> \\
   --b-source-kind sql --b-sql-engine postgres --b-connection-string "postgresql://user:pass@host:5432/mydb"
@@ -1492,20 +1492,20 @@ Without flags, this prompts interactively for record type, host, and value.
 | \`--ttl <ttl>\` | Time-to-live in seconds (default \`3600\`) |
 
 :::tip
-If you registered your domain **through Joytree** (see [Registering a domain](#/domains-register)), DNS records are managed automatically and you rarely need to touch this directly.
+If you registered your domain **through JOYTREE** (see [Registering a domain](#/domains-register)), DNS records are managed automatically and you rarely need to touch this directly.
 :::
 `
   },
 
   'domains-verify': {
     title: 'Verification', group: 'Domains & DNS', eyebrow: 'Domains',
-    lede: 'Confirm ownership so Joytree can issue a certificate and start routing traffic.',
+    lede: 'Confirm ownership so JOYTREE can issue a certificate and start routing traffic.',
     md: `
 \`\`\`bash
 joytree domains verify example.com
 \`\`\`
 
-Joytree checks that the required DNS records exist at your registrar. If they've propagated, verification completes immediately:
+JOYTREE checks that the required DNS records exist at your registrar. If they've propagated, verification completes immediately:
 
 \`\`\`text
 ✔ example.com is verified!
@@ -1531,7 +1531,7 @@ joytree domains check example.com
 \`\`\`
 
 :::tip
-DNS propagation is outside Joytree's control and can take anywhere from a few minutes to 48 hours depending on your registrar and previous TTL values. If verification keeps failing after that window, re-check the exact record values with \`joytree domains dns example.com\`.
+DNS propagation is outside JOYTREE's control and can take anywhere from a few minutes to 48 hours depending on your registrar and previous TTL values. If verification keeps failing after that window, re-check the exact record values with \`joytree domains dns example.com\`.
 :::
 `
   },
@@ -1563,7 +1563,7 @@ Press **Ctrl+C** at any point to disconnect from the stream — the transfer kee
 | | Use for |
 |---|---|
 | \`domains attach\` | Domains already pointed correctly, or where you'll manage DNS yourself |
-| \`domains transfer\` | Moving a domain fully under Joytree's management, with live progress |
+| \`domains transfer\` | Moving a domain fully under JOYTREE's management, with live progress |
 `
   },
 
@@ -1613,7 +1613,7 @@ Available TLDs (146)
 …
 \`\`\`
 
-The list is pulled live from \`GET /api/domains/tlds\` and reflects current registrar pricing — always check here rather than assuming a price, since TLD costs change independently of Joytree.
+The list is pulled live from \`GET /api/domains/tlds\` and reflects current registrar pricing — always check here rather than assuming a price, since TLD costs change independently of JOYTREE.
 
 Once you've picked one, move on to **[Registering a domain](#/domains-register)**.
 `
@@ -1624,7 +1624,7 @@ Once you've picked one, move on to **[Registering a domain](#/domains-register)*
     title: 'Overview & providers', group: 'AI Agent', eyebrow: 'AI Agent',
     lede: 'Hand a coding task to an AI agent that can read, edit, and fix your project directly.',
     md: `
-The Joytree AI agent runs against your project's codebase to fix bugs, add features, or refactor code — kicked off from the dashboard, the CLI, or the API, and followed up on asynchronously either way.
+The JOYTREE AI agent runs against your project's codebase to fix bugs, add features, or refactor code — kicked off from the dashboard, the CLI, or the API, and followed up on asynchronously either way.
 
 ## Providers
 
@@ -1653,9 +1653,9 @@ joytree agent providers
 
 ## What "needs key" actually means
 
-- **Llama 3.3 (Groq)** is the default and is free to use on Joytree's shared key — this is what you get with no setup.
+- **Llama 3.3 (Groq)** is the default and is free to use on JOYTREE's shared key — this is what you get with no setup.
 - **GPT (OpenAI)** and **Grok (xAI)** are also usable on the shared key when one is configured for your workspace.
-- **Claude (Anthropic)** is the odd one out: on the shared key it's gated to Joytree's **Scale Max** plan. Bring your own Anthropic API key and it unlocks immediately regardless of plan — same as any other BYOK provider.
+- **Claude (Anthropic)** is the odd one out: on the shared key it's gated to JOYTREE's **Scale Max** plan. Bring your own Anthropic API key and it unlocks immediately regardless of plan — same as any other BYOK provider.
 
 ## Bringing your own key (BYOK)
 
@@ -1790,7 +1790,7 @@ The CLI currently wraps \`start\`, \`status\`, and \`followup\` — use these en
     title: 'Developer API Builder — overview', group: 'Developer API Builder', eyebrow: 'Developer Tools',
     lede: 'Describe an API in plain English and get a working, live endpoint — no code written by hand.',
     md: `
-The **Realtime API Builder** (labeled "Realtime API" in the sidebar) turns a prompt into a real backend service — Joytree's AI generates the routes and content, hosts it on a live URL immediately, and can package the result into a persistent container alongside your other projects.
+The **Realtime API Builder** (labeled "Realtime API" in the sidebar) turns a prompt into a real backend service — JOYTREE's AI generates the routes and content, hosts it on a live URL immediately, and can package the result into a persistent container alongside your other projects.
 
 ## From the dashboard
 
@@ -1805,7 +1805,7 @@ Once deployed, you get a live endpoint immediately at \`https://<your-domain>/ap
 
 ## Two states: flow vs. dockerized
 
-A freshly generated API is a lightweight **flow** — fast to create, served from the platform's shared runtime. Click **Dockerize Last Flow** (or **[Dockerize & link a flow](#/dev-flows-dockerize)**) to package it into a real, persistent Docker container with its own subdomain — the same way any other Joytree project is hosted.
+A freshly generated API is a lightweight **flow** — fast to create, served from the platform's shared runtime. Click **Dockerize Last Flow** (or **[Dockerize & link a flow](#/dev-flows-dockerize)**) to package it into a real, persistent Docker container with its own subdomain — the same way any other JOYTREE project is hosted.
 
 ## Plan limits
 
@@ -1853,10 +1853,10 @@ Continue to **[Generate an API from text](#/dev-flows-generate)**.
     md: `
 | Version | Description | Availability |
 |---|---|---|
-| **Joytree AI v1** | Fast, reliable single-model generation. Best for most requests. | Default — free for everyone |
-| **Joytree AI v2** | Dual-engine with automatic failover — seamlessly switches models if one is unavailable. Ideal for large generations. | Requires an active paid plan |
-| **Joytree AI v3** | High-reasoning AI for structured APIs and large batch generation, with automatic web-search context pulled in before generating. | Currently admin-only |
-| **Joytree AI v4** | Multi-provider cascade with automatic failover for maximum reliability on large generations, always with web-search context. | Currently admin-only |
+| **JOYTREE AI v1** | Fast, reliable single-model generation. Best for most requests. | Default — free for everyone |
+| **JOYTREE AI v2** | Dual-engine with automatic failover — seamlessly switches models if one is unavailable. Ideal for large generations. | Requires an active paid plan |
+| **JOYTREE AI v3** | High-reasoning AI for structured APIs and large batch generation, with automatic web-search context pulled in before generating. | Currently admin-only |
+| **JOYTREE AI v4** | Multi-provider cascade with automatic failover for maximum reliability on large generations, always with web-search context. | Currently admin-only |
 
 :::tip
 v1 is a safe default for almost everything. Reach for v2 once you're on a paid plan and generating large or complex batches. v3 and v4 exist in the picker but currently return an upgrade/admin-only message if selected on a non-admin account — don't build a workflow that depends on them yet.
@@ -1949,7 +1949,7 @@ Once you're happy with the result, move to **[Dockerize & link a flow](#/dev-flo
     md: `
 ## Dockerize
 
-A freshly generated API is a lightweight flow. Dockerizing it builds a real standalone container with its own subdomain — the same hosting path as any other Joytree project — so it survives independently of the API Builder's in-memory state.
+A freshly generated API is a lightweight flow. Dockerizing it builds a real standalone container with its own subdomain — the same hosting path as any other JOYTREE project — so it survives independently of the API Builder's in-memory state.
 
 **Dashboard:** click **Dockerize Last Flow** on the Realtime API Builder page (dockerizes whichever flow you generated most recently), or open a specific API's detail page.
 
@@ -1997,7 +1997,7 @@ Linking doesn't dockerize the flow — it just points a project's env vars at th
     title: 'Linking your account', group: 'GitHub Integration', eyebrow: 'GitHub',
     lede: 'Connect GitHub once and every repository you can access becomes deployable.',
     md: `
-Link your GitHub account from **Dashboard → Settings → Integrations**. Joytree uses OAuth, exchanging a code for an access token via:
+Link your GitHub account from **Dashboard → Settings → Integrations**. JOYTREE uses OAuth, exchanging a code for an access token via:
 
 \`\`\`text
 GET  /api/auth/github/url        Get the OAuth authorize URL
@@ -2057,7 +2057,7 @@ Use either output to fill in \`--repo\` and \`--branch\` on \`joytree deploy\`, 
 
   'github-webhooks': {
     title: 'Webhooks', group: 'GitHub Integration', eyebrow: 'GitHub',
-    lede: 'Two kinds of webhook exist on Joytree: GitHub push events, and a global outbound webhook secret.',
+    lede: 'Two kinds of webhook exist on JOYTREE: GitHub push events, and a global outbound webhook secret.',
     md: `
 ## Per-project GitHub webhooks
 
@@ -2067,11 +2067,11 @@ These are created automatically when you enable **[auto-deploy](#/deploy-autodep
 POST /api/github/webhook/:projectId
 \`\`\`
 
-on every push, and Joytree triggers a build if the branch matches.
+on every push, and JOYTREE triggers a build if the branch matches.
 
 ## Global webhook secret
 
-Separately, Joytree issues one account-wide secret you can use to verify any incoming payloads Joytree sends you (for example, deploy status notifications configured on your side).
+Separately, JOYTREE issues one account-wide secret you can use to verify any incoming payloads JOYTREE sends you (for example, deploy status notifications configured on your side).
 
 \`\`\`bash
 joytree webhook secret
@@ -2135,7 +2135,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... deploy-key
 Add this public key to your GitHub/GitLab account.
 \`\`\`
 
-The private key is stored securely on Joytree and used on your behalf — only the public key is ever shown, so you can add it to GitHub, GitLab, or any other service that needs to trust your deployments.
+The private key is stored securely on JOYTREE and used on your behalf — only the public key is ever shown, so you can add it to GitHub, GitLab, or any other service that needs to trust your deployments.
 
 ## Deleting a key
 
@@ -2180,7 +2180,7 @@ See also **[Authentication](#/authentication)** for how keys are used across the
 
   'account-billing': {
     title: 'Billing', group: 'Account & Billing', eyebrow: 'Account',
-    lede: 'Joytree bills through Paystack; manage plans from the dashboard.',
+    lede: 'JOYTREE bills through Paystack; manage plans from the dashboard.',
     md: `
 \`\`\`bash
 joytree billing
@@ -2260,7 +2260,7 @@ Shows recent deploys across every project in the workspace, most recent first.
 
   'account-support': {
     title: 'Support', group: 'Account & Billing', eyebrow: 'Account',
-    lede: 'Reach the Joytree team directly from the CLI.',
+    lede: 'Reach the JOYTREE team directly from the CLI.',
     md: `
 \`\`\`bash
 joytree support --message "Deploys for my-site have been stuck in 'building' for 20 minutes."
@@ -2290,7 +2290,7 @@ Run \`joytree\` with **no arguments** to print this same list in your terminal �
 ## Account
 
 \`\`\`text
-joytree login --api-key <key>       Validate and save a Joytree API key
+joytree login --api-key <key>       Validate and save a JOYTREE API key
 joytree logout                      Remove local credentials
 joytree whoami                      Show active account and API key scope
 joytree status                      Account status and project overview
@@ -2428,7 +2428,7 @@ joytree diff --json                       Print the raw JSON report instead of a
 --source-kind redis        --connection-string <uri>
 \`\`\`
 
-Every \`start\` invocation also needs \`--destination-id <id>\` — always one of your own Joytree databases. See **[Data Migration](#/db-migration)** for the full walkthrough, including the MongoDB connection-string gotcha that this command validates before ever hitting the network.
+Every \`start\` invocation also needs \`--destination-id <id>\` — always one of your own JOYTREE databases. See **[Data Migration](#/db-migration)** for the full walkthrough, including the MongoDB connection-string gotcha that this command validates before ever hitting the network.
 
 ## AI agent
 
@@ -2446,7 +2446,7 @@ joytree agent followup <id> -m "..."       Send a follow-up to an agent session
 ## API Builder
 
 \`\`\`text
-joytree api providers                      List Joytree AI versions (v1–v4)
+joytree api providers                      List JOYTREE AI versions (v1–v4)
 joytree api create --prompt "..."          Generate a REST API from a text prompt (--file <path>, --ai-version <v>)
 joytree api list                           List your generated APIs
 joytree api inspect <flow-id>              Show details for a generated API
@@ -2477,7 +2477,7 @@ joytree ssh delete <key-id>         Delete an SSH key (-y, --yes to skip confirm
 
 \`\`\`text
 joytree billing                     Show billing configuration status
-joytree support -m "..."            Send a message to Joytree support
+joytree support -m "..."            Send a message to JOYTREE support
 \`\`\`
 
 ## Activity
@@ -2492,9 +2492,9 @@ joytree activity --limit <n>        Limit number of events shown
   // ───────────────────────── MCP Server ─────────────────────────
   'mcp-overview': {
     title: 'Overview & connecting', group: 'MCP Server', eyebrow: 'MCP Server',
-    lede: 'Deploy, manage databases, and generate APIs on JoyTree by just asking Claude \u2014 no CLI, no copy-pasting commands.',
+    lede: 'Deploy, manage databases, and generate APIs on JOYTREE by just asking Claude \u2014 no CLI, no copy-pasting commands.',
     md: `
-The JoyTree MCP server lets any MCP-compatible AI client \u2014 Claude chat, Claude Cowork, or others \u2014 deploy and manage JoyTree resources directly, by calling JoyTree's real API on your behalf. You describe what you want; the tool calls happen for you.
+The JOYTREE MCP server lets any MCP-compatible AI client \u2014 Claude chat, Claude Cowork, or others \u2014 deploy and manage JOYTREE resources directly, by calling JOYTREE's real API on your behalf. You describe what you want; the tool calls happen for you.
 
 ## Why this exists
 
@@ -2507,7 +2507,7 @@ The JoyTree MCP server lets any MCP-compatible AI client \u2014 Claude chat, Cla
 1. Get your API key from **joytree.site/dashboard/account** (or \`joytree apikey show\` from the CLI).
 2. In Claude, add a custom connector pointing at \`https://mcp.joytree.site/mcp\`.
 3. Authenticate with your API key (\`jtk_...\`) when prompted.
-4. Try asking Claude something like *"list my JoyTree projects"* or *"what's in my JoyTree account?"* to confirm the connection.
+4. Try asking Claude something like *"list my JOYTREE projects"* or *"what's in my JOYTREE account?"* to confirm the connection.
 
 :::tip
 Each request is scoped to your own API key \u2014 there's no shared credential, and no session state that could mix your projects up with anyone else's. Anything the tools can do, your API key could already do through the dashboard or CLI; connecting MCP doesn't grant any new permissions.
@@ -2521,7 +2521,7 @@ Once connected, Claude can:
 - **Check** deployment history and live runtime logs
 - **Manage environment variables** on a project
 - **Provision and manage databases** (PostgreSQL, MySQL, MariaDB, MongoDB, Redis)
-- **Migrate data** into a JoyTree database from another JoyTree database, MongoDB Atlas, Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance, regardless of engine
+- **Migrate data** into a JOYTREE database from another JOYTREE database, MongoDB Atlas, Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance, regardless of engine
 - **Generate a REST API from a prompt** using the [Realtime API Builder](#/dev-flows-overview), and turn it into a persistent container
 
 See the full list with exact inputs on the **[Tool reference](#/mcp-tools)** page.
@@ -2534,9 +2534,9 @@ A few things are intentionally out of scope for v1: registering new domains, bil
 
   'mcp-tools': {
     title: 'Tool reference', group: 'MCP Server', eyebrow: 'MCP Server',
-    lede: 'Every tool the JoyTree MCP server exposes, with what it actually calls under the hood.',
+    lede: 'Every tool the JOYTREE MCP server exposes, with what it actually calls under the hood.',
     md: `
-Every tool below is a thin, direct wrapper around a real JoyTree REST endpoint \u2014 nothing happens through MCP that couldn't also happen through the [API](#/api-overview) or [CLI](#/cli-reference) directly.
+Every tool below is a thin, direct wrapper around a real JOYTREE REST endpoint \u2014 nothing happens through MCP that couldn't also happen through the [API](#/api-overview) or [CLI](#/cli-reference) directly.
 
 ## Identity & projects
 
@@ -2577,7 +2577,7 @@ Every tool below is a thin, direct wrapper around a real JoyTree REST endpoint \
 
 | Tool | What it does |
 |---|---|
-| \`joytree_start_migration\` | Start a migration into one of your JoyTree databases from another JoyTree database, MongoDB Atlas, Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance. Takes \`sourceKind\` plus whichever fields that kind needs (\`sourceDatabaseId\`, \`connectionString\`, \`sqlEngine\`, \`firebaseDatabaseUrl\`, \`firebaseAuthSecret\`) and \`destinationDatabaseId\`. Runs in the background \u2014 returns a \`migrationId\` to poll |
+| \`joytree_start_migration\` | Start a migration into one of your JOYTREE databases from another JOYTREE database, MongoDB Atlas, Firebase Realtime Database, or an external MySQL/PostgreSQL/MariaDB/Redis instance. Takes \`sourceKind\` plus whichever fields that kind needs (\`sourceDatabaseId\`, \`connectionString\`, \`sqlEngine\`, \`firebaseDatabaseUrl\`, \`firebaseAuthSecret\`) and \`destinationDatabaseId\`. Runs in the background \u2014 returns a \`migrationId\` to poll |
 | \`joytree_list_migrations\` | List every migration (in-progress and history), most recent first |
 | \`joytree_get_migration\` | Full status, result, and logs for one migration by ID |
 | \`joytree_delete_migration\` | Remove one migration from history \u2014 refuses if it's still running |
@@ -2607,7 +2607,7 @@ If you're not sure what a tool needs, just describe the goal \u2014 "deploy my-a
 
 ## Self-hosting or extending it
 
-The server is open in **[github.com/Joy-tree/joytree-mcp-server](https://github.com/Joy-tree/joytree-mcp-server)**. It's a small Node/Express service built on the official MCP SDK \u2014 each tool is a short function that calls one REST endpoint and returns the result. Adding a new tool means adding one function, not touching JoyTree's core API at all.
+The server is open in **[github.com/Joy-tree/joytree-mcp-server](https://github.com/Joy-tree/joytree-mcp-server)**. It's a small Node/Express service built on the official MCP SDK \u2014 each tool is a short function that calls one REST endpoint and returns the result. Adding a new tool means adding one function, not touching JOYTREE's core API at all.
 `
   },
 
@@ -2684,7 +2684,7 @@ Continue to **[Errors & rate limits](#/api-errors)**.
 
   'api-errors': {
     title: 'Errors & rate limits', group: 'API Reference', eyebrow: 'API',
-    lede: 'How Joytree reports failures, and how to handle them in your own tooling.',
+    lede: 'How JOYTREE reports failures, and how to handle them in your own tooling.',
     md: `
 ## Error shape
 
@@ -2704,7 +2704,7 @@ The CLI surfaces this \`error\` field directly, prefixed with \`Failed:\`, on ev
 | \`401\` | Missing or invalid API key |
 | \`404\` | Project, database, domain, or session not found |
 | \`409\` | Conflict — e.g. a subdomain that's already taken |
-| \`5xx\` | Something failed on Joytree's side — safe to retry with backoff |
+| \`5xx\` | Something failed on JOYTREE's side — safe to retry with backoff |
 
 ## Health checks
 

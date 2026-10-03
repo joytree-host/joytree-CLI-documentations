@@ -1,6 +1,6 @@
-# 🌳 Joytree CLI
+# 🌳 JOYTREE CLI
 
-Deploy and manage your Joytree-hosted sites from the terminal.
+Deploy and manage your JOYTREE-hosted sites from the terminal.
 
 ## Installation
 
@@ -39,7 +39,7 @@ joytree logs my-site --follow
 
 | Command | Description |
 |---|---|
-| `joytree login [--api-key <key>]` | Authenticate with your Joytree API key |
+| `joytree login [--api-key <key>]` | Authenticate with your JOYTREE API key |
 | `joytree logout` | Remove saved credentials |
 | `joytree whoami` | Show current account info |
 | `joytree status` | Show account status and project list |
