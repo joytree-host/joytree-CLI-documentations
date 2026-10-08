@@ -28,6 +28,7 @@ const NAV = [
       { key: 'deploy-frameworks', title: 'Framework presets' },
       { key: 'deploy-static-vs-server', title: 'Static vs. server sites' },
       { key: 'deploy-upload', title: 'Deploy from a local folder' },
+      { key: 'deploy-watch', title: 'Auto-deploy from a folder' },
       { key: 'deploy-redeploy', title: 'Redeploy & rollbacks' },
       { key: 'deploy-autodeploy', title: 'Auto-deploy on push' },
       { key: 'deploy-logs-status', title: 'Build status & logs' },
@@ -637,6 +638,67 @@ joytree upload --dir ./my-app --name my-app
 :::warn
 This path skips GitHub entirely, which means **auto-deploy on push** isn't available for uploaded projects — redeploying means uploading again from the dashboard, or running \`joytree upload\` / \`joytree redeploy\` from the CLI.
 :::
+`
+  },
+
+  'deploy-watch': {
+    title: 'Auto-deploy from a folder', group: 'Deployments', eyebrow: 'Deployments',
+    lede: 'Skip re-uploading by hand. Save or download an updated file into a folder and your upload project redeploys by itself.',
+    md: `
+Auto-deploy works for **upload projects** (deployed from a ZIP, tarball, or HTML file). Projects deployed from GitHub redeploy from their repo instead. Pick the option that fits your device:
+
+| Where | How it works |
+|---|---|
+| **Computer, in the dashboard** | Chrome or Edge. Open an upload project and use **Auto-deploy from folder**. |
+| **Computer or server, CLI** | \`joytree watch\` — works with any OS and without a browser tab. |
+| **Android** | After a download finishes, tap **Share → JOYTREE** (with JOYTREE installed to your home screen) and pick the project to update. |
+
+In every case, only files that are **new or changed after you set it up** deploy, and a file is only picked up after it has finished writing.
+
+## In the dashboard
+
+1. Open an upload project and find **Auto-deploy from folder**.
+2. Choose your folder (Chrome does not allow the Downloads folder itself, so use a sub-folder such as \`Downloads/joytree-deploy\`).
+3. Keep a JOYTREE tab open. The folder is checked every few seconds.
+
+A \`.zip\` / \`.tar.gz\` replaces all project files; any other file replaces just that file.
+
+## From the CLI
+
+\`\`\`bash
+joytree watch                     # watches ~/Joytree-Deploys (created if missing)
+joytree watch ~/Downloads/sites   # any folder
+joytree watch --create            # also create projects for names that do not exist yet
+joytree watch --once              # deploy what is there now, then exit (CI)
+\`\`\`
+
+The **file name picks the project**:
+
+| File | Deploys to |
+|---|---|
+| \`my-site.zip\` | project **my-site** |
+| \`my-site (1).zip\` | the same project (browsers add \` (1)\` to duplicate names) |
+| \`landing.html\` | project **landing** |
+
+Accepted types: \`.zip\`, \`.tar.gz\`, \`.tgz\`, \`.html\` — up to **250 MB**.
+
+| Flag | Description |
+|---|---|
+| \`-p, --project <name>\` | Send every file to one project instead of naming it from the file |
+| \`--create\` | Create a new project when no project matches the file name |
+| \`--deploy-existing\` | Also deploy files already in the folder when watching starts |
+| \`--interval <sec>\` | How often to check the folder (default 3) |
+| \`--stable <sec>\` | How long a file must stop changing before it deploys (default 3) |
+| \`--once\` | Deploy the folder's current contents, then exit |
+| \`--no-wait\` | Do not follow the build result |
+
+## Safety rules
+
+- Files already in the folder when you start are left alone (use \`--deploy-existing\` with the CLI to deploy them).
+- A corrupt archive never touches your live files — it is extracted and checked first.
+- A file identical to what is already deployed is skipped.
+- If a deploy is already running, the new files are saved and a redeploy starts when it finishes.
+- With the CLI, a name that matches no project is skipped unless you pass \`--create\`, and GitHub projects are never overwritten by a file.
 `
   },
 
