@@ -16,7 +16,7 @@
     });
   });
 
-  let themeState = 'dark';
+  let themeState = 'light';
 
   // ---------------------------------------------------------------- tiny markdown -> html
   function escapeHtml(s) {
@@ -395,7 +395,7 @@
 
   function initTheme() {
     const saved = window.localStorage ? window.localStorage.getItem('joytree-docs-theme') : null;
-    applyTheme(saved === 'light' ? 'light' : 'dark');
+    applyTheme(saved === 'dark' ? 'dark' : 'light');
   }
 
   document.getElementById('themeToggle').addEventListener('click', () => {
