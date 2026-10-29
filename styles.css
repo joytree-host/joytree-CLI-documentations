@@ -375,8 +375,7 @@ svg[hidden]{ display: none; }
   background: transparent; margin: 0 0 16px; font-size: 14px;
 }
 .callout-icon{ flex-shrink: 0; margin-top: 2px; color: var(--text-dim); }
-.callout.tip{ border-left-color: var(--brand-ring); }
-.callout.tip .callout-icon{ color: var(--brand-link); }
+
 .callout.warn{ border-left-color: var(--accent); }
 .callout.warn .callout-icon{ color: var(--accent); }
 .callout p{ margin: 0; }
@@ -521,3 +520,60 @@ svg[hidden]{ display: none; }
 @media (prefers-reduced-motion: reduce){
   *{ transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* ==========================================================================
+   FLEET — the JOYTREE green hero (same recipe as the dashboard's Command
+   Center header): dark-emerald 135° gradient, 20px dot grid, soft top-right
+   glow, concentric ring accent, pale-mint kicker, white title, frosted-glass
+   ghost button + solid white primary button.
+   ========================================================================== */
+.fleet{
+  --fleet-dots: radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.4px) 0 0/20px 20px;
+  --fleet-green: linear-gradient(135deg,#064e3b 0%,#047857 55%,#0f9f6e 135%);
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: 12px; color: #fff;
+  background: radial-gradient(420px 220px at 100% 0%, rgba(255,255,255,.2), transparent 70%), var(--fleet-dots), var(--fleet-green);
+  padding: 28px 32px;
+}
+html[data-theme="dark"] .fleet{ --fleet-green: linear-gradient(135deg,#053f31 0%,#047857 58%,#0d9467 135%); }
+.fleet::after{
+  content: ""; position: absolute; z-index: -1; right: -46px; bottom: -64px; width: 190px; height: 190px;
+  border-radius: 50%; border: 1.5px solid rgba(255,255,255,.22);
+  box-shadow: 0 0 0 26px rgba(255,255,255,.05), 0 0 0 54px rgba(255,255,255,.035); pointer-events: none;
+}
+.fleet-kicker{ color: #a7f3d0; font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+.fleet-actions{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.fleet-btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 36px; padding: 0 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background .12s;
+}
+.fleet-btn.ghost{
+  background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.fleet-btn.ghost:hover{ background: rgba(255,255,255,.28); }
+.fleet-btn.primary{ background: #fff; color: #065f46; border: 1px solid #fff; box-shadow: 0 3px 0 rgba(2,44,34,.3); }
+.fleet-btn.primary:hover{ background: #ecfdf5; }
+
+/* docs page headers */
+.doc-content .fleet{ margin: 0 0 28px; }
+.doc-content .fleet h1, .hero.fleet h1{ color: #fff; font-size: 32px; margin: 0 0 10px; }
+.fleet .doc-eyebrow{ color: #a7f3d0; margin: 0 0 6px; }
+.doc-content .fleet .doc-lede{ color: rgba(255,255,255,.86); margin: 0; max-width: 62ch; }
+.doc-content .fleet a.md-link, .hero.fleet a.md-link{ color: #fff; text-decoration: underline; font-weight: 600; }
+.hero.fleet{ padding: 36px 36px 32px; margin-bottom: 28px; }
+.hero.fleet .hero-badge{ color: #a7f3d0; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.35); }
+.hero.fleet .doc-lede{ color: rgba(255,255,255,.86); margin: 0; }
+
+/* green tip notes = mini fleet panels */
+.doc-content .callout.tip{
+  border: 0; border-radius: 10px; padding: 12px 16px; color: #fff; position: relative; overflow: hidden; isolation: isolate;
+  background: radial-gradient(260px 140px at 100% 0%, rgba(255,255,255,.18), transparent 70%), radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.4px) 0 0/20px 20px, linear-gradient(135deg,#064e3b 0%,#047857 55%,#0f9f6e 135%);
+}
+html[data-theme="dark"] .doc-content .callout.tip{ background: radial-gradient(260px 140px at 100% 0%, rgba(255,255,255,.14), transparent 70%), radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.4px) 0 0/20px 20px, linear-gradient(135deg,#053f31 0%,#047857 58%,#0d9467 135%); }
+.doc-content .callout.tip .callout-icon{ color: #a7f3d0; }
+.doc-content .callout.tip p, .doc-content .callout.tip strong{ color: #fff; }
+.doc-content .callout.tip a.md-link{ color: #fff; text-decoration: underline; }
+.doc-content .callout.tip code:not(pre code){ background: rgba(255,255,255,.18); color: #fff; }
+@media (max-width: 480px){ .doc-content .fleet h1, .hero.fleet h1{ font-size: 26px; } .fleet, .hero.fleet{ padding: 24px 20px; } }

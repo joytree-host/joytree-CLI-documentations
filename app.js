@@ -280,10 +280,14 @@
     });
 
     content.innerHTML = `
-      <div class="hero">
+      <div class="hero fleet">
         <div class="hero-badge">JOYTREE Platform Docs</div>
         <h1>Deploy, manage, and scale from one platform</h1>
         <p class="doc-lede">The dashboard, deployments, projects, managed databases, custom domains, an AI coding agent, and a full CLI — all documented in one place. Start with the <a class="md-link" href="#/quickstart" data-link>Quickstart</a>, or jump straight to a section below.</p>
+        <div class="fleet-actions">
+          <a class="fleet-btn primary" href="#/quickstart" data-link>Quickstart</a>
+          <a class="fleet-btn ghost" href="#/cli-reference" data-link>CLI reference</a>
+        </div>
       </div>
       <div class="grid-cards">${cards}</div>
     `;
@@ -298,9 +302,11 @@
     if (!page) { renderNotFound(); return; }
 
     content.innerHTML = `
-      <p class="doc-eyebrow">${page.eyebrow || page.group}</p>
-      <h1>${page.title}</h1>
-      <p class="doc-lede">${page.lede || ''}</p>
+      <header class="fleet">
+        <p class="doc-eyebrow">${page.eyebrow || page.group}</p>
+        <h1>${page.title}</h1>
+        <p class="doc-lede">${page.lede || ''}</p>
+      </header>
       ${renderMarkdown(page.md)}
     `;
 
