@@ -264,9 +264,15 @@
     api: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m11-5v3a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
   };
 
+  function setHero(html) {
+    const body = document.getElementById('heroBody');
+    body.innerHTML = html;
+    wireInternalLinks(body);
+  }
+
   function renderHome() {
     const content = document.getElementById('content');
-    document.getElementById('breadcrumb').innerHTML = '<span>Docs</span>';
+    document.getElementById('breadcrumb').innerHTML = '';
     document.getElementById('pageNav').innerHTML = '';
     document.getElementById('toc').innerHTML = '';
 
@@ -279,8 +285,7 @@
       </a>`;
     });
 
-    content.innerHTML = `
-      <div class="hero fleet">
+    setHero(`
         <div class="hero-badge">JOYTREE Platform Docs</div>
         <h1>Deploy, manage, and scale from one platform</h1>
         <p class="doc-lede">The dashboard, deployments, projects, managed databases, custom domains, an AI coding agent, and a full CLI — all documented in one place. Start with the <a class="md-link" href="#/quickstart" data-link>Quickstart</a>, or jump straight to a section below.</p>
@@ -288,7 +293,8 @@
           <a class="fleet-btn primary" href="#/quickstart" data-link>Quickstart</a>
           <a class="fleet-btn ghost" href="#/cli-reference" data-link>CLI reference</a>
         </div>
-      </div>
+    `);
+    content.innerHTML = `
       <div class="grid-cards">${cards}</div>
     `;
     wireInternalLinks(content);
@@ -301,14 +307,12 @@
 
     if (!page) { renderNotFound(); return; }
 
-    content.innerHTML = `
-      <header class="fleet">
-        <p class="doc-eyebrow">${page.eyebrow || page.group}</p>
-        <h1>${page.title}</h1>
-        <p class="doc-lede">${page.lede || ''}</p>
-      </header>
-      ${renderMarkdown(page.md)}
-    `;
+    setHero(`
+      <p class="doc-eyebrow">${page.eyebrow || page.group}</p>
+      <h1>${page.title}</h1>
+      <p class="doc-lede">${page.lede || ''}</p>
+    `);
+    content.innerHTML = renderMarkdown(page.md);
 
     renderBreadcrumb(page, key);
     renderTOC(content);
@@ -321,11 +325,12 @@
 
   function renderNotFound() {
     const content = document.getElementById('content');
-    content.innerHTML = `
+    setHero(`
       <p class="doc-eyebrow">404</p>
       <h1>Page not found</h1>
       <p class="doc-lede">That page doesn't exist yet. Head back to the <a class="md-link" href="#/" data-link>docs home</a>.</p>
-    `;
+    `);
+    content.innerHTML = '';
     document.getElementById('breadcrumb').innerHTML = '';
     document.getElementById('toc').innerHTML = '';
     document.getElementById('pageNav').innerHTML = '';

@@ -556,15 +556,6 @@ html[data-theme="dark"] .fleet{ --fleet-green: linear-gradient(135deg,#053f31 0%
 .fleet-btn.primary{ background: #fff; color: #065f46; border: 1px solid #fff; box-shadow: 0 3px 0 rgba(2,44,34,.3); }
 .fleet-btn.primary:hover{ background: #ecfdf5; }
 
-/* docs page headers */
-.doc-content .fleet{ margin: 0 0 28px; }
-.doc-content .fleet h1, .hero.fleet h1{ color: #fff; font-size: 32px; margin: 0 0 10px; }
-.fleet .doc-eyebrow{ color: #a7f3d0; margin: 0 0 6px; }
-.doc-content .fleet .doc-lede{ color: rgba(255,255,255,.86); margin: 0; max-width: 62ch; }
-.doc-content .fleet a.md-link, .hero.fleet a.md-link{ color: #fff; text-decoration: underline; font-weight: 600; }
-.hero.fleet{ padding: 36px 36px 32px; margin-bottom: 28px; }
-.hero.fleet .hero-badge{ color: #a7f3d0; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.35); }
-.hero.fleet .doc-lede{ color: rgba(255,255,255,.86); margin: 0; }
 
 /* green tip notes = mini fleet panels */
 .doc-content .callout.tip{
@@ -576,4 +567,37 @@ html[data-theme="dark"] .doc-content .callout.tip{ background: radial-gradient(2
 .doc-content .callout.tip p, .doc-content .callout.tip strong{ color: #fff; }
 .doc-content .callout.tip a.md-link{ color: #fff; text-decoration: underline; }
 .doc-content .callout.tip code:not(pre code){ background: rgba(255,255,255,.18); color: #fff; }
-@media (max-width: 480px){ .doc-content .fleet h1, .hero.fleet h1{ font-size: 26px; } .fleet, .hero.fleet{ padding: 24px 20px; } }
+
+/* ---------- full-bleed fleet hero (closes its borders like the dashboard hero) ---------- */
+.sidebar{ grid-column: 1; grid-row: 1 / span 2; }
+.content-col{ grid-column: 2; grid-row: 2; }
+.toc{ grid-column: 3; grid-row: 2; }
+.page-hero{
+  grid-column: 2 / -1; grid-row: 1;
+  border-radius: 0; padding: 0;
+  display: grid; grid-template-columns: minmax(0,1fr) var(--toc-w);
+}
+.page-hero .hero-main{ grid-column: 1; width: 100%; max-width: 880px; margin: 0 auto; padding: 22px 40px 30px; }
+.page-hero .breadcrumb{ margin: 0 0 16px; max-width: none; color: rgba(255,255,255,.78); }
+.page-hero .breadcrumb a{ color: #fff; }
+.page-hero .breadcrumb .sep{ color: rgba(255,255,255,.5); }
+.page-hero h1{ color: #fff; font-size: 32px; font-weight: 600; line-height: 1.25; margin: 0 0 10px; }
+.page-hero .doc-eyebrow{ color: #a7f3d0; margin: 0 0 6px; }
+.page-hero .doc-lede{ color: rgba(255,255,255,.86); margin: 0; max-width: 62ch; }
+.page-hero a.md-link{ color: #fff; text-decoration: underline; font-weight: 600; }
+.page-hero .hero-badge{ display: inline-flex; color: #a7f3d0; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.35); margin: 0 0 14px; }
+.page-hero::after{ right: -46px; bottom: -64px; }
+.content-col .doc-content{ padding-top: 28px; }
+@media (max-width: 1180px){
+  .page-hero{ grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 860px){
+  .page-hero{ grid-column: 1 / -1; }
+  .content-col{ grid-column: 1; }
+  .page-hero .hero-main{ padding: 18px 20px 24px; }
+  .page-hero h1{ font-size: 28px; }
+}
+@media (max-width: 480px){
+  .page-hero .hero-main{ padding: 16px 14px 22px; }
+  .page-hero h1{ font-size: 24px; }
+}
