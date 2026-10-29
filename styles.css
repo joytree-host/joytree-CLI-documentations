@@ -370,15 +370,14 @@ svg[hidden]{ display: none; }
 .doc-content td code, .doc-content th code{ white-space: nowrap; }
 
 .callout{
-  display: flex; gap: 12px; padding: 12px 16px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); border-left: 4px solid var(--border-hi);
-  background: var(--bg-sunken); margin: 0 0 16px;
-  font-size: 14px;
+  display: flex; gap: 12px; padding: 4px 16px; border-radius: 0;
+  border: 0; border-left: 4px solid var(--border-hi);
+  background: transparent; margin: 0 0 16px; font-size: 14px;
 }
 .callout-icon{ flex-shrink: 0; margin-top: 2px; color: var(--text-dim); }
-.callout.tip{ background: var(--brand-tint); border-color: color-mix(in srgb, var(--brand-ring) 40%, transparent); border-left-color: var(--brand-ring); }
+.callout.tip{ border-left-color: var(--brand-ring); }
 .callout.tip .callout-icon{ color: var(--brand-link); }
-.callout.warn{ background: var(--accent-tint); border-color: var(--accent-line); border-left-color: var(--accent); }
+.callout.warn{ border-left-color: var(--accent); }
 .callout.warn .callout-icon{ color: var(--accent); }
 .callout p{ margin: 0; }
 
@@ -388,10 +387,10 @@ svg[hidden]{ display: none; }
   font-family: var(--font-mono); font-size: 12px; font-weight: 600; line-height: 18px;
   padding: 0 7px; border-radius: 2em; border: 1px solid transparent;
 }
-.badge.get{ background: var(--info-tint); color: var(--info); border-color: color-mix(in srgb, var(--info) 35%, transparent); }
-.badge.post{ background: var(--brand-tint); color: var(--brand-link); border-color: color-mix(in srgb, var(--brand-ring) 40%, transparent); }
-.badge.put{ background: var(--accent-tint); color: var(--accent); border-color: var(--accent-line); }
-.badge.delete{ background: var(--danger-tint); color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, transparent); }
+.badge.get{ background: transparent; color: var(--info); border-color: color-mix(in srgb, var(--info) 35%, transparent); }
+.badge.post{ background: transparent; color: var(--brand-link); border-color: color-mix(in srgb, var(--brand-ring) 40%, transparent); }
+.badge.put{ background: transparent; color: var(--accent); border-color: var(--accent-line); }
+.badge.delete{ background: transparent; color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, transparent); }
 
 .endpoint{
   display: flex; align-items: center; gap: 10px; font-family: var(--font-mono);
