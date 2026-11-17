@@ -536,16 +536,16 @@ svg[hidden]{ display: none; }
 .hero-btn:focus-visible{ outline: 2px solid var(--brand-ring); outline-offset: 2px; }
 
 
-/* green tip notes = mini fleet panels */
+/* tip notes: quiet panel, same family as the page (no coloured band) */
 .doc-content .callout.tip{
-  border: 0; border-radius: 10px; padding: 12px 16px; color: #fff; position: relative; overflow: hidden; isolation: isolate;
-  background: radial-gradient(260px 140px at 100% 0%, rgba(255,255,255,.18), transparent 70%), radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.4px) 0 0/20px 20px, linear-gradient(135deg,#064e3b 0%,#047857 55%,#0f9f6e 135%);
+  border: 1px solid var(--border-soft); border-radius: 8px; padding: 12px 16px;
+  background: var(--bg-sunken);
 }
-html[data-theme="dark"] .doc-content .callout.tip{ background: radial-gradient(260px 140px at 100% 0%, rgba(255,255,255,.14), transparent 70%), radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.4px) 0 0/20px 20px, linear-gradient(135deg,#053f31 0%,#047857 58%,#0d9467 135%); }
-.doc-content .callout.tip .callout-icon{ color: #a7f3d0; }
-.doc-content .callout.tip p, .doc-content .callout.tip strong{ color: #fff; }
-.doc-content .callout.tip a.md-link{ color: #fff; text-decoration: underline; }
-.doc-content .callout.tip code:not(pre code){ background: rgba(255,255,255,.18); color: #fff; }
+.doc-content .callout.tip .callout-icon{ color: var(--brand-link); }
+.doc-content .callout.warn{
+  border: 1px solid var(--accent-line); border-radius: 8px; padding: 12px 16px;
+  background: var(--accent-tint);
+}
 
 /* ---------- page header: breadcrumb, serif title, lede, hairline (no coloured band) ---------- */
 .sidebar{ grid-column: 1; grid-row: 1 / span 2; }
