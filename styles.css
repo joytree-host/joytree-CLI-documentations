@@ -12,18 +12,18 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Light (default) */
-  --bg: #faf9f5;
+  --bg: #ffffff;
   --bg-raised: #ffffff;
-  --bg-sunken: #f3f1ea;
-  --bg-inset: #ebe8de;
-  --bg-hover: rgba(20,20,19,.05);
-  --bg-active: rgba(20,20,19,.09);
-  --border: #dedbd0;
-  --border-soft: #e8e5db;
-  --border-hi: #c4c0b3;
-  --text: #141413;
-  --text-dim: #5e5d59;
-  --text-faint: #87867f;
+  --bg-sunken: #f6f8fa;
+  --bg-inset: #eaeef2;
+  --bg-hover: rgba(208,215,222,.32);
+  --bg-active: rgba(208,215,222,.48);
+  --border: #d0d7de;
+  --border-soft: #d8dee4;
+  --border-hi: #afb8c1;
+  --text: #1f2328;
+  --text-dim: #59636e;
+  --text-faint: #6e7781;
 
   --brand: #059669;          /* filled primary */
   --brand-hover: #047857;
@@ -41,9 +41,9 @@
   --danger-tint: #ffebe9;
   --info-tint: #ddf4ff;
 
-  --code-bg: #f3f1ea;
-  --code-text: #141413;
-  --code-inline: rgba(20,20,19,.07);
+  --code-bg: #f6f8fa;
+  --code-text: #1f2328;
+  --code-inline: rgba(129,139,152,.16);
 
   --radius-sm: 6px;
   --radius-md: 6px;
@@ -165,6 +165,7 @@ svg[hidden]{ display: none; }
 .topbar-search{
   position: relative;
   flex: 1;
+  min-width: 0;
   max-width: 420px;
   display: flex; align-items: center; gap: 8px;
   background: var(--bg-raised);
