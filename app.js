@@ -126,9 +126,20 @@
         i++;
         while (i < lines.length && !/^```\s*$/.test(lines[i])) { buf.push(lines[i]); i++; }
         i++; // skip closing fence
-        const code = escapeHtml(buf.join('\n'));
+        const raw = buf.join('\n');
         const id = 'cb' + Math.random().toString(36).slice(2, 9);
-        html += `<div class="code-block"><pre><span class="code-lang">${escapeHtml(lang)}</span><button class="copy-btn" data-copy-target="${id}" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="1.8"/></svg></button><code id="${id}">${code}</code></pre></div>`;
+        const hl = window.JTHighlight && window.JTHighlight.supports(lang);
+        const code = hl ? window.JTHighlight(raw, lang) : escapeHtml(raw);
+        const copySvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="1.8"/></svg>';
+        if (hl) {
+          const isShell = /^(bash|sh|shell|zsh)$/i.test(lang);
+          const ico = isShell
+            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7.5 10 3 2.5-3 2.5M13 15h3.5"/></svg>'
+            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>';
+          html += `<div class="code-block hl"><div class="code-head"><span class="code-ico">${ico}</span><span class="code-lang">${escapeHtml(lang)}</span><button class="copy-btn" data-copy-target="${id}" aria-label="Copy code">${copySvg}</button></div><pre><code id="${id}">${code}</code></pre></div>`;
+        } else {
+          html += `<div class="code-block"><pre><span class="code-lang">${escapeHtml(lang)}</span><button class="copy-btn" data-copy-target="${id}" aria-label="Copy code">${copySvg}</button><code id="${id}">${code}</code></pre></div>`;
+        }
         continue;
       }
 

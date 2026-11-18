@@ -44,6 +44,11 @@
   --code-bg: #f6f8fa;
   --code-text: #1f2328;
   --code-inline: rgba(129,139,152,.16);
+  --tk-cmd:#0969da; --tk-sub:#8250df; --tk-flag:#b35900; --tk-string:#1a7f37;
+  --tk-comment:#6e7781; --tk-var:#bc4c00; --tk-url:#0a7f8f; --tk-op:#cf222e;
+  --tk-num:#0550ae; --tk-kw:#cf222e; --tk-fn:#8250df; --tk-prop:#0550ae;
+  --tk-env:#cf222e; --tk-ph:#bf3989; --tk-ph-bg:rgba(191,57,137,.10);
+  --tk-type:#953800; --tk-key:#0550ae; --code-head-bg:#eef1f4;
 
   --radius-sm: 6px;
   --radius-md: 6px;
@@ -92,6 +97,11 @@ html[data-theme="dark"]{
   --code-bg: #151b23;
   --code-text: #f0f6fc;
   --code-inline: rgba(101,108,118,.2);
+  --tk-cmd:#79c0ff; --tk-sub:#d2a8ff; --tk-flag:#ffa657; --tk-string:#7ee787;
+  --tk-comment:#8b949e; --tk-var:#ffa657; --tk-url:#56d4dd; --tk-op:#ff7b72;
+  --tk-num:#79c0ff; --tk-kw:#ff7b72; --tk-fn:#d2a8ff; --tk-prop:#79c0ff;
+  --tk-env:#ff7b72; --tk-ph:#f778ba; --tk-ph-bg:rgba(247,120,186,.14);
+  --tk-type:#ffa657; --tk-key:#79c0ff; --code-head-bg:#1b222c;
 
   --shadow-pop: 0 8px 24px rgba(1,4,9,.7);
 
@@ -359,6 +369,42 @@ svg[hidden]{ display: none; }
 }
 .copy-btn:hover{ background: var(--bg-sunken); border-color: var(--border-hi); color: var(--text); }
 .copy-btn.copied{ color: var(--brand-link); border-color: var(--brand-ring); }
+
+/* ---- highlighted code blocks (header bar + syntax colours) ---- */
+.code-block.hl{
+  border: 1px solid var(--border-soft); border-radius: var(--radius-card, 12px);
+  background: var(--code-bg); overflow: hidden; margin: 0 0 16px;
+}
+.code-block.hl .code-head{
+  display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 8px 0 14px;
+  background: var(--code-head-bg); border-bottom: 1px solid var(--border-soft);
+  color: var(--text-dim);
+}
+.code-block.hl .code-ico{ display: inline-flex; color: var(--text-dim); }
+.code-block.hl .code-lang{
+  position: static; font-size: 12px; letter-spacing: .02em; color: var(--text-faint);
+  text-transform: lowercase;
+}
+.code-block.hl .copy-btn{ position: static; margin-left: auto; width: 28px; height: 28px; background: transparent; border-color: transparent; }
+.code-block.hl .copy-btn:hover{ background: var(--bg-sunken); border-color: var(--border); }
+.code-block.hl pre{ border: 0; border-radius: 0; margin: 0; padding: 16px 18px; background: transparent; }
+.code-block.hl pre code{ font-size: 13px; line-height: 1.65; tab-size: 2; }
+.tk-cmd{ color: var(--tk-cmd); font-weight: 600; }
+.tk-sub{ color: var(--tk-sub); }
+.tk-flag{ color: var(--tk-flag); }
+.tk-string{ color: var(--tk-string); }
+.tk-comment{ color: var(--tk-comment); font-style: italic; }
+.tk-variable{ color: var(--tk-var); }
+.tk-url{ color: var(--tk-url); }
+.tk-op{ color: var(--tk-op); }
+.tk-number, .tk-const{ color: var(--tk-num); }
+.tk-keyword{ color: var(--tk-kw); }
+.tk-fn{ color: var(--tk-fn); }
+.tk-prop{ color: var(--tk-prop); }
+.tk-type{ color: var(--tk-type); }
+.tk-key{ color: var(--tk-key); }
+.tk-envname{ color: var(--tk-env); }
+.tk-placeholder{ color: var(--tk-ph); background: var(--tk-ph-bg); border-radius: 4px; padding: 0 3px; }
 
 .doc-content table{
   display: block; width: max-content; max-width: 100%; overflow: auto;
