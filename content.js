@@ -2806,10 +2806,124 @@ The JOYTREE MCP server lets any MCP-compatible AI client \u2014 Claude chat, Cla
 
 ## Connecting
 
-1. Get your API key from **joytree.site/dashboard/account** (or \`joytree apikey show\` from the CLI).
-2. In Claude, add a custom connector pointing at \`https://mcp.joytree.site/mcp\`.
-3. Authenticate with your API key (\`jtk_...\`) when prompted.
-4. Try asking Claude something like *"list my JOYTREE projects"* or *"what's in my JOYTREE account?"* to confirm the connection.
+Seven short steps connect JOYTREE to Claude. The screenshots are from claude.ai on the web — the orange cursor shows where to look, and you can click any screen to enlarge it.
+
+### Step 1 — Open Plugins
+
+In Claude, choose **Plugins** in the left sidebar. This is where connectors live.
+
+:::shot
+step: 1
+title: Open **Plugins** in the Claude sidebar.
+bar: claude.ai <i>/</i> plugins
+img: assets/mcp/01-plugins.webp
+alt: The Claude Plugins page with the Plugins item highlighted in the sidebar and an Add button at the top right
+cursor: 66.2,59.2 > 4.4,37.2
+focus: 0.1,34.7,19.7,5.1
+note: **Plugins** is under Projects, Artifacts and Code in the sidebar.
+note: Custom connectors may need a paid Claude plan or an organization admin to allow them. If you don't see the option, check there first.
+:::
+
+### Step 2 — Add a custom connector
+
+Press **Add** at the top right, then choose **Add custom connector**.
+
+:::shot
+step: 2
+title: Press **Add**, then **Add custom connector**.
+bar: claude.ai <i>/</i> plugins
+img: assets/mcp/02-add-custom.webp
+alt: The Add menu on the Claude Plugins page showing Upload plugin, Add custom connector, Create a plugin, Create with Claude and Add marketplace
+cursor: 73.2,59.5 > 88.6,26.6
+focus: 79.8,24.5,15.5,4.5
+note: **Add custom connector** is the first option in the second group, under Upload plugin.
+:::
+
+### Step 3 — Name it and paste the address
+
+Type a name such as **JOYTREE** and paste the JOYTREE MCP address, then press **Continue**.
+
+\`\`\`text
+https://mcp.joytree.site/mcp
+\`\`\`
+
+:::shot
+step: 3
+title: Name it **JOYTREE** and paste the server address.
+bar: claude.ai <i>/</i> plugins <i>/</i> add custom connector
+img: assets/mcp/03-name-url.webp
+alt: The Add custom connector dialog with the name JOYTREE and the address https://mcp.joytree.site/mcp filled in
+cursor: 65.9,74.5 > 51.2,31.0
+focus: 32.1,17.9,35.7,15.3
+note: **Name** — shown in your connectors list. Any name works.
+note: **Address** — must be exactly \`https://mcp.joytree.site/mcp\`.
+:::
+
+### Step 4 — Let Claude register itself
+
+On the next screen leave **Register automatically** selected — JOYTREE supports it, and Claude marks it **Detected**. Press **Add**.
+
+:::shot
+step: 4
+title: Keep **Register automatically** and press **Add**.
+bar: claude.ai <i>/</i> plugins <i>/</i> add custom connector
+img: assets/mcp/04-register.webp
+alt: The second Add custom connector screen with Register automatically selected and marked Detected, and an Add button at the bottom right
+cursor: 51.5,59.6 > 65.3,93.5
+focus: 63.7,91.2,3.3,4.5
+note: You don't need your own OAuth client or any request headers.
+:::
+
+### Step 5 — Copy your API key
+
+Claude now sends you to a JOYTREE page that asks for your key. Open **joytree.site/dashboard/account** (or **Settings** in the dashboard) and press **Copy** next to **Personal API Key**. You can also run \`joytree apikey show\` in the CLI.
+
+:::shot
+step: 5
+title: Press **Copy** next to your Personal API Key.
+bar: joytree.site <i>/</i> dashboard <i>/</i> settings
+img: assets/mcp/05-copy-key.webp
+alt: The JOYTREE Settings page with the Personal API Key field and its Copy button, and the Transfer URL below
+cursor: 52.6,48.9 > 89.0,67.1
+focus: 86.6,64.3,4.8,5.5
+note: **Personal API Key** — starts with \`jtk_\`.
+:::
+
+:::warn
+Copy the **Personal API Key**, not the Transfer URL below it — the Transfer URL has your key inside it. Treat both like a password and never share them.
+:::
+
+### Step 6 — Paste it and connect
+
+Back on the JOYTREE authorize page, paste the key into the box and press **Connect**.
+
+:::shot
+step: 6
+title: Paste your key and press **Connect**.
+bar: mcp.joytree.site <i>/</i> authorize
+img: assets/mcp/06-paste-connect.webp
+alt: The JOYTREE Connect page with the API key pasted into the box and a green Connect button
+cursor: 38.3,81.7 > 76.2,66.9
+focus: 57.3,63.4,37.8,7.3
+note: Your key is checked once and swapped for a separate token, so your agent never sees the key itself.
+:::
+
+### Step 7 — Check it worked
+
+You return to Claude and **JOYTREE** now appears under **Your plugins** as a custom connector.
+
+:::shot
+step: 7
+title: **JOYTREE** is listed under **Your plugins**.
+bar: claude.ai <i>/</i> plugins
+img: assets/mcp/07-connected.webp
+alt: The Claude Plugins page with JOYTREE listed under Your plugins as a custom connector at mcp.joytree.site
+cursor: 66.5,75.0 > 29.5,33.5
+focus: 24.6,30.1,21.0,7.0
+note: **Custom connector · mcp.joytree.site** — the connection is live.
+:::
+
+Now try asking Claude something like *"list my JOYTREE projects"* or *"what's in my JOYTREE account?"* to confirm the connection.
 
 :::tip
 Each request is scoped to your own API key \u2014 there's no shared credential, and no session state that could mix your projects up with anyone else's. Anything the tools can do, your API key could already do through the dashboard or CLI; connecting MCP doesn't grant any new permissions.
