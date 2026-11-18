@@ -851,7 +851,164 @@ If your server app hardcodes a port instead of reading \`process.env.PORT\`, set
     md: `
 ## From the dashboard
 
-The **+ New Deployment** form has an **"or upload your project"** section right under the GitHub repo field:
+Ten short steps take a ZIP or HTML file from your computer to a live site. The screenshots are from the JOYTREE dashboard — the orange cursor shows where to look, and you can click any screen to enlarge it.
+
+### Step 1 — Open Code Upload
+
+Click your **profile picture** at the top right of the dashboard and choose **Code Upload / IDE**.
+
+:::shot
+step: 1
+title: Open the profile menu and choose **Code Upload / IDE**.
+bar: joytree.site <i>/</i> dashboard
+img: assets/upload/01-menu.webp
+alt: The JOYTREE dashboard with the profile menu open, showing New Deployment, New Resource, Code Upload / IDE and Repositories
+cursor: 73.9,44.8 > 84.2,22.9
+focus: 77.0,20.7,21.9,4.7
+note: **Code Upload / IDE** sits between New Resource and Repositories.
+:::
+
+### Step 2 — Choose your file
+
+The **Code Upload** page deploys a ZIP or HTML file — no GitHub needed. Drag your file onto **Drop your project here**, or press **Browse Files**.
+
+:::shot
+step: 2
+title: Press **Browse Files** (or drag your file in).
+bar: joytree.site <i>/</i> code-upload
+img: assets/upload/02-browse.webp
+alt: The Code Upload page with a dashed drop area, a green Browse Files button and the accepted types .html, .zip, .tar.gz and .tgz
+cursor: 41.2,45.2 > 58.5,62.9
+focus: 53.3,59.8,10.5,6.2
+note: **Accepted types** — \`.html\`, \`.zip\`, \`.tar.gz\` and \`.tgz\`, up to **250 MB**.
+:::
+
+### Step 3 — Pick the file and press Open
+
+Your computer's file picker opens. Select your project and press **Open**. The upload starts straight away.
+
+:::shot
+step: 3
+title: Select your ZIP and press **Open**.
+bar: File picker <i>/</i> Downloads
+img: assets/upload/03-picker.webp
+alt: A Windows file picker open on the Downloads folder with a list of ZIP files and an Open button
+cursor: 31.6,45.8 > 19.2,30.3
+focus: 12.2,28.6,36.7,3.6
+note: On a phone, tap **Browse Files** and pick the file from your device instead.
+:::
+
+### Step 4 — Find it in Uploaded Projects
+
+Your upload appears at the top of **Uploaded Projects**, with the status **Extracted** once JOYTREE has unpacked it. Press **Deploy** on its row.
+
+:::shot
+step: 4
+title: Press **Deploy** next to your new project.
+bar: joytree.site <i>/</i> code-upload
+img: assets/upload/04-list.webp
+alt: The Uploaded Projects list with the newest project at the top, showing its type, size, file count, Extracted status and Deploy, Open IDE, download and delete buttons
+cursor: 64.6,55.8 > 78.5,36.1
+focus: 75.1,33.3,6.8,5.6
+note: Each row shows the **size**, **file count** and **status**. The icons on the right download or delete the upload.
+note: **Open IDE** lets you edit the files first — see the next step.
+:::
+
+### Step 5 — Optional: edit in the IDE
+
+Want to change something before deploying? Press **Open IDE**. You get a file explorer and an editor, with **Save**, **Terminal** and **Deploy** at the top.
+
+:::shot
+step: 5
+title: Edit your files, then **Save**.
+bar: joytree.site <i>/</i> code-ide
+img: assets/upload/05-ide.webp
+alt: The JOYTREE Code IDE showing a project's files index.html, package.json and server.js in an explorer, with index.html open in the editor and Save, Terminal and Deploy buttons at the top
+cursor: 31.6,40.7 > 26.4,28.5
+focus: 21.7,26.3,16.7,12.6
+note: Pick a file in the **Explorer** to open it. The status bar shows the branch and whether you have unsaved edits.
+:::
+
+### Step 6 — Check the build settings
+
+**Deploy** opens the **New Deployment** page with your build settings filled in from the upload. Check them — install, build and output folder, site type and Node.js version — then press **Deploy Now**.
+
+:::shot
+step: 6
+title: Check the settings and press **Deploy Now**.
+bar: joytree.site <i>/</i> new-deploy
+img: assets/upload/06-config.webp
+alt: The New Deployment page with install and build commands, output directory, site type and Node.js version, and a Deployment Summary with a green Deploy Now button
+cursor: 51.4,45.4 > 85.1,58.1
+focus: 74.2,54.6,21.9,6.9
+note: **Deployment Summary** — the project name, its \`.joytree.site\` address, the branch and the Node.js version.
+note: **Site Type** — a static site serves files directly; a server app runs a persistent process.
+:::
+
+### Step 7 — Watch the build
+
+JOYTREE takes you to **Live Logs**. **Build progress** ticks through each stage — clone, install dependencies, build, copy to hosting and clean-up — while the log streams on the right.
+
+:::shot
+step: 7
+title: Follow **Build progress** while the logs stream.
+bar: joytree.site <i>/</i> logs
+img: assets/upload/07-build.webp
+alt: The Live Logs page with a Build progress panel showing completed and running steps on the left and streaming build logs on the right
+cursor: 66.5,67.9 > 28.8,20.0
+focus: 18.8,11.8,20.1,18.1
+note: **Running** turns into a green tick when each step finishes. Use **Search logs**, **Build** and **App** to find what you need.
+:::
+
+### Step 8 — It's live
+
+When the last step finishes, a **Deployment finished** notice appears and a panel shows your public address. Press **Visit Site** to open it.
+
+:::shot
+step: 8
+title: Copy your **live address** or press **Visit Site**.
+bar: joytree.site <i>/</i> logs
+img: assets/upload/08-live.webp
+alt: A panel saying It's live with the site address, a loading preview, and the status, build time, branch and SSL details, with Back to Dashboard and Visit Site buttons
+cursor: 68.3,59.1 > 50.7,28.3
+focus: 34.9,25.5,29.8,5.9
+note: **Status · Online** and **SSL · Active** — your site is public and secured.
+note: **Back to Dashboard** takes you to your projects.
+:::
+
+### Step 9 — Find your project later
+
+Your site now lives under **Projects**. Each card shows its address, and has **Redeploy**, **Visit** and **Logs** buttons. Open the card to manage the project.
+
+:::shot
+step: 9
+title: Open your project from **Projects**.
+bar: joytree.site <i>/</i> projects
+img: assets/upload/09-projects.webp
+alt: The Projects page with cards for each site showing a preview, the joytree.site address, and Redeploy, Visit and Logs buttons
+cursor: 80.6,44.9 > 50.5,95.2
+focus: 46.2,93.3,15.4,6.9
+note: Uploaded projects show the same card as GitHub ones, with a live preview.
+:::
+
+### Step 10 — Redeploy without uploading again
+
+On the project page, the **Redeployment** section has two options. **Redeploy Stored Files** redeploys what you already uploaded, with no re-upload. **Upload New Archive** replaces it with new code on the same address.
+
+:::shot
+step: 10
+title: Press **Redeploy Stored Files**, or **Upload New Archive**.
+bar: joytree.site <i>/</i> project
+img: assets/upload/10-redeploy.webp
+alt: The Redeployment section of a project page with Redeploy Stored Files and Upload New Archive buttons, and an Auto-deploy from folder section below it
+cursor: 66.2,47.3 > 26.5,66.4
+focus: 20.6,64.0,26.3,5.0
+note: **Auto-deploy from folder** redeploys every time you save into a folder you choose — see **[Auto-deploy from a folder](#/deploy-watch)**.
+:::
+
+### Another route: the New Deployment form
+
+The **+ New Deployment** form also has an **"or upload your project"** section right under the GitHub repo field:
 
 1. Drag a file onto the dropzone, or click it to browse.
 2. Accepted types: \`.html\`, \`.zip\`, \`.tar.gz\`, \`.tgz\` — up to **250 MB**.
@@ -876,7 +1033,7 @@ joytree upload --dir ./my-app --name my-app
 3. The same build pipeline (install → build → start) runs as for a GitHub-sourced deploy.
 
 :::warn
-This path skips GitHub entirely, which means **auto-deploy on push** isn't available for uploaded projects — redeploying means uploading again from the dashboard, or running \`joytree upload\` / \`joytree redeploy\` from the CLI.
+This path skips GitHub entirely, which means **auto-deploy on push** isn't available for uploaded projects — redeploying means using **Redeploy Stored Files** (no re-upload) or **Upload New Archive** on the project page, or running \`joytree upload\` / \`joytree redeploy\` from the CLI.
 :::
 `
   },
