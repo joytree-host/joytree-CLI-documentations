@@ -13,11 +13,10 @@
 
   function chip(name, cx, cy, r, i, amp) {
     var s = (r * 1.25).toFixed(1), h = (-r * 0.625).toFixed(1);
-    return '<g transform="translate(' + cx + ' ' + cy + ')"><g class="a-float a-chip" style="--amp:' + (amp || -4) + 'px;--dur:' + (3.4 + (i % 3) * 0.5).toFixed(1) + 's;animation-delay:-' + (i * 0.7).toFixed(1) + 's">' +
+    return '<g class="jt-chip" data-i="' + i + '" transform="translate(' + cx + ' ' + cy + ')"><g class="a-float a-chip" style="--amp:' + (amp || -4) + 'px;--dur:' + (3.4 + (i % 3) * 0.5).toFixed(1) + 's;animation-delay:-' + (i * 0.7).toFixed(1) + 's">' +
       '<circle class="a-chip-bg' + (DARK_CHIP[name] ? ' dk' : '') + '" r="' + r + '"/>' +
-      '<image href="' + LOGO_DIR + name + '.svg" x="' + h + '" y="' + h + '" width="' + s + '" height="' + s + '"/></g></g>';
+      '<image class="jt-logo" data-name="' + name + '" href="' + LOGO_DIR + name + '.svg" x="' + h + '" y="' + h + '" width="' + s + '" height="' + s + '"/></g></g>';
   }
-
   /* Server fleet: stacks of rack units on a slab. Each unit has a status LED and a slot line on its front face. */
   var STACKS = [[0.5, 0.5, 2], [2.4, 0.5, 3], [4.1, 0.5, 2], [1.3, 3.0, 1], [3.3, 3.0, 2]];
   function fleet(ctx, z0) {
@@ -42,7 +41,7 @@
   var ISO_U = 22;
   var ANCHORS = [[120, 54], [152, 24], [198, 13], [238, 14], [266, 38]];
 
-  function isoArt(scene, id, logos) {
+  function isoArt(scene, id, logos, pool) {
     var o = { x: 166, y: 56 }, Z0 = 0.25;
     var P = function (x, y, z) { return [o.x + (x - y) * 0.866 * ISO_U, o.y + (x + y) * 0.5 * ISO_U - z * ISO_U]; };
     var pt = function (a) { return a[0].toFixed(1) + ',' + a[1].toFixed(1); };
@@ -125,7 +124,13 @@
     if (logos && logos.length) {
       logos.slice(0, ANCHORS.length).forEach(function (n, k) { out += chip(n, ANCHORS[k][0], ANCHORS[k][1], 12, k, -4); });
     }
-    return '<svg class="card-art" viewBox="0 0 280 176" preserveAspectRatio="xMaxYMax meet" aria-hidden="true"><defs><pattern id="' + id + '-d" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="0.9" class="a-dot"/></pattern></defs>' + out + '</svg>';
+    var attrs = '';
+    if (logos && logos.length > 2) {
+      var n = Math.min(logos.length, ANCHORS.length), sw = [[0, n - 1, -10], [1, 2, -9], [0, 2, -9], [n - 2, n - 1, -9], [1, n - 1, -10]]
+        .filter(function (p) { return p[1] < n && p[0] !== p[1]; });
+      attrs = ' data-slots=\'' + JSON.stringify(ANCHORS.slice(0, n)) + '\' data-swaps=\'' + JSON.stringify(sw) + '\' data-pool="' + (pool || []).join(',') + '"';
+    }
+    return '<svg class="card-art"' + attrs + ' viewBox="0 0 280 176" preserveAspectRatio="xMaxYMax meet" aria-hidden="true"><defs><pattern id="' + id + '-d" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="0.9" class="a-dot"/></pattern></defs>' + out + '</svg>';
   }
 
   /* ---------------------------------------------------------------- article hero */
@@ -149,10 +154,12 @@
     var slab = out; out = '';
 
     // logos flow into the fleet on dashed connectors (drawn under the units so packets slip inside)
-    var LOGOS = [ // name, chip x, chip y, stack index
-      ['react', 38, 62, 0], ['typescript', 196, 28, 1], ['go', 252, 24, 2], ['nodejs', 354, 118, 2],
-      ['docker', 344, 172, 4], ['php', 100, 208, 3], ['python', 34, 178, 3]
+    var LOGOS = [ // initial logo, chip x, chip y, stack the connector feeds (one slot = one connector)
+      ['react', 46, 58, 0], ['claude', 198, 26, 1], ['go', 254, 22, 2], ['nodejs', 356, 116, 2],
+      ['docker', 346, 174, 4], ['cursor', 106, 208, 3], ['python', 34, 178, 3]
     ];
+    var POOL = ['typescript', 'chatgpt', 'php', 'gemini', 'java', 'windsurf', 'rust', 'lovable', 'vue', 'dotnet'];
+    var SWAPS = [[0, 3, -36], [1, 2, -12], [6, 4, 26], [0, 2, -30], [1, 3, -28], [5, 6, 14], [5, 4, 22]];
     var links = '', chips = '';
     LOGOS.forEach(function (l, i) {
       var t = P.apply(null, stackTop(STACKS[l[3]], Z0));
@@ -179,7 +186,7 @@
     }, Z0);
     var units = out;
 
-    return '<svg viewBox="0 0 380 236" width="100%" height="100%" role="presentation" focusable="false">' +
+    return '<svg viewBox="0 0 380 236" width="100%" height="100%" role="presentation" focusable="false" data-slots=\'' + JSON.stringify(LOGOS.map(function (l) { return [l[1], l[2]]; })) + '\' data-swaps=\'' + JSON.stringify(SWAPS) + '\' data-pool="' + POOL.join(',') + '">' +
       '<defs><pattern id="adots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.05" class="a-dot"/></pattern></defs>' +
       '<g class="a-base">' + slab + '</g>' + links + units +
       '<g class="a-node nB"><circle class="ring" cx="336" cy="56" r="9"/><circle class="core" cx="336" cy="56" r="9"/><path d="M332 56.2l2.8 2.8 5-5.6"/></g>' +
@@ -189,7 +196,71 @@
       '</svg>';
   }
 
-  var api = { buildHeroArt: buildHeroArt, isoArt: isoArt, ISO_U: ISO_U };
+
+  /* ---------------------------------------------------------------- motion
+     Logos trade places across the fleet: two chips glide along opposite arcs on one eased curve,
+     and every other beat one chip swaps its logo (short fade) for the next one in the pool, so the
+     scene cycles through every language and AI client. Slow, eased, no overshoot. Skipped for
+     reduced motion, hidden tabs and hidden art; stops by itself once the svg leaves the page. */
+  var EASE = 'cubic-bezier(.65,0,.35,1)';
+  function arc(a, b, bulge, n) {
+    var cx = (a[0] + b[0]) / 2, cy = (a[1] + b[1]) / 2 + bulge, k = [], t, u;
+    for (var i = 0; i <= n; i++) {
+      t = i / n; u = 1 - t;
+      k.push({ transform: 'translate(' + (u * u * a[0] + 2 * u * t * cx + t * t * b[0]).toFixed(2) + 'px,' + (u * u * a[1] + 2 * u * t * cy + t * t * b[1]).toFixed(2) + 'px)' });
+    }
+    return k;
+  }
+  function motion(svg) {
+    if (!svg || !svg.animate || !svg.getAttribute('data-slots')) return;
+    if (root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var slots, swaps, pool = (svg.getAttribute('data-pool') || '').split(',').filter(Boolean);
+    try { slots = JSON.parse(svg.getAttribute('data-slots')); swaps = JSON.parse(svg.getAttribute('data-swaps') || '[]'); } catch (e) { return; }
+    var occ = [].slice.call(svg.querySelectorAll('.jt-chip'));
+    if (occ.length < 2 || !swaps.length) return;
+    var beat = 0, last = -1, busy = false;
+
+    function swap() {
+      var p = swaps[Math.floor(Math.random() * swaps.length)];
+      if (p.join() === last) p = swaps[(swaps.indexOf(p) + 1) % swaps.length];
+      last = p.join();
+      var A = occ[p[0]], B = occ[p[1]], a = slots[p[0]], b = slots[p[1]], dur = 1500;
+      if (!A || !B) return;
+      busy = true;
+      svg.appendChild(A); svg.appendChild(B); // travel above the fleet, pills and terminal
+      var fa = arc(a, b, p[2], 16), fb = arc(b, a, -p[2] * 0.35, 16);
+      var ra = A.animate(fa, { duration: dur, easing: EASE, fill: 'forwards' }), rb = B.animate(fb, { duration: dur, easing: EASE, fill: 'forwards' });
+      ra.finished.then(function () {
+        A.style.transform = fa[16].transform; B.style.transform = fb[16].transform;
+        ra.cancel(); rb.cancel();
+        occ[p[0]] = B; occ[p[1]] = A; busy = false;
+      }, function () { busy = false; });
+    }
+    function relogo() {
+      if (!pool.length) return;
+      var c = occ[Math.floor(Math.random() * occ.length)], img = c.querySelector('.jt-logo'), bg = c.querySelector('.a-chip-bg');
+      if (!img) return;
+      var next = pool.shift(), prev = img.getAttribute('data-name');
+      busy = true;
+      var out = img.animate([{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(.82)' }], { duration: 260, easing: 'ease-in', fill: 'forwards' });
+      out.finished.then(function () {
+        img.setAttribute('href', LOGO_DIR + next + '.svg'); img.setAttribute('data-name', next);
+        if (bg) bg.classList.toggle('dk', !!DARK_CHIP[next]);
+        pool.push(prev);
+        var inn = img.animate([{ opacity: 0, transform: 'scale(.82)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 360, easing: 'ease-out', fill: 'forwards' });
+        inn.finished.then(function () { inn.cancel(); out.cancel(); busy = false; }, function () { busy = false; });
+      }, function () { busy = false; });
+    }
+    function tick() {
+      if (!svg.isConnected) return;
+      var visible = !document.hidden && svg.getBoundingClientRect().width > 0;
+      if (visible && !busy) { (beat++ % 2 === 0) ? swap() : relogo(); }
+      setTimeout(tick, 2600 + Math.random() * 900);
+    }
+    setTimeout(tick, 1600 + Math.random() * 1400);
+  }
+
+  var api = { buildHeroArt: buildHeroArt, isoArt: isoArt, motion: motion, ISO_U: ISO_U };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.JTArt = api;
 })(typeof window !== 'undefined' ? window : this);
