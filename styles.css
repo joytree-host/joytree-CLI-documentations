@@ -663,3 +663,37 @@ svg[hidden]{ display: none; }
   .feat-card, .grid-card{ padding: 20px 18px 22px; min-height: 172px; }
   .card-art{ width: 70%; }
 }
+
+/* ---------- solid green cards (flat fill, dotted texture, white line-art) ---------- */
+.tone-amber{ --c: #065f46; }
+.tone-blue{ --c: #047857; }
+.tone-rose{ --c: #0a6b4a; }
+.tone-green{ --c: #05543a; }
+.tone-violet{ --c: #066b52; }
+.feat-card, .grid-card{
+  background: var(--c); border: 0; color: #fff; min-height: 138px; padding: 22px 22px 24px;
+}
+.grid-card{ min-height: 150px; }
+.feat-card::before, .grid-card::before{
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .5;
+  background: radial-gradient(rgba(255,255,255,.18) 1px, transparent 1.4px) 0 0 / 22px 22px;
+}
+.feat-card h3, .grid-card h3{ color: #fff; }
+.feat-card p, .grid-card p{ color: rgba(255,255,255,.86); }
+.feat-card:hover, .grid-card:hover{
+  border: 0; background: color-mix(in srgb, var(--c) 86%, #fff);
+  box-shadow: 0 14px 28px -16px rgba(5,69,47,.65);
+}
+.card-art{ opacity: 1; --art-line: rgba(255,255,255,.55); }
+.card-art .a-t{ fill: rgba(255,255,255,.10); stroke: var(--art-line); }
+.card-art .a-l{ fill: rgba(255,255,255,.06); stroke: var(--art-line); }
+.card-art .a-r{ fill: rgba(255,255,255,.16); stroke: var(--art-line); }
+.card-art .a-bar{ stroke: rgba(255,255,255,.7); opacity: .85; }
+.card-art .a-dot{ fill: rgba(255,255,255,.55); }
+@media (max-width: 480px){
+  .feat-card, .grid-card{ min-height: 150px; padding: 20px 18px 22px; }
+}
+.card-art{ right: -30px; bottom: -26px; width: min(58%, 260px); --art-line: rgba(255,255,255,.4); }
+.card-art .a-bar{ opacity: .6; }
+.card-art .a-dot{ fill: rgba(255,255,255,.4); }
+.feat-card p, .grid-card p{ max-width: 30ch; }
