@@ -199,28 +199,80 @@
     `;
   }
 
-  function renderTOC(contentEl) {
+  const AI_ICONS = {
+    copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+    chatgpt: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v8l-7 4-7-4V7z"/><path d="M12 3v8l7 4M12 11L5 15"/></svg>',
+    claude: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>',
+    cursor: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5l8.5 4.9v9.2L12 21.5l-8.5-4.9V7.4z"/><path d="M12 12l8.5-4.6M12 12v9.5M12 12L3.5 7.4"/></svg>',
+    ext: '<svg class="ai-ext" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>'
+  };
+
+  function aiPrompt(key) {
+    const page = PAGES[key];
+    const url = location.origin + location.pathname + '#/' + key;
+    const body = (page.md || '').slice(0, 6000);
+    return `I'm reading the JOYTREE docs page "${page.title}" (${url}). Use the content below to answer my questions about it.\n\n# ${page.title}\n${page.lede || ''}\n\n${body}`;
+  }
+
+  function renderAskAI(key) {
+    const page = PAGES[key];
+    if (!page) return '';
+    const q = encodeURIComponent(aiPrompt(key));
+    const row = (href, icon, label) => `<a class="ai-row" href="${href}" target="_blank" rel="noopener">${AI_ICONS[icon]}<span>${label}</span>${AI_ICONS.ext}</a>`;
+    return `
+      <div class="toc-ai">
+        <div class="toc-ai-title">Ask AI about this page</div>
+        <button type="button" class="ai-row" id="aiCopyPage">${AI_ICONS.copy}<span>Copy page</span></button>
+        ${row('https://chatgpt.com/?q=' + q, 'chatgpt', 'Open in ChatGPT')}
+        ${row('https://claude.ai/new?q=' + q, 'claude', 'Open in Claude')}
+        ${row('https://cursor.com/link/prompt?text=' + q, 'cursor', 'Open in Cursor')}
+        <a class="toc-cta" href="https://joytree.site/dashboard" target="_blank" rel="noopener">Deploy with JOYTREE ${AI_ICONS.ext}</a>
+      </div>`;
+  }
+
+  function renderTOC(contentEl, key) {
     const toc = document.getElementById('toc');
     const heads = contentEl.querySelectorAll('h2, h3');
-    if (!heads.length) { toc.innerHTML = ''; return; }
-    let html = '<div class="toc-title">On this page</div>';
-    heads.forEach(h => {
-      html += `<a href="#${h.id}" class="${h.tagName === 'H3' ? 'lvl3' : ''}" data-toc-target="${h.id}">${h.textContent}</a>`;
-    });
+    let html = '';
+    if (heads.length) {
+      html += '<div class="toc-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg>On this page</div><nav class="toc-list">';
+      heads.forEach(h => {
+        html += `<a href="#${h.id}" class="${h.tagName === 'H3' ? 'lvl3' : ''}" data-toc-target="${h.id}">${h.textContent}</a>`;
+      });
+      html += '</nav>';
+    }
+    html += renderAskAI(key);
     toc.innerHTML = html;
 
-    toc.querySelectorAll('a').forEach(a => {
+    toc.querySelectorAll('a[data-toc-target]').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
         const target = document.getElementById(a.dataset.tocTarget);
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
+
+    const copyBtn = document.getElementById('aiCopyPage');
+    if (copyBtn) copyBtn.addEventListener('click', () => {
+      const page = PAGES[key];
+      const text = `# ${page.title}\n\n${page.lede ? page.lede + '\n\n' : ''}${page.md || ''}`;
+      const done = () => {
+        const label = copyBtn.querySelector('span');
+        const old = label.textContent;
+        label.textContent = 'Copied!'; copyBtn.classList.add('copied');
+        setTimeout(() => { label.textContent = old; copyBtn.classList.remove('copied'); }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done);
+      else {
+        const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {} ta.remove(); done();
+      }
+    });
   }
 
   function updateTOCActive() {
     const toc = document.getElementById('toc');
-    const links = toc.querySelectorAll('a');
+    const links = toc.querySelectorAll('a[data-toc-target]');
     if (!links.length) return;
     let currentId = null;
     links.forEach(a => {
@@ -435,7 +487,7 @@
     content.innerHTML = renderMarkdown(page.md);
 
     renderBreadcrumb(page, key);
-    renderTOC(content);
+    renderTOC(content, key);
     renderPageNav(key);
     wireInternalLinks(content);
     wireCopyButtons(content);

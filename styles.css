@@ -857,3 +857,48 @@ html[data-theme="dark"]{ --btn-edge: rgba(0,0,0,.55); --btn-hi: rgba(255,255,255
   transform: translateY(1px); box-shadow: 0 0 0 transparent;
 }
 .copy-btn{ border-radius: 8px; }
+
+
+/* ==========================================================================
+   Right rail, Railway-style: On this page (with a guide line), Ask AI rows,
+   and a Deploy with JOYTREE button. Uses the dashboard button language.
+   ========================================================================== */
+.toc{ padding: 32px 24px 40px 12px; font-size: 13.5px; }
+.toc-title{
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px; letter-spacing: .01em;
+}
+.toc-title svg{ color: var(--text-faint); }
+.toc-list{ position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
+.toc-list a{
+  position: relative; display: block; padding: 5px 0 5px 14px; margin-left: -1px;
+  color: var(--text-dim); border-left: 2px solid transparent; line-height: 1.4;
+  transition: color .12s, border-color .12s;
+}
+.toc-list a:hover{ color: var(--text); border-left-color: var(--border-hi); }
+.toc-list a.active{ color: var(--brand-link); border-left-color: var(--brand-ring); font-weight: 600; }
+.toc-list a.lvl3{ padding-left: 28px; font-size: 13px; }
+
+.toc-ai{ margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border-soft); display: flex; flex-direction: column; gap: 2px; }
+.toc-ai-title{ font-size: 12px; font-weight: 600; color: var(--text-faint); margin-bottom: 6px; letter-spacing: .02em; }
+.toc .ai-row{
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 7px 8px; margin: 0 -8px; border: 0; background: transparent; border-radius: 8px;
+  font: inherit; font-size: 13.5px; color: var(--text-dim); text-align: left; cursor: pointer; text-decoration: none;
+  transition: background .12s, color .12s;
+}
+.toc .ai-row svg{ flex: 0 0 auto; color: var(--text-faint); transition: color .12s; }
+.toc .ai-row:hover{ background: var(--bg-hover); color: var(--text); }
+.toc .ai-row:hover svg{ color: var(--brand-link); }
+.toc .ai-row .ai-ext{ margin-left: -2px; opacity: .55; }
+.toc .ai-row.copied{ color: var(--brand-link); }
+.toc .toc-cta{
+  display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; height: 40px;
+  background: #059669; color: #fff; font-size: 14px; font-weight: 600; text-decoration: none;
+  border: 1.5px solid #047857; border-radius: var(--btn-radius, 10px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 2px 0 #047857;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.toc .toc-cta svg{ color: #fff; opacity: .9; }
+.toc .toc-cta:hover{ background: #047857; border-color: #065f46; box-shadow: 0 2px 0 #065f46; transform: translateY(-1px); }
+.toc .toc-cta:active{ transform: translateY(1px); box-shadow: 0 0 0 transparent; }
