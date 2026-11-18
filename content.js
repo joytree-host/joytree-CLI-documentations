@@ -2197,7 +2197,7 @@ joytree api create --prompt "A todo list API: create, list, complete, and delete
 |---|---|
 | \`-p, --prompt <text>\` | The API description, in plain language |
 | \`--file <path>\` | Attach a context file — text files are read directly; PDFs/Office docs are uploaded for the AI to extract from |
-| \`--ai-version <v1\|v2\|v3\|v4>\` | Which generation engine to use (default \`v1\`) |
+| \`--ai-version <v1\\|v2\\|v3\\|v4>\` | Which generation engine to use (default \`v1\`) |
 
 Without \`--prompt\`, the CLI asks for it interactively.
 
@@ -3083,7 +3083,7 @@ See **[Authentication](#/authentication)** for more on obtaining a key, and **[A
 | \`GET\` | \`/settings\` | Your workspace settings |
 | \`PATCH\` | \`/settings\` | Update settings: timezone, notification prefs, name |
 | \`GET\` | \`/activity\` | Recent activity log. Query: \`?limit=25\` |
-| \`GET\` | \`/export/:id\` | Export project. \`?format=joytree\|render\|dockerfile\|dotenv\` |
+| \`GET\` | \`/export/:id\` | Export project. \`?format=joytree\\|render\\|dockerfile\\|dotenv\` |
 | \`POST\` | \`/import\` | Import a project from Render / pxxl / Railway etc. |
 
 ## Response format

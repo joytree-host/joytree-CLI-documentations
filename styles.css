@@ -1237,3 +1237,13 @@ html[data-theme="dark"] .hero-art{
 @media (max-width: 720px){
   .feat-card p, .grid-card p{ max-width: 62%; }
 }
+
+/* phones: compact table cells so tables fit the screen instead of pushing the last
+   column off to the side. Short code (methods, paths) stays whole; the last column,
+   and the first column of two-column tables (tool names), may wrap long code. */
+@media (max-width: 600px){
+  .doc-content th, .doc-content td{ padding: 6px 6px; font-size: 13px; }
+  .doc-content td code, .doc-content th code{ font-size: 12px; }
+  .doc-content td:last-child code,
+  .doc-content td:first-child:nth-last-child(2) code{ white-space: normal; overflow-wrap: anywhere; }
+}

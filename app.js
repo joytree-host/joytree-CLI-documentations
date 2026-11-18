@@ -177,11 +177,14 @@
       // tables
       if (/^\|/.test(line.trim()) && lines[i + 1] && /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?\s*$/.test(lines[i + 1])) {
         flushList();
-        const headerCells = line.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+        // split on unescaped pipes only; "\|" is a literal pipe inside a cell
+        const splitRow = (s) => s.trim().replace(/^\|/, '').replace(/(?<!\\)\|$/, '')
+          .split(/(?<!\\)\|/).map(c => c.replace(/\\\|/g, '|').trim());
+        const headerCells = splitRow(line);
         i += 2;
         const rows = [];
         while (i < lines.length && /^\|/.test(lines[i].trim())) {
-          rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()));
+          rows.push(splitRow(lines[i]));
           i++;
         }
         html += '<table><thead><tr>' + headerCells.map(c => `<th>${inline(c)}</th>`).join('') + '</tr></thead><tbody>' +
