@@ -331,7 +331,7 @@ joytree deploy --repo https://github.com/you/my-site --name my-site
 joytree logs my-site --follow
 \`\`\`
 
-Running \`joytree deploy\` with no flags starts the same interactive wizard the dashboard uses — framework detection, build/start commands, static vs. server. See **[Installing the CLI](#/cli-install)** for the full setup.
+Running \`joytree deploy\` with no flags starts the same interactive wizard the dashboard uses — framework detection, build/start commands, static vs. server. See **[Installing the CLI](#/cli-install)** for the full setup, with a screenshot walkthrough of install, API key and login.
 
 ## What's next
 
@@ -349,6 +349,80 @@ Running \`joytree deploy\` with no flags starts the same interactive wizard the 
 :::tip
 Coding with Claude in a browser tab (claude.ai chat, Cowork) rather than Claude Code or your own terminal? The CLI won't be reachable from there — see the **[MCP Server](#/mcp-overview)** instead, which lets Claude deploy and manage JOYTREE directly without a terminal at all.
 :::
+
+## Set up in four steps
+
+Four screens take you from an empty terminal to a logged-in CLI. Every screenshot below is real — the orange cursor shows exactly where to look, and you can click any screen to enlarge it. The terminal shown is Windows Command Prompt; macOS and Linux terminals behave the same.
+
+### Step 1 — Install the CLI
+
+Open a terminal and install the package globally with npm. It adds the \`joytree\` command to your machine and takes about half a minute.
+
+:::shot
+step: 1
+title: Run **npm install -g @joytreesite/joytree**.
+bar: Command Prompt <i>/</i> npm
+img: assets/cli/01-install.webp
+alt: A Windows terminal running npm install -g @joytreesite/joytree and reporting that 2 packages were added
+cursor: 60,62 > 30,19
+focus: 0.3,15.5,31,6.2
+note: **added 2 packages** — the install finished. The npm "new version available" notice is harmless and can be ignored.
+note: Prefer not to install? Run it on demand with \`npx @joytreesite/joytree login\` instead.
+:::
+
+### Step 2 — Copy your API key
+
+Sign in at **[joytree.site/dashboard](https://joytree.site/dashboard)**, open **Settings** and scroll to **Personal API Key**. Press **Copy**. The CLI uses this key to act as you.
+
+:::shot
+step: 2
+title: Press **Copy** next to your Personal API Key.
+bar: joytree.site <i>/</i> dashboard <i>/</i> settings
+img: assets/cli/02-api-key.webp
+alt: The JOYTREE Settings page with the Personal API Key field, a Copy button and a red Rotate button, and the Transfer URL section below
+cursor: 60,75 > 87.5,31.5
+focus: 85,27.8,5.2,7.4
+note: **Personal API Key** — starts with \`jtk_\`. The page also shows when it was last used.
+note: **Rotate** — revokes the current key and issues a new one. Do this straight away if a key is ever exposed.
+:::
+
+:::warn
+Your API key gives full access to your account, and the **Transfer URL** on the same screen has the key inside it. Treat both like a password — never paste them into a public repository, screenshot or chat.
+:::
+
+### Step 3 — Log in
+
+Back in the terminal, run \`joytree login\` with your key. The CLI checks it with JOYTREE, saves it on your machine, and prints the account it belongs to.
+
+:::shot
+step: 3
+title: Run **joytree login --api-key** with the key you copied.
+bar: Command Prompt <i>/</i> joytree
+img: assets/cli/03-login.webp
+alt: A terminal running joytree login with an API key, showing the JOYTREE banner, the signed-in account and the number of projects in the workspace
+cursor: 70,40 > 54.5,5.5
+focus: 0.3,1.8,55.5,5.5
+note: **Logged in as** — the account your key belongs to. Run \`joytree whoami\` any time to check it again.
+note: **project(s) in your workspace** — a quick sign the key works. Run \`joytree projects\` to see them.
+:::
+
+### Step 4 — Explore the commands
+
+You are ready to go. Run \`joytree\` with no arguments to print every command in your terminal, or open the **[Full command reference](#/cli-reference)** here. The **Account** group is the one to know first: \`login\`, \`logout\`, \`whoami\`, \`status\` and \`workspace\`.
+
+:::shot
+step: 4
+title: Find every command in the **Full command reference**.
+bar: docs.joytree.site <i>/</i> cli <i>/</i> full-command-reference
+img: assets/cli/04-commands.webp
+alt: The Full command reference page showing the Account commands login, logout, whoami, status and workspace, and the API key commands apikey show and apikey rotate
+cursor: 75,80 > 42,39
+focus: 23.2,32.6,56.6,27.7
+note: **Account** — sign in, sign out and check who you are.
+note: **API key** — \`joytree apikey show\` and \`joytree apikey rotate\` manage your key from the terminal.
+:::
+
+Ready to ship something? Follow the **[Quickstart](#/quickstart)** to deploy your first site, or jump to **[Deploy from GitHub](#/deploy-github)**.
 
 ## Install globally
 
