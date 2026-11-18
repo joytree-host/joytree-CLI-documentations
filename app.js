@@ -286,7 +286,73 @@
     mcp: 'Connect your AI agent to JOYTREE and operate it in plain language.',
     api: 'Authenticate, call endpoints and handle errors programmatically.',
   };
-  const ARROW = '<svg class="gc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  // ---- isometric line-art illustrations (drawn from boxes on a dotted slab, Railway-style)
+  const ISO_U = 22;
+  function isoArt(scene, id) {
+    const o = { x: 176, y: 46 }, Z0 = 0.25;
+    const P = (x, y, z) => [o.x + (x - y) * 0.866 * ISO_U, o.y + (x + y) * 0.5 * ISO_U - z * ISO_U];
+    const pt = (a) => a[0].toFixed(1) + ',' + a[1].toFixed(1);
+    const poly = (arr, cls, extra) => `<polygon class="${cls}" points="${arr.map(pt).join(' ')}"${extra || ''}/>`;
+    const line = (a, b, cls) => `<path class="${cls || 'a-ln'}" d="M${pt(a)} L${pt(b)}"/>`;
+    let out = '';
+    const box = (x, y, z, w, d, h, dots) => {
+      out += poly([P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)], 'a-r');
+      out += poly([P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)], 'a-l');
+      out += poly([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)], 'a-t', dots ? ` style="fill:url(#${id}-d)"` : '');
+    };
+    const bar = (x0, y0, x1, y1, z) => { out += line(P(x0, y0, z), P(x1, y1, z), 'a-bar'); };
+    const thin = (x0, y0, x1, y1, z) => { out += line(P(x0, y0, z), P(x1, y1, z), 'a-ln'); };
+    const dash = (a, b) => { out += `<path class="a-ln a-dash" d="M${pt(a)} L${pt(b)}"/>`; };
+    const cyl = (cx, cy, r, h, z) => {
+      const c = P(cx, cy, z), rx = r * ISO_U * 1.2247, ry = r * ISO_U * 0.7071, hh = h * ISO_U;
+      out += `<path class="a-r" d="M${c[0] - rx} ${c[1] - hh} V${c[1]} A${rx} ${ry} 0 0 0 ${c[0] + rx} ${c[1]} V${c[1] - hh} Z"/>`;
+      out += `<ellipse class="a-t" cx="${c[0]}" cy="${c[1] - hh}" rx="${rx}" ry="${ry}"/>`;
+    };
+
+    // base slab (dotted)
+    box(0, 0, 0, 6, 4, Z0, true);
+
+    if (scene === 'launch') {
+      box(0.5, 0.5, Z0, 1.1, 1.1, 1.1); box(2.0, 0.3, Z0, 1.1, 1.1, 1.1);
+      box(3.1, 1.9, Z0, 2.6, 1.8, 0.18);
+      bar(3.6, 2.5, 5.0, 2.5, Z0 + 0.18); bar(3.6, 3.0, 4.4, 3.0, Z0 + 0.18);
+      box(3.9, 2.2, Z0 + 2.3, 0.9, 0.9, 0.9);
+      dash(P(4.35, 2.65, Z0 + 2.3), P(4.35, 2.65, Z0 + 0.8));
+      out += line(P(4.35, 2.65, Z0 + 0.62), P(4.18, 2.5, Z0 + 0.92)) + line(P(4.35, 2.65, Z0 + 0.62), P(4.55, 2.8, Z0 + 0.92));
+    } else if (scene === 'panels') {
+      box(0.9, 0.6, Z0, 4.2, 2.8, 0.15);
+      bar(1.5, 1.4, 3.9, 1.4, Z0 + 0.15); bar(1.5, 2.0, 3.0, 2.0, Z0 + 0.15); bar(1.5, 2.6, 3.4, 2.6, Z0 + 0.15);
+      box(4.0, 1.0, Z0 + 0.15, 0.6, 0.6, 0.14);
+      box(1.7, 1.2, Z0 + 1.1, 3.0, 1.9, 0.12);
+      bar(2.2, 1.8, 3.9, 1.8, Z0 + 1.22); bar(2.2, 2.4, 3.1, 2.4, Z0 + 1.22);
+      [[1.7, 1.2], [4.7, 1.2], [4.7, 3.1], [1.7, 3.1]].forEach(([x, y]) => dash(P(x, y, Z0 + 1.1), P(x, y, Z0 + 0.15)));
+    } else if (scene === 'book') {
+      box(0.7, 0.4, Z0, 4.8, 3.2, 0.3);
+      box(0.85, 0.55, Z0 + 0.3, 4.5, 2.9, 0.25);
+      for (let i = 0; i < 6; i++) bar(1.3, 0.95 + i * 0.42, 1.3 + (i % 2 ? 2.2 : 3.0), 0.95 + i * 0.42, Z0 + 0.55);
+      box(2.2, 1.2, Z0 + 0.55, 2.2, 1.5, 0.12);
+      thin(2.6, 1.75, 3.1, 1.95, Z0 + 0.67); thin(2.6, 2.15, 3.1, 1.95, Z0 + 0.67); bar(3.35, 2.1, 4.0, 2.1, Z0 + 0.67);
+    } else if (scene === 'stack') {
+      box(0.8, 0.5, Z0, 4.6, 3.0, 0.4); box(1.25, 0.85, Z0 + 0.4, 3.7, 2.3, 0.4); box(1.7, 1.2, Z0 + 0.8, 2.8, 1.6, 0.4);
+      bar(2.1, 1.6, 3.9, 1.6, Z0 + 1.2); bar(2.1, 2.1, 3.1, 2.1, Z0 + 1.2);
+      bar(1.7, 1.0, 4.4, 1.0, Z0 + 0.8 - 0.0);
+    } else if (scene === 'db') {
+      cyl(3.0, 2.0, 1.5, 0.7, Z0 + 0.0); cyl(3.0, 2.0, 1.5, 0.7, Z0 + 0.95); cyl(3.0, 2.0, 1.5, 0.7, Z0 + 1.9);
+      cyl(0.9, 3.0, 0.5, 0.5, Z0);
+    } else if (scene === 'network') {
+      box(0.5, 0.4, Z0, 1.0, 1.0, 1.0); box(4.4, 0.4, Z0, 1.0, 1.0, 1.0); box(2.4, 2.7, Z0, 1.0, 1.0, 1.0); box(4.6, 2.6, Z0, 0.8, 0.8, 0.6);
+      dash(P(1.0, 0.9, Z0 + 0.5), P(4.9, 0.9, Z0 + 0.5)); dash(P(2.9, 3.2, Z0 + 0.5), P(1.0, 0.9, Z0 + 0.5)); dash(P(2.9, 3.2, Z0 + 0.5), P(4.9, 0.9, Z0 + 0.5)); dash(P(5.0, 3.0, Z0 + 0.3), P(4.9, 0.9, Z0 + 0.5));
+      box(2.5, 1.2, Z0, 0.8, 0.8, 0.5);
+    } else { // notes
+      box(0.9, 0.5, Z0, 4.2, 3.0, 0.12);
+      for (let i = 0; i < 3; i++) { box(1.3, 0.9 + i * 0.85, Z0 + 0.12, 0.45, 0.45, 0.1); bar(2.1, 1.12 + i * 0.85, 4.2 - (i % 2) * 0.8, 1.12 + i * 0.85, Z0 + 0.12); }
+    }
+    return `<svg class="card-art" viewBox="0 0 280 176" preserveAspectRatio="xMaxYMax meet" aria-hidden="true"><defs><pattern id="${id}-d" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="0.9" class="a-dot"/></pattern></defs>${out}</svg>`;
+  }
+
+  const SCENE = { start: 'launch', dashboard: 'panels', deploy: 'stack', projects: 'notes', databases: 'db', domains: 'network', agent: 'panels', developer: 'book', github: 'network', ssh: 'notes', account: 'notes', cli: 'book', mcp: 'network', api: 'stack' };
+  const TONES = ['amber', 'blue', 'rose', 'green', 'violet'];
 
   function renderHome() {
     const content = document.getElementById('content');
@@ -296,27 +362,19 @@
 
     const byKey = {};
     NAV.forEach(g => { byKey[g.key] = g; });
+    const card = (cls, tone, href, title, text, scene, id) =>
+      `<a class="${cls} tone-${tone}" href="${href}" data-link>${isoArt(scene, id)}<h3>${title}</h3><p>${text}</p></a>`;
 
     const featured = [
-      { icon: 'start', title: 'Quickstart', text: 'Create an account and deploy your first app in minutes.', href: '#/quickstart' },
-      { icon: 'cli', title: 'CLI', text: 'Install the command line and deploy from your terminal.', href: '#/cli-install' },
-      { icon: 'agent', title: 'AI Agent', text: 'Build and ship by describing what you want in plain language.', href: '#/' + byKey.agent.children[0].key },
-      { icon: 'mcp', title: 'MCP Server', text: 'Let Claude, Cursor or ChatGPT operate your projects.', href: '#/' + byKey.mcp.children[0].key },
-    ].map(f => `<a class="feat-card" href="${f.href}" data-link>
-        <span class="gc-tile">${GROUP_ICONS[f.icon]}</span>
-        <span class="feat-body"><strong>${f.title}</strong><span>${f.text}</span></span>
-        ${ARROW}
-      </a>`).join('');
+      ['amber', '#/quickstart', 'Quickstart', 'Create an account and deploy your first app in minutes.', 'launch'],
+      ['blue', '#/' + byKey.agent.children[0].key, 'AI Agent', 'Build and ship by describing what you want in plain language.', 'panels'],
+      ['rose', '#/cli-install', 'CLI', 'Install the command line and deploy from your terminal.', 'book'],
+      ['green', '#/' + byKey.mcp.children[0].key, 'MCP Server', 'Let Claude, Cursor or ChatGPT operate your projects.', 'network'],
+    ].map((f, i) => card('feat-card', f[0], f[1], f[2], f[3], f[4], 'f' + i)).join('');
 
-    const cards = NAV.map(group => {
-      const n = group.children.length;
-      return `<a class="grid-card" href="#/${group.children[0].key}" data-link>
-        <span class="gc-tile">${GROUP_ICONS[group.key] || ''}</span>
-        <h3>${group.title}</h3>
-        <p>${GROUP_DESC[group.key] || group.children.map(c => c.title).slice(0, 3).join(' · ')}</p>
-        <span class="gc-foot"><span>${n} ${n === 1 ? 'guide' : 'guides'}</span>${ARROW}</span>
-      </a>`;
-    }).join('');
+    const cards = NAV.map((g, i) =>
+      card('grid-card', TONES[i % TONES.length], '#/' + g.children[0].key, g.title, GROUP_DESC[g.key] || '', SCENE[g.key] || 'notes', 'g' + i)
+    ).join('');
 
     setHero(`
         <p class="doc-eyebrow">Documentation</p>
