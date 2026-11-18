@@ -778,3 +778,32 @@ svg[hidden]{ display: none; }
   .sidebar-foot{ display: none; }
 }
 @media (prefers-reduced-motion: reduce){ .sidebar{ transition: none; } }
+
+/* ==========================================================================
+   Desktop home: full-width like Railway. The hero and card grids stretch across
+   the whole content area (no right-hand "on this page" rail, no 800px cap).
+   ========================================================================== */
+@media (min-width: 861px){
+  .is-home .toc{ display: none; }
+  .is-home .page-hero{ grid-template-columns: minmax(0,1fr); }
+  .is-home .content-col{ grid-column: 2 / -1; padding: 0 56px; }
+  .is-home .page-hero .hero-main{ max-width: none; margin: 0; padding: 48px 56px 0; }
+  .is-home .page-hero h1{ font-size: clamp(36px, 3.7vw, 60px); }
+  .is-home .page-hero .doc-lede{ max-width: 70ch; font-size: 18px; }
+  .is-home #heroBody{ padding-bottom: 36px; }
+  .is-home .doc-content{ max-width: none; margin: 0; padding-top: 36px; }
+  .is-home .feat-cards, .is-home .grid-cards{ gap: 20px; }
+  .is-home .feat-card{ min-height: 230px; padding: 30px 32px; }
+  .is-home .grid-card{ min-height: 210px; padding: 28px 30px; }
+  .is-home .feat-card h3, .is-home .grid-card h3{ font-size: 21px; margin-bottom: 10px; }
+  .is-home .feat-card p, .is-home .grid-card p{ font-size: 15.5px; max-width: 34ch; }
+  .is-home .card-art{ width: min(60%, 420px); right: -34px; bottom: -30px; }
+  .is-home .page-nav{ display: none; }
+}
+@media (min-width: 1100px){
+  .is-home .grid-cards{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+@media (min-width: 1700px){
+  .is-home .feat-cards{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .is-home .feat-card{ min-height: 250px; }
+}

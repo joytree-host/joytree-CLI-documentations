@@ -375,6 +375,7 @@
   const TONES = ['amber', 'blue', 'rose', 'green', 'violet'];
 
   function renderHome() {
+    document.body.classList.add('is-home');
     const content = document.getElementById('content');
     document.getElementById('breadcrumb').innerHTML = '';
     document.getElementById('pageNav').innerHTML = '';
@@ -420,6 +421,7 @@
 
   // ---------------------------------------------------------------- page render
   function renderPage(key) {
+    document.body.classList.remove('is-home');
     const page = PAGES[key];
     const content = document.getElementById('content');
 
@@ -442,6 +444,7 @@
   }
 
   function renderNotFound() {
+    document.body.classList.remove('is-home');
     const content = document.getElementById('content');
     setHero(`
       <p class="doc-eyebrow">404</p>
