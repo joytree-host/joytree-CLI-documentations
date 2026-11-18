@@ -19,18 +19,21 @@
   }
   /* Server fleet: stacks of rack units on a slab. Each unit has a status LED and a slot line on its front face. */
   var STACKS = [[0.5, 0.5, 2], [2.4, 0.5, 3], [4.1, 0.5, 2], [1.3, 3.0, 1], [3.3, 3.0, 2]];
+  var FW = 1.5, FD = 1.4;
   function fleet(ctx, z0) {
-    var W = 1.5, D = 1.4, H = 0.5, G = 0.1, n = 0;
+    var W = FW, D = FD, H = 0.5, G = 0.1, n = 0;
     STACKS.map(function (s, i) { return { s: s, i: i }; })
       .sort(function (a, b) { return (a.s[0] + a.s[1]) - (b.s[0] + b.s[1]); })
       .forEach(function (o) {
         var x = o.s[0], y = o.s[1], cnt = o.s[2];
         for (var k = 0; k < cnt; k++) {
           var z = z0 + k * (H + G), lift = (o.i === 1 && k === cnt - 1);
+          if (lift && ctx.ghost) ctx.ghost(x, y, z, W, D, H); // where the fresh deploy lands
           if (lift) ctx.open('a-float', '--amp:-6px;--dur:3.6s');
-          ctx.box(x, y, z, W, D, H);
-          ctx.led(x + 0.3, y + D, z + H / 2, n++);
-          ctx.slot(x + 0.62, y + D, z + H / 2, x + W - 0.3);
+          ctx.box(x, y, z, W, D, H, lift);
+          ctx.led(x + 0.3, y + D, z + H / 2, n++, lift);
+          if (ctx.bay) ctx.bay(x, y + D, z + H / 2, lift);
+          else ctx.slot(x + 0.62, y + D, z + H / 2, x + W - 0.3);
           if (lift) ctx.close();
         }
       });
@@ -139,10 +142,11 @@
     var P = function (x, y, z) { return [ox + (x - y) * 0.866 * U, oy + (x + y) * 0.5 * U - z * U]; };
     var pts = function (a) { return a.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '); };
     var out = '';
-    var box = function (x, y, z, w, d, h) {
-      out += '<polygon class="a-top" points="' + pts([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)]) + '"/>' +
-        '<polygon class="a-left" points="' + pts([P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)]) + '"/>' +
-        '<polygon class="a-right" points="' + pts([P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)]) + '"/>';
+    var box = function (x, y, z, w, d, h, hot) {
+      var c = hot ? ' hot' : '';
+      out += '<polygon class="a-top' + c + '" points="' + pts([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)]) + '"/>' +
+        '<polygon class="a-left' + c + '" points="' + pts([P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)]) + '"/>' +
+        '<polygon class="a-right' + c + '" points="' + pts([P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)]) + '"/>';
     };
     var pill = function (cls, x, y, w, label) {
       return '<g class="a-pill ' + cls + '"><rect x="' + x + '" y="' + y + '" width="' + w + '" height="24" rx="12"/><circle cx="' + (x + 13) + '" cy="' + (y + 12) + '" r="3.4"/><text x="' + (x + 23) + '" y="' + (y + 16) + '">' + label + '</text></g>';
@@ -151,6 +155,9 @@
     // base slab with dots
     box(0, 0, 0, 6, 6, 0.4);
     out += '<polygon class="a-dots" points="' + pts([P(0, 0, .4), P(6, 0, .4), P(6, 6, .4), P(0, 6, .4)]) + '"/>';
+    STACKS.forEach(function (st) { // contact shadow, cast to the right of every stack
+      out += '<polygon class="a-shadow" points="' + pts([P(st[0] + 0.25, st[1] + 0.15, .4), P(st[0] + FW + 0.4, st[1] + 0.15, .4), P(st[0] + FW + 0.4, st[1] + FD + 0.15, .4), P(st[0] + 0.25, st[1] + FD + 0.15, .4)]) + '"/>';
+    });
     var slab = out; out = '';
 
     // logos flow into the fleet on dashed connectors (drawn under the units so packets slip inside)
@@ -181,8 +188,14 @@
       box: box,
       open: function (c, s) { out += '<g class="' + c + ' f2" style="' + s + '">'; },
       close: function () { out += '</g>'; },
-      led: function (x, y, z, n) { var c = P(x, y, z); out += '<circle class="a-led" cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) + '" r="1.9" style="animation-delay:-' + ((n * 0.37) % 2.4).toFixed(2) + 's"/>'; },
-      slot: function (x0, y, z, x1) { var a = P(x0, y, z), b = P(x1, y, z); out += '<line class="a-slot" x1="' + a[0].toFixed(1) + '" y1="' + a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) + '"/>'; }
+      ghost: function (x, y, z, w, d, h) { out += '<polygon class="a-ghost" points="' + pts([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)]) + '"/>'; },
+      led: function (x, y, z, n, hot) { var c = P(x, y, z); out += '<circle class="a-led' + (hot ? ' hot' : '') + '" cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) + '" r="1.9" style="animation-delay:-' + ((n * 0.37) % 2.4).toFixed(2) + 's"/>'; },
+      bay: function (x, y, z, hot) { // three drive bays on the front face, the newest unit gets a live one
+        for (var i = 0; i < 3; i++) {
+          var bx = x + 0.55 + i * 0.3, bz = 0.12;
+          out += '<polygon class="a-bay' + (hot && i === 2 ? ' hot' : '') + '" points="' + pts([P(bx, y, z + bz), P(bx + 0.22, y, z + bz), P(bx + 0.22, y, z - bz), P(bx, y, z - bz)]) + '"/>';
+        }
+      }
     }, Z0);
     var units = out;
 
