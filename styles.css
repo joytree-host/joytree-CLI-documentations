@@ -891,15 +891,16 @@ html[data-theme="dark"]{ --btn-edge: rgba(0,0,0,.55); --btn-hi: rgba(255,255,255
   box-shadow: 0 1px 0 var(--btn-hi) inset, 0 3px 0 var(--btn-edge);
 }
 
-/* filled: dashboard green */
+/* "primary" buttons share the outlined look of the secondary ones */
 .hero-btn.primary, .drawer-btn.primary{
-  background: #059669; color: #fff; -webkit-text-fill-color: #fff;
-  border-color: #047857;
-  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 2px 0 #047857;
+  background: transparent; color: var(--text); -webkit-text-fill-color: currentColor;
+  border-color: var(--border-hi); font-weight: 600;
+  box-shadow: 0 1px 0 var(--btn-hi) inset, 0 2px 0 var(--btn-edge);
 }
 .hero-btn.primary:hover, .drawer-btn.primary:hover{
-  background: #047857; border-color: #065f46;
-  box-shadow: 0 2px 0 #065f46; transform: translateY(-1px);
+  background: var(--bg-hover); border-color: var(--border-hi);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 var(--btn-hi) inset, 0 3px 0 var(--btn-edge);
 }
 
 /* pressed */
@@ -1155,58 +1156,6 @@ html[data-theme="dark"] .hero-art{
   .hero-art .a-pkt{ display: none; }
 }
 
-
-/* ==========================================================================
-   Cute mobile menu (Railway-style, Joytree flavour): soft mint-tinted sheet,
-   small rounded icon tiles, flat compact buttons, a green guide line under the
-   open section and a soft green pill on the page you are on. Items drift in
-   one after another when the menu opens. Light + dark, reduced-motion safe.
-   ========================================================================== */
-@media (max-width: 860px){
-  .sidebar{ --menu-bg: #f3f8f5; --menu-tint: rgba(5,150,105,.09); --menu-ink: #047857; background: var(--menu-bg); padding: 14px 16px 44px; }
-  html[data-theme="dark"] .sidebar{ --menu-bg: #0f1714; --menu-tint: rgba(52,211,153,.12); --menu-ink: #6ee7b7; }
-
-  /* header buttons: flat, no raised edge (Railway keeps the bar quiet) */
-  .topbar .theme-toggle, .topbar .nav-toggle{ box-shadow: none; border-width: 1px; border-radius: 10px; }
-  .topbar .theme-toggle:hover, .topbar .nav-toggle:hover{ transform: none; box-shadow: none; }
-
-  .drawer-top{ padding-bottom: 14px; margin-bottom: 6px; border-bottom: 1px solid color-mix(in srgb, var(--menu-ink) 16%, transparent); }
-  .drawer-top .topbar-search{ height: 40px; border-radius: 10px; background: var(--bg); border: 1px solid var(--border); margin-bottom: 6px; }
-  .drawer-top .topbar-search input{ font-size: 16px; }
-
-  /* quick links with little icon tiles */
-  .drawer-links a{ display: flex; align-items: center; gap: 12px; padding: 7px 8px; border-radius: 12px; font-size: 16px; font-weight: 500; }
-  .drawer-links a:active{ background: var(--menu-tint); }
-  .dl-ic{ display: inline-flex; align-items: center; justify-content: center; flex: none; width: 32px; height: 32px; border-radius: 10px; background: var(--menu-tint); color: var(--menu-ink); }
-
-  /* buttons: flat, compact, left aligned */
-  .drawer-top .drawer-btn{ height: 42px; margin-top: 8px; padding: 0 14px; justify-content: flex-start; gap: 8px; font-size: 15px; font-weight: 600; border-width: 1px; border-radius: 12px; box-shadow: none; }
-  .drawer-top .drawer-btn:not(.primary){ background: var(--bg); border-color: var(--border); }
-  .drawer-top .drawer-btn.primary{ box-shadow: none; border-color: #047857; }
-  .drawer-top .drawer-btn:hover, .drawer-top .drawer-btn.primary:hover{ transform: none; box-shadow: none; }
-  .drawer-top .drawer-btn:active{ transform: scale(.985); }
-
-  /* section list */
-  .sidebar-nav .nav-group-btn{ min-height: 46px; padding: 8px 8px; font-size: 16px; border-radius: 12px; }
-  .sidebar-nav .nav-group.open > .nav-group-btn{ color: var(--text); font-weight: 600; }
-  .sidebar-nav .nav-group-icon{ color: var(--text-faint); transition: transform .2s ease; }
-  .sidebar-nav .nav-children{ position: relative; margin: 0 0 8px 18px; padding-left: 10px; border-left: 2px solid color-mix(in srgb, var(--menu-ink) 28%, transparent); border-radius: 0; }
-  .sidebar-nav .nav-link{ position: relative; padding: 9px 12px; font-size: 15px; border-radius: 10px; border-left: 0; }
-  .sidebar-nav .nav-link.active{ background: var(--menu-tint); color: var(--menu-ink); font-weight: 600; box-shadow: none; }
-  .sidebar-nav .nav-link.active::before{ content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 9px; border-radius: 50%; background: var(--menu-ink); vertical-align: middle; position: relative; top: -1px; }
-
-  /* gentle staggered entrance */
-  @keyframes menu-in{ from{ opacity: 0; transform: translateY(8px); } to{ opacity: 1; transform: none; } }
-  .sidebar.open .drawer-top .topbar-search, .sidebar.open .drawer-links a, .sidebar.open .drawer-btn, .sidebar.open .sidebar-nav .nav-group{ animation: menu-in .34s cubic-bezier(.2,.8,.2,1) both; }
-  .sidebar.open .drawer-links a:nth-child(1){ animation-delay: .04s; } .sidebar.open .drawer-links a:nth-child(2){ animation-delay: .08s; }
-  .sidebar.open .drawer-links a:nth-child(3){ animation-delay: .12s; } .sidebar.open .drawer-links a:nth-child(4){ animation-delay: .16s; }
-  .sidebar.open .drawer-btn{ animation-delay: .2s; } .sidebar.open .drawer-btn.primary{ animation-delay: .24s; }
-  .sidebar.open .sidebar-nav .nav-group{ animation-delay: .28s; }
-  .sidebar.open .sidebar-nav .nav-group:nth-child(n+3){ animation-delay: .34s; } .sidebar.open .sidebar-nav .nav-group:nth-child(n+6){ animation-delay: .4s; }
-}
-@media (max-width: 860px) and (prefers-reduced-motion: reduce){
-  .sidebar.open .drawer-top .topbar-search, .sidebar.open .drawer-links a, .sidebar.open .drawer-btn, .sidebar.open .sidebar-nav .nav-group{ animation: none; }
-}
 
 /* ==========================================================================
    Right rail fix: the rail used to be one tall scroller, so "Ask AI about this
