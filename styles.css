@@ -594,27 +594,27 @@ svg[hidden]{ display: none; }
 /* warning notes: solid yellow card, same family as the solid green home cards
    (flat fill, dotted texture, isometric line-art bleeding off the corner) */
 .doc-content .callout.warn{
-  --warn: #f2b705; --warn-ink: #241a00;
+  --warn: #ffe066; --warn-ink: #1a1300;
   position: relative; overflow: hidden; isolation: isolate; align-items: flex-start;
   border: 0; border-radius: var(--radius-card); padding: 18px 112px 18px 18px; margin: 0 0 18px;
   background: var(--warn); color: var(--warn-ink);
 }
 .doc-content .callout.warn::before{
-  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .6;
-  background: radial-gradient(rgba(36,26,0,.2) 1px, transparent 1.4px) 0 0 / 22px 22px;
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .35;
+  background: radial-gradient(rgba(26,19,0,.16) 1px, transparent 1.4px) 0 0 / 22px 22px;
 }
 .doc-content .callout.warn::after{
   content: ""; position: absolute; right: -14px; bottom: -20px; width: 118px; height: 118px; z-index: 0; pointer-events: none;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%23241a00' stroke-opacity='.55' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M60 36 108 60 60 84 12 60Z' fill='%23241a00' fill-opacity='.08'/%3E%3Cpath d='M12 60v12l48 24V84M108 60v12L60 96V84'/%3E%3Cpath d='M60 10 94 27 60 44 26 27Z' stroke-dasharray='3 4'/%3E%3Cpath d='M60 44v40' stroke-dasharray='2 4'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 .doc-content .callout.warn > *{ position: relative; z-index: 1; }
-.doc-content .callout.warn p{ color: var(--warn-ink); font-weight: 500; line-height: 1.55; }
+.doc-content .callout.warn p{ color: var(--warn-ink); font-weight: 500; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 .doc-content .callout.warn strong{ color: var(--warn-ink); font-weight: 700; }
 .doc-content .callout.warn code{ background: rgba(36,26,0,.12); color: var(--warn-ink); border: 0; }
 .doc-content .callout.warn a{ color: var(--warn-ink); text-decoration: underline; }
 .doc-content .callout.warn .callout-icon{
   display: grid; place-items: center; width: 30px; height: 30px; margin-top: 0; border-radius: 9px;
-  background: rgba(36,26,0,.14); color: var(--warn-ink);
+  background: rgba(26,19,0,.1); color: var(--warn-ink);
 }
 @media (max-width: 600px){
   .doc-content .callout.warn{ padding: 16px 62px 16px 16px; }
