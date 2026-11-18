@@ -270,31 +270,72 @@
     wireInternalLinks(body);
   }
 
+  const GROUP_DESC = {
+    start: 'New here? Learn what JOYTREE is, sign in and ship your first app.',
+    dashboard: 'Find your way around the Command Center and make it yours.',
+    deploy: 'Ship from GitHub or a local folder, with rollbacks and live build logs.',
+    projects: 'Organise apps, environment variables and runtime logs in one place.',
+    databases: 'Managed PostgreSQL, MySQL, MongoDB and Redis, with tools to explore them.',
+    domains: 'Connect custom domains and manage DNS records with automatic HTTPS.',
+    agent: 'Describe what you want and let the AI agent build and deploy it.',
+    developer: 'Compose flows and AI versions with the Developer API Builder.',
+    github: 'Link your account, pick repos and deploy on every push.',
+    ssh: 'Add SSH keys to work securely from your own machine.',
+    account: 'API keys, plans, billing and everything about your account.',
+    cli: 'Install the CLI and script deployments from your terminal.',
+    mcp: 'Connect your AI agent to JOYTREE and operate it in plain language.',
+    api: 'Authenticate, call endpoints and handle errors programmatically.',
+  };
+  const ARROW = '<svg class="gc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
   function renderHome() {
     const content = document.getElementById('content');
     document.getElementById('breadcrumb').innerHTML = '';
     document.getElementById('pageNav').innerHTML = '';
     document.getElementById('toc').innerHTML = '';
 
-    let cards = '';
-    NAV.forEach(group => {
-      cards += `<a class="grid-card" href="#/${group.children[0].key}" data-link>
-        <div class="gc-icon">${GROUP_ICONS[group.key] || ''}</div>
+    const byKey = {};
+    NAV.forEach(g => { byKey[g.key] = g; });
+
+    const featured = [
+      { icon: 'start', title: 'Quickstart', text: 'Create an account and deploy your first app in minutes.', href: '#/quickstart' },
+      { icon: 'cli', title: 'CLI', text: 'Install the command line and deploy from your terminal.', href: '#/cli-install' },
+      { icon: 'agent', title: 'AI Agent', text: 'Build and ship by describing what you want in plain language.', href: '#/' + byKey.agent.children[0].key },
+      { icon: 'mcp', title: 'MCP Server', text: 'Let Claude, Cursor or ChatGPT operate your projects.', href: '#/' + byKey.mcp.children[0].key },
+    ].map(f => `<a class="feat-card" href="${f.href}" data-link>
+        <span class="gc-tile">${GROUP_ICONS[f.icon]}</span>
+        <span class="feat-body"><strong>${f.title}</strong><span>${f.text}</span></span>
+        ${ARROW}
+      </a>`).join('');
+
+    const cards = NAV.map(group => {
+      const n = group.children.length;
+      return `<a class="grid-card" href="#/${group.children[0].key}" data-link>
+        <span class="gc-tile">${GROUP_ICONS[group.key] || ''}</span>
         <h3>${group.title}</h3>
-        <p>${group.children.map(c => c.title).slice(0, 3).join(' · ')}</p>
+        <p>${GROUP_DESC[group.key] || group.children.map(c => c.title).slice(0, 3).join(' · ')}</p>
+        <span class="gc-foot"><span>${n} ${n === 1 ? 'guide' : 'guides'}</span>${ARROW}</span>
       </a>`;
-    });
+    }).join('');
 
     setHero(`
-        <h1>Joytree documentation</h1>
-        <p class="doc-lede">The dashboard, deployments, projects, managed databases, custom domains, an AI coding agent, and a full CLI, all documented in one place. Start with the <a class="md-link" href="#/quickstart" data-link>Quickstart</a>, or jump straight to a section below.</p>
+        <p class="doc-eyebrow">Documentation</p>
+        <h1>Build, deploy and scale with JOYTREE</h1>
+        <p class="doc-lede">The dashboard, deployments, projects, managed databases, custom domains, an AI coding agent and a full CLI, all documented in one place.</p>
         <div class="hero-actions">
           <a class="hero-btn primary" href="#/quickstart" data-link>Quickstart</a>
           <a class="hero-btn ghost" href="#/cli-reference" data-link>CLI reference</a>
         </div>
     `);
     content.innerHTML = `
-      <div class="grid-cards">${cards}</div>
+      <section class="home-sec">
+        <h2 class="home-h">Start here</h2>
+        <div class="feat-cards">${featured}</div>
+      </section>
+      <section class="home-sec">
+        <h2 class="home-h">Explore the docs</h2>
+        <div class="grid-cards">${cards}</div>
+      </section>
     `;
     wireInternalLinks(content);
   }
@@ -484,11 +525,18 @@
     if (a) { searchInput.value = ''; searchResults.hidden = true; }
   });
 
-  // keyboard shortcut "/" focuses search
+  // keyboard shortcuts: "/" and Ctrl/Cmd+K focus search
+  const kbd = document.getElementById('searchKbd');
+  if (kbd) kbd.textContent = /Mac|iPhone|iPad/.test(navigator.platform || '') ? '\u2318K' : 'Ctrl K';
   document.addEventListener('keydown', e => {
     if (e.key === '/' && document.activeElement !== searchInput && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
       e.preventDefault();
       searchInput.focus();
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
     }
     if (e.key === 'Escape') { searchInput.blur(); searchResults.hidden = true; }
   });
