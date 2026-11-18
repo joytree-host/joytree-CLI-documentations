@@ -48,6 +48,7 @@
   --tk-comment:#6e7781; --tk-var:#bc4c00; --tk-url:#0a7f8f; --tk-op:#cf222e;
   --tk-num:#0550ae; --tk-kw:#cf222e; --tk-fn:#8250df; --tk-prop:#0550ae;
   --tk-env:#cf222e; --tk-ph:#bf3989; --tk-ph-bg:rgba(191,57,137,.10);
+  --tk-ok:#1a7f37; --tk-bad:#cf222e; --tk-warn:#9a6700; --tk-head:#0969da; --tk-desc:#57606a;
   --tk-type:#953800; --tk-key:#0550ae; --code-head-bg:#eef1f4;
 
   --radius-sm: 6px;
@@ -101,6 +102,7 @@ html[data-theme="dark"]{
   --tk-comment:#8b949e; --tk-var:#ffa657; --tk-url:#56d4dd; --tk-op:#ff7b72;
   --tk-num:#79c0ff; --tk-kw:#ff7b72; --tk-fn:#d2a8ff; --tk-prop:#79c0ff;
   --tk-env:#ff7b72; --tk-ph:#f778ba; --tk-ph-bg:rgba(247,120,186,.14);
+  --tk-ok:#56d364; --tk-bad:#ff7b72; --tk-warn:#e3b341; --tk-head:#79c0ff; --tk-desc:#9da7b3;
   --tk-type:#ffa657; --tk-key:#79c0ff; --code-head-bg:#1b222c;
 
   --shadow-pop: 0 8px 24px rgba(1,4,9,.7);
@@ -404,6 +406,11 @@ svg[hidden]{ display: none; }
 .tk-type{ color: var(--tk-type); }
 .tk-key{ color: var(--tk-key); }
 .tk-envname{ color: var(--tk-env); }
+.tk-ok{ color: var(--tk-ok); font-weight: 600; }
+.tk-bad{ color: var(--tk-bad); font-weight: 600; }
+.tk-warn{ color: var(--tk-warn); font-weight: 600; }
+.tk-head{ color: var(--tk-head); font-weight: 700; }
+.tk-desc{ color: var(--tk-desc); }
 .tk-placeholder{ color: var(--tk-ph); background: var(--tk-ph-bg); border-radius: 4px; padding: 0 3px; }
 
 .doc-content table{

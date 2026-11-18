@@ -1,6 +1,6 @@
 /* JOYTREE docs - tiny dependency-free syntax highlighter.
    window.JTHighlight(rawCode, lang) -> HTML string (already escaped).
-   Languages: bash/sh/shell, js/javascript, python, json, sql. Anything else
+   Languages: bash/sh/shell, js/javascript, python, json, sql, text/output (terminal output). Anything else
    is returned escaped and unstyled. Token classes are styled in styles.css
    (.tk-*), with separate palettes for light and dark themes. */
 (function () {
@@ -138,11 +138,67 @@
     return render(scan(code, rules));
   }
 
+  // ---------------------------------------------------------------- output
+  // Terminal output / plain text: headings, labels, status words, URLs, keys, paths.
+  var OUT_INLINE = [
+    ['comment', '(?:^|(?<=\\s))#[^\\n]*'],
+    ['string', '"(?:\\\\.|[^"\\\\\\n])*"|\'[^\'\\n]*\''],
+    ['placeholder', '<[A-Za-z][\\w .-]*>'],
+    ['url', 'https?:\\/\\/[^\\s"\'<>)]+'],
+    ['envname', '\\b[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+\\b'],
+    ['string', '\\bjtk_[A-Za-z0-9_x….]+'],
+    ['prop', '[\\w.+-]+@[\\w-]+(?:\\.[\\w-]+)+'],
+    ['fn', '(?:~|\\.{1,2})?\\/[\\w.\\-\\/:~]*[\\w\\/]'],
+    ['flag', '(?:^|(?<=[\\s(]))--?[A-Za-z][\\w-]*'],
+    ['number', '\\b\\d{1,4}[\\/-]\\d{1,2}[\\/-]\\d{1,4}(?:,?\\s+\\d{1,2}:\\d{2}(?::\\d{2})?(?:\\s?[AP]M)?)?|\\b\\d{1,2}:\\d{2}(?::\\d{2})?\\b|\\b\\d[\\d,.]*(?:\\s?(?:KB|MB|GB|TB|ms|s|min|%))?(?![\\w])'],
+    ['ok', '(?:✓|✔|●(?=\\s+(?:success|live|running|active|healthy|ok))|\\b(?:success|succeeded|live|running|active|healthy|online|verified|ready|passed|enabled|connected|done|ok)\\b)'],
+    ['bad', '(?:✗|✖|✘|\\b(?:failed|failure|error|errored|stopped|inactive|offline|unhealthy|denied|invalid|revoked|disabled|expired|crashed)\\b)'],
+    ['warn', '(?:⚠|●(?=\\s+(?:pending|building|queued|deploying|warning))|\\b(?:pending|building|queued|deploying|warning|degraded|stale|waiting|retrying)\\b)'],
+    ['text', '[^\\s]+'],
+    ['ws', '[ \\t]+']
+  ];
+  var OUT_METHOD = /^(\s*)(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)(\s+)(\S.*)$/;
+  var OUT_CMD = /^(\s*)(joytree)(\s+.*?)(\s{3,}|$)(.*)$/;
+  var OUT_KV = /^(\s*)([A-Za-z][A-Za-z0-9 ./()-]{0,28}?)(\s{2,})(\S.*)$/;
+  function outInline(text) {
+    return render(scan(text, OUT_INLINE, function (t) {
+      t.forEach(function (x) { if (x.cls === 'ws' || x.cls === 'text') x.cls = null; });
+      return t;
+    }));
+  }
+  function outCmd(text) {
+    // joytree <sub> [more] with flags/placeholders; first word after joytree is the subcommand
+    var out = '', first = true;
+    scan(text, [['placeholder', '<[A-Za-z][\\w .-]*>'], ['flag', '(?:^|(?<=\\s))--?[A-Za-z][\\w-]*'], ['word', '\\S+'], ['ws', '\\s+']]).forEach(function (t) {
+      var cls = t.cls;
+      if (cls === 'word') { cls = first ? 'sub' : null; first = false; }
+      else if (cls === 'ws') cls = null;
+      out += span(cls, t.text);
+    });
+    return out;
+  }
+  function output(code) {
+    var lines = code.split('\n');
+    return lines.map(function (ln, i) {
+      var m;
+      if (/^\s*[─━═\-]{4,}\s*$/.test(ln)) return span('comment', ln);
+      if (lines[i + 1] && /^\s*[─━═]{4,}\s*$/.test(lines[i + 1]) && ln.trim()) return span('head', ln);
+      if ((m = ln.match(OUT_METHOD))) return m[1] + span('keyword', m[2]) + m[3] + outInline(m[4]);
+      if ((m = ln.match(OUT_CMD)) && m[5].trim()) {
+        return m[1] + span('cmd', m[2]) + outCmd(m[3]) + m[4] + span('desc', m[5]);
+      }
+      if (/^\s*joytree\s/.test(ln)) return ln.replace(/^(\s*)(joytree)(\s.*)$/, function (_, a, b, c) { return a + span('cmd', b) + outCmd(c); });
+      if ((m = ln.match(OUT_KV))) return m[1] + span('key', m[2]) + m[3] + outInline(m[4]);
+      return outInline(ln);
+    }).join('\n');
+  }
+
   var MAP = {
     bash: bash, sh: bash, shell: bash, zsh: bash,
     js: js, javascript: js, node: js,
     python: python, py: python,
-    json: json, sql: sql
+    json: json, sql: sql,
+    text: output, txt: output, console: output, output: output, log: output
   };
 
   window.JTHighlight = function (code, lang) {
