@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
-<link rel="stylesheet" href="styles.css?v=19">
+<link rel="stylesheet" href="styles.css?v=21">
 <script>
   (function(){
     var saved = null;
@@ -26,8 +26,9 @@
 <!-- ============ TOP BAR ============ -->
 <header class="topbar">
   <div class="topbar-inner">
-    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Toggle navigation">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ico-menu" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <svg class="ico-x" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
 
     <a href="https://joytree.site" class="brand">
@@ -63,6 +64,17 @@
   <!-- ============ SIDEBAR ============ -->
   <div class="sidebar-scrim" id="sidebarScrim"></div>
   <aside class="sidebar" id="sidebar">
+    <div class="drawer-top" id="drawerTop">
+      <div id="drawerSearchSlot"></div>
+      <nav class="drawer-links" aria-label="Quick links">
+        <a href="#/cli-reference" data-link>CLI</a>
+        <a href="#/api-overview" data-link>API</a>
+        <a href="#/mcp-overview" data-link>MCP</a>
+        <a href="https://github.com/Joy-tree" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <a class="drawer-btn" href="#/account-support" data-link>Talk to support</a>
+      <a class="drawer-btn primary" href="https://joytree.site/dashboard" target="_blank" rel="noopener">Go to JOYTREE <span aria-hidden="true">&#8599;</span></a>
+    </div>
     <nav id="sidebarNav" class="sidebar-nav" aria-label="Documentation"></nav>
     <div class="sidebar-foot">
       <a href="#/account-support" data-link class="sidebar-support">
@@ -107,7 +119,7 @@
 </div>
 
 <script src="content.js?v=2"></script>
-<script src="app.js?v=10"></script>
+<script src="app.js?v=11"></script>
 
 <!-- ═══════════════ JOYTREE falling leaves ambiance ═══════════════ -->
 <style>

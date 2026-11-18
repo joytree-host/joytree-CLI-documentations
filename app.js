@@ -533,22 +533,44 @@
     if (window.localStorage) window.localStorage.setItem('joytree-docs-theme', next);
   });
 
-  // ---------------------------------------------------------------- mobile sidebar
+  // ---------------------------------------------------------------- mobile menu (full-screen drawer)
   const sidebarEl = document.getElementById('sidebar');
   const scrimEl = document.getElementById('sidebarScrim');
+  const toggleEl = document.getElementById('navToggle');
+  const searchBox = document.querySelector('.topbar-search');
+  const searchSlot = document.getElementById('drawerSearchSlot');
+  const topInner = document.querySelector('.topbar-inner');
+  const topNavEl = document.querySelector('.topnav');
+  const mqMobile = window.matchMedia('(max-width: 860px)');
 
+  function placeSearch(inDrawer) {
+    if (inDrawer) { if (searchBox.parentElement !== searchSlot) searchSlot.appendChild(searchBox); }
+    else if (searchBox.parentElement !== topInner) topInner.insertBefore(searchBox, topNavEl);
+  }
   function openSidebarMobile() {
+    placeSearch(true);
     sidebarEl.classList.add('open');
-    scrimEl.classList.add('show');
+    sidebarEl.scrollTop = 0;
+    document.body.classList.add('nav-open');
+    toggleEl.setAttribute('aria-expanded', 'true');
   }
   function closeSidebarMobile() {
     sidebarEl.classList.remove('open');
-    scrimEl.classList.remove('show');
+    document.body.classList.remove('nav-open');
+    toggleEl.setAttribute('aria-expanded', 'false');
+    placeSearch(false);
   }
-  document.getElementById('navToggle').addEventListener('click', () => {
+  toggleEl.addEventListener('click', () => {
     sidebarEl.classList.contains('open') ? closeSidebarMobile() : openSidebarMobile();
   });
   scrimEl.addEventListener('click', closeSidebarMobile);
+  sidebarEl.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if (a && mqMobile.matches) closeSidebarMobile();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && sidebarEl.classList.contains('open') && mqMobile.matches) closeSidebarMobile(); });
+  const onMq = () => { if (!mqMobile.matches) closeSidebarMobile(); };
+  if (mqMobile.addEventListener) mqMobile.addEventListener('change', onMq); else mqMobile.addListener(onMq);
 
   // ---------------------------------------------------------------- search
   const searchInput = document.getElementById('searchInput');
