@@ -697,3 +697,27 @@ svg[hidden]{ display: none; }
 .card-art .a-bar{ opacity: .6; }
 .card-art .a-dot{ fill: rgba(255,255,255,.4); }
 .feat-card p, .grid-card p{ max-width: 30ch; }
+
+/* ---------- illustration motion (transform/opacity + dash offsets only; off for reduced motion) ---------- */
+.card-art g{ transform-box: fill-box; transform-origin: center; }
+@keyframes a-float{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(var(--amp,-6px)); } }
+@keyframes a-pulse{ 0%,100%{ transform: scale(1); opacity: .85; } 50%{ transform: scale(1.08); opacity: 1; } }
+@keyframes a-blink{ 0%,55%{ opacity: 1; } 56%,100%{ opacity: .15; } }
+@keyframes a-flow{ to{ stroke-dashoffset: -14; } }
+@keyframes a-draw{
+  0%{ stroke-dashoffset: 1; opacity: 0; }
+  14%{ opacity: .85; }
+  42%,78%{ stroke-dashoffset: 0; opacity: .85; }
+  100%{ stroke-dashoffset: -1; opacity: 0; }
+}
+.card-art .a-float{ animation: a-float var(--dur,4s) ease-in-out infinite; }
+.card-art .a-pulse{ animation: a-pulse var(--dur,3s) ease-in-out infinite; }
+.card-art .a-blink{ animation: a-blink 1.8s steps(1) infinite; }
+.card-art .a-dash{ animation: a-flow 1.6s linear infinite; }
+.card-art .a-bar{ stroke-dasharray: 1 1; animation: a-draw 5.4s ease-in-out infinite; }
+.feat-card:hover .card-art .a-float{ animation-duration: calc(var(--dur,4s) * .6); }
+.feat-card:hover .card-art .a-dash, .grid-card:hover .card-art .a-dash{ animation-duration: .8s; }
+@media (prefers-reduced-motion: reduce){
+  .card-art .a-float, .card-art .a-pulse, .card-art .a-blink, .card-art .a-dash, .card-art .a-bar{ animation: none; }
+  .card-art .a-bar{ stroke-dasharray: none; }
+}
