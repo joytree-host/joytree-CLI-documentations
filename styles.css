@@ -1045,7 +1045,14 @@ html[data-theme="dark"] .hero-art{
   --a-term-bg: #010409; --a-term-text: #6ee7b7;
 }
 .is-home .hero-art{ display: none; }
-@media (max-width: 1279px){ .hero-art{ display: none; } }
+/* tablets and phones: same scene, smaller, tucked into the empty top-right of the header behind the text */
+@media (max-width: 1279px){
+  .hero-art{ right: 10px; top: 64px; width: min(250px, 58vw); opacity: .85; }
+}
+@media (max-width: 700px){
+  .hero-art{ right: 6px; top: 70px; width: 56vw; opacity: .7; }
+  .hero-art .a-pill, .hero-art .a-term{ display: none; } /* too small to read on a phone */
+}
 
 .hero-art svg{ overflow: visible; }
 .hero-art .a-top{ fill: var(--a-top); stroke: var(--a-edge); stroke-width: 1; stroke-linejoin: round; }
