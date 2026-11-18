@@ -807,3 +807,53 @@ svg[hidden]{ display: none; }
   .is-home .feat-cards{ grid-template-columns: repeat(4, minmax(0,1fr)); }
   .is-home .feat-card{ min-height: 250px; }
 }
+
+
+/* ==========================================================================
+   Button language = the JOYTREE dashboard (Redeploy / Visit / Open Dashboard).
+   Filled buttons: emerald #059669, white label, 1.5px #047857 border, 10px
+   radius, weight 600, crisp 2px bottom edge, lift on hover, press on click.
+   White / outlined buttons keep their own colours but get the very same
+   structure (border weight, radius, weight, raised bottom edge, motion).
+   ========================================================================== */
+:root{
+  --btn-radius: 10px;
+  --btn-edge: #afb8c1;
+  --btn-hi: rgba(255,255,255,.7);
+}
+html[data-theme="dark"]{ --btn-edge: rgba(0,0,0,.55); --btn-hi: rgba(255,255,255,.07); }
+
+/* shared structure */
+.hero-btn, .drawer-btn, .fb-btn, .icon-btn, .copy-btn{
+  border-width: 1.5px; border-style: solid;
+  border-radius: var(--btn-radius);
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.hero-btn, .drawer-btn, .fb-btn{ font-weight: 600; text-decoration: none; }
+
+/* white / outlined: colours untouched, dashboard-style raised edge */
+.hero-btn.ghost, .drawer-btn:not(.primary), .fb-btn, .icon-btn, .copy-btn{
+  border-color: var(--border-hi);
+  box-shadow: 0 1px 0 var(--btn-hi) inset, 0 2px 0 var(--btn-edge);
+}
+.hero-btn.ghost:hover, .drawer-btn:not(.primary):hover, .fb-btn:hover, .icon-btn:hover, .copy-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 var(--btn-hi) inset, 0 3px 0 var(--btn-edge);
+}
+
+/* filled: dashboard green */
+.hero-btn.primary, .drawer-btn.primary{
+  background: #059669; color: #fff; -webkit-text-fill-color: #fff;
+  border-color: #047857;
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 2px 0 #047857;
+}
+.hero-btn.primary:hover, .drawer-btn.primary:hover{
+  background: #047857; border-color: #065f46;
+  box-shadow: 0 2px 0 #065f46; transform: translateY(-1px);
+}
+
+/* pressed */
+.hero-btn:active, .drawer-btn:active, .fb-btn:active, .icon-btn:active, .copy-btn:active{
+  transform: translateY(1px); box-shadow: 0 0 0 transparent;
+}
+.copy-btn{ border-radius: 8px; }
