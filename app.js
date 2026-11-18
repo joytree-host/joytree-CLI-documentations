@@ -43,6 +43,64 @@
     return text;
   }
 
+  const CURSOR_SVG = '<svg viewBox="0 0 24 32" width="30" height="40" aria-hidden="true"><path d="M2 2v24l6.2-5.4 4.4 10 4.2-1.9-4.3-9.6H21z" fill="#fff" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/></svg>';
+
+  function renderShot(f) {
+    const pts = (f.cursor || '').split('>').map(p => p.trim().split(',').map(Number)).filter(p => p.length === 2 && !p.some(isNaN));
+    let cur = '';
+    if (pts.length >= 2) {
+      const two = pts.length >= 3;
+      const st = `--sx:${pts[0][0]}%;--sy:${pts[0][1]}%;--x1:${pts[1][0]}%;--y1:${pts[1][1]}%;--x2:${(pts[2] || pts[1])[0]}%;--y2:${(pts[2] || pts[1])[1]}%`;
+      cur = `<span class="curx ${two ? 'two' : 'one'}" style="${st}" aria-hidden="true">${CURSOR_SVG}</span>`;
+    }
+    const fo = (f.focus || '').split(',').map(Number);
+    const two = pts.length >= 3;
+    const focus = fo.length === 4 && !fo.some(isNaN)
+      ? `<span class="focus ${two ? 'f2' : 'f1'}" style="left:${fo[0]}%;top:${fo[1]}%;width:${fo[2]}%;height:${fo[3]}%" aria-hidden="true"></span>` : '';
+    const notes = f.notes.length ? `<ul class="notes">${f.notes.map(n => `<li><span>${inline(n)}</span></li>`).join('')}</ul>` : '';
+    return `<figure class="shot">
+      <p class="gstep"><b>${escapeHtml(f.step || '')}</b><span>${inline(f.title || '')}</span></p>
+      <div class="frame">
+        <div class="cap"><span>${f.bar || ''}</span><button type="button" class="zoom">Enlarge</button></div>
+        <div class="stage"><img src="${escapeHtml(f.img || '')}" width="1200" height="${escapeHtml(f.h || '491')}" loading="lazy" alt="${escapeHtml(f.alt || '')}">${focus}${cur}</div>
+      </div>
+      ${notes}
+    </figure>`;
+  }
+
+  let shotLB = null, shotIO = null;
+  function wireShots(scope) {
+    const figs = [...scope.querySelectorAll('figure.shot')];
+    if (!figs.length) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (shotIO) { shotIO.disconnect(); shotIO = null; }
+    if ('IntersectionObserver' in window && !reduce) {
+      shotIO = new IntersectionObserver(es => es.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('seen'); shotIO.unobserve(en.target); }
+      }), { threshold: .4 });
+      figs.forEach(fg => shotIO.observe(fg));
+    } else figs.forEach(fg => fg.classList.add('seen'));
+
+    if (!shotLB) {
+      shotLB = document.createElement('dialog');
+      shotLB.className = 'shot-dialog';
+      shotLB.setAttribute('aria-label', 'Enlarged screenshot');
+      document.body.appendChild(shotLB);
+      shotLB.addEventListener('click', () => { if (shotLB.close) shotLB.close(); else shotLB.removeAttribute('open'); });
+    }
+    figs.forEach(fg => {
+      const frame = fg.querySelector('.frame');
+      frame.addEventListener('click', e => {
+        if (!e.target.closest('.stage') && !e.target.closest('.zoom')) return;
+        shotLB.innerHTML = '';
+        const c = frame.cloneNode(true);
+        const z = c.querySelector('.zoom'); if (z) z.textContent = 'Close';
+        shotLB.appendChild(c);
+        if (shotLB.showModal) shotLB.showModal(); else shotLB.setAttribute('open', '');
+      });
+    });
+  }
+
   function renderMarkdown(md) {
     const lines = md.replace(/\r\n/g, '\n').split('\n');
     let html = '';
@@ -71,6 +129,21 @@
         const code = escapeHtml(buf.join('\n'));
         const id = 'cb' + Math.random().toString(36).slice(2, 9);
         html += `<div class="code-block"><pre><span class="code-lang">${escapeHtml(lang)}</span><button class="copy-btn" data-copy-target="${id}" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="1.8"/></svg></button><code id="${id}">${code}</code></pre></div>`;
+        continue;
+      }
+
+      // screenshot steps :::shot ... ::: (key: value lines; cursor: sx,sy > x1,y1 [> x2,y2] in % of the image)
+      if (/^:::shot\s*$/.test(line)) {
+        flushList();
+        const f = { notes: [] };
+        i++;
+        while (i < lines.length && !/^:::\s*$/.test(lines[i])) {
+          const kv = lines[i].match(/^(\w+):\s*(.*)$/);
+          if (kv) { if (kv[1] === 'note') f.notes.push(kv[2]); else f[kv[1]] = kv[2]; }
+          i++;
+        }
+        i++;
+        html += renderShot(f);
         continue;
       }
 
@@ -491,6 +564,7 @@
     renderPageNav(key);
     wireInternalLinks(content);
     wireCopyButtons(content);
+    wireShots(content);
 
     document.title = `${page.title} — JOYTREE Docs`;
   }

@@ -176,14 +176,150 @@ JOYTREE has two front doors that do the same thing: the **dashboard** at \`joytr
 
 ## Option A — From the dashboard
 
-1. Sign in at **[joytree.site/dashboard](https://joytree.site/dashboard)**. You'll land on the **Command Center** — a real-time overview of your projects, deployments, and traffic.
-2. Click **+ New Deployment** in the top of the Command Center.
-3. Choose **GitHub repo**, pick the repository and branch, and JOYTREE auto-detects your framework and fills in sensible build/start commands. Review them, then hit **Deploy**.
-4. Watch the build stream live in the deployment's **Build status & logs** panel. When it finishes, the project card flips to **Live** and shows its URL.
-5. From the project page you can open **Runtime logs**, add **environment variables**, attach a **custom domain**, or provision a **database** — all without leaving the browser.
+Six screens take you from an empty account to a live URL. Every screenshot below is the real dashboard — the orange cursor shows exactly where to click, and you can click any screen to enlarge it.
+
+### Step 1 — Sign in and click New Deploy
+
+Sign in at **[joytree.site/dashboard](https://joytree.site/dashboard)**. You land on the **Command Center**: your repositories, databases, projects and traffic in one place. The **New Deploy** button is always in the top bar, on every page.
+
+:::shot
+step: 1
+title: Click **New Deploy** in the top bar.
+bar: joytree.site <i>/</i> dashboard
+img: assets/quickstart/01-dashboard.webp
+alt: The JOYTREE dashboard with the green New Deploy button in the top right and the Your Repositories list below it
+cursor: 55,48 > 83.3,5.8
+focus: 79,1.5,9,8.5
+note: **New Deploy** — starts a deployment from anywhere in the dashboard.
+note: **Your Repositories** — a shortcut: press **Import** next to a repo to skip straight to Step 3.
+:::
+
+### Step 2 — Choose what you are deploying
+
+Pick the shape of your app. **Static Site** serves a build folder from the CDN (React, Vite, plain HTML). **Web Service** runs a persistent server (Node.js, Express, NestJS, APIs). JOYTREE shows what each one needs, so you can choose in a few seconds.
+
+:::shot
+step: 2
+title: Press **Choose** on the type that matches your app.
+bar: joytree.site <i>/</i> dashboard <i>/</i> new-resource
+img: assets/quickstart/02-new-resource.webp
+alt: The New Resource page listing Static Site and Web Service with a green Choose button on each card
+cursor: 62,25 > 28.9,71
+focus: 24.3,66.5,9.5,8.5
+note: **Static Site** — build output in \`dist/\` or \`out/\`, delivered over the CDN with HTTPS.
+note: **Web Service** — runs \`npm start\` on \`$PORT\` and stays always on.
+:::
+
+### Step 3 — Import your repository
+
+Choose the GitHub repository you want to ship. JOYTREE lists your repos with their language, visibility, branch and size so you can pick the right one at a glance.
+
+:::shot
+step: 3
+title: Press **Import Repository** next to your project.
+bar: joytree.site <i>/</i> dashboard <i>/</i> repos
+img: assets/quickstart/03-repositories.webp
+alt: The Repositories page with private and public GitHub repositories and an Import Repository button on each row
+cursor: 50,60 > 90.5,19.8
+focus: 85,16,11.3,6.8
+note: **Branch** — the branch shown on the row is the one that gets built (usually \`main\`).
+note: **View on GitHub** — opens the repo if you want to double-check it first.
+:::
+
+### Step 4 — Review the build settings and deploy
+
+JOYTREE detects your framework and fills in the install, build and start commands for you. Check them, then press **Deploy Now**. The summary on the right shows the project name, the live URL it will get, the branch and the Node.js version.
+
+:::shot
+step: 4
+title: Review the runtime, then press **Deploy Now**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> new-deploy
+img: assets/quickstart/04-build-settings.webp
+alt: The New Deployment form with Runtime, Install, Build and Start commands on the left and the Deployment Summary with a green Deploy Now button on the right
+cursor: 25,12 > 45.5,23.8 > 85.1,66.3
+focus: 74,62,22,8.5
+note: **Runtime / Framework** — auto-detected; change it only if JOYTREE guessed wrong.
+note: **Install, Build, Start** — pre-filled with sensible defaults such as \`npm install\` and \`npm start\`.
+note: **Deployment Summary** — the exact URL your app will get, ending in \`.joytree.site\`.
+:::
+
+### Step 5 — Watch the build live
+
+The Live Logs page streams your build as it happens. The left rail tracks each stage — clone, install, build, publish, clean up — and the log on the right follows along line by line, with filters for Build and App output.
+
+:::shot
+step: 5
+title: Follow the build progress and stream the logs.
+bar: joytree.site <i>/</i> dashboard <i>/</i> logs
+img: assets/quickstart/05-live-logs.webp
+alt: The Live Logs page with a build progress checklist on the left and the streaming build log on the right
+cursor: 60,75 > 17,19 > 79.6,27
+focus: 77,22.5,5.4,8
+note: **Build progress** — a tick appears as each stage finishes; the timer shows how long it has been running.
+note: **Follow** — keeps the log scrolled to the newest line. **Search**, **Wrap** and **Copy** are right there too.
+:::
+
+### Step 6 — Open your live site
+
+When the build finishes the deployment turns **Success** and your project is live. Open **Deployments** to see every build with its commit, branch and duration. Use the arrow icon to open the site, **Logs** to re-read a build, or **Rollback** to go back to an earlier version.
+
+:::shot
+step: 6
+title: Use the arrow icon to open your live site.
+bar: joytree.site <i>/</i> dashboard <i>/</i> deployments
+img: assets/quickstart/06-deployments.webp
+alt: The Deployments list showing successful builds with Logs and Rollback buttons and icons to open the site and the repository
+cursor: 62,40 > 89,57.8
+focus: 87.5,54,3.4,7
+note: **Success** badge — the build passed and the new version is serving traffic.
+note: **Rollback** — one click restores a previous deployment if something looks wrong.
+:::
+
+### Add a database
+
+Need data? Open **Databases**, create a Docker-backed MongoDB, PostgreSQL, MySQL or Redis in one tap, and browse it visually without leaving the dashboard.
+
+:::shot
+step: +
+title: Press **Browse Data** to explore a database in your browser.
+bar: joytree.site <i>/</i> dashboard <i>/</i> databases
+img: assets/quickstart/07-databases.webp
+alt: The Databases page with two running database cards, each with a green Browse Data button and Stop, Restart, Recreate and Logs controls
+cursor: 70,40 > 32.5,72.2
+focus: 22,69,22.4,7
+note: **Running** — the status badge tells you the container is up. **Stop**, **Restart** and **Recreate** are below.
+note: The connection string is shown on the card with a copy button; passwords are masked.
+:::
+
+### No git repo? Upload your code
 
 :::tip
-Prefer a local folder to a git repo? Use **Browse Repos → Upload folder** on the Command Center, or drag a \`.zip\` straight onto the New Deployment screen.
+Prefer a local folder to a git repo? Open **Code Upload** and drop in a \`.zip\`, \`.tar.gz\` or a single \`.html\` file (up to 250 MB), or drag it straight onto the New Deployment screen.
+:::
+
+:::shot
+step: +
+title: Press **Browse Files** and pick your project archive.
+bar: joytree.site <i>/</i> dashboard <i>/</i> code-upload
+img: assets/quickstart/08-code-upload.webp
+alt: The Code Upload page with a drop zone, a green Browse Files button and a list of uploaded projects with Deploy and Open IDE buttons
+cursor: 40,70 > 58.5,23
+focus: 53,19,10.7,7.8
+note: **Deploy** — ships an uploaded project straight away.
+note: **Open IDE** — edits the files in the browser first (see below).
+:::
+
+Open an uploaded project in the built-in **Code IDE** to edit files with an Explorer, search, Git and a terminal, then press **Deploy** when you are done.
+
+:::shot
+step: +
+title: Edit in the browser, then press **Deploy**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> code-ide
+img: assets/quickstart/09-code-ide.webp
+alt: The Code IDE with a file explorer, a CSS file open in the editor and Save, Terminal and Deploy buttons at the top right
+cursor: 60,60 > 94.9,13.8
+focus: 92.8,11,6.2,5.8
+note: **Save** — writes your changes. **Terminal** — opens a shell in the project folder.
 :::
 
 ## Option B — From the CLI
