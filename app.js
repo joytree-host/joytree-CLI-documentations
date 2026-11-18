@@ -442,7 +442,26 @@
   const AI_LOGOS = ['claude', 'cursor', 'chatgpt', 'gemini', 'windsurf'];
   const LANG_POOL = ['typescript', 'php', 'java', 'rust', 'vue', 'dotnet'];
   const AI_POOL = ['gemini', 'windsurf', 'lovable'];
-  const GROUP_LOGOS = { start: LANG_LOGOS, deploy: ['typescript', 'php', 'java', 'rust', 'vue'], agent: AI_LOGOS.slice(0, 3), mcp: AI_LOGOS };
+  const GROUP_LOGOS = {
+    start: LANG_LOGOS, deploy: ['typescript', 'php', 'java', 'rust', 'vue'], agent: AI_LOGOS.slice(0, 3), mcp: AI_LOGOS,
+    dashboard: ['layout', 'react', 'typescript', 'nodejs', 'vue'],
+    projects: ['folder', 'docker', 'nodejs', 'python', 'php'],
+    databases: ['postgresql', 'mysql', 'mongodb', 'redis', 'mariadb'],
+    domains: ['globe', 'lock', 'shield', 'link'],
+    developer: ['typescript', 'nodejs', 'python', 'go', 'php'],
+    github: ['github', 'branch', 'docker', 'nodejs', 'react'],
+    ssh: ['key', 'terminal', 'shield', 'lock'],
+    account: ['key', 'card', 'shield', 'lock'],
+    cli: ['terminal', 'nodejs', 'python', 'go', 'rust'],
+    api: ['api', 'nodejs', 'python', 'go', 'php'],
+  };
+  const GROUP_POOL = {
+    dashboard: ['python', 'php', 'docker'], projects: ['java', 'go', 'rust'],
+    databases: ['supabase', 'firebase'], domains: ['key', 'terminal'],
+    developer: ['java', 'rust', 'dotnet'], github: ['python', 'typescript', 'vue'],
+    ssh: ['python', 'go', 'docker'], account: ['globe', 'folder'],
+    cli: ['docker', 'java', 'typescript'], api: ['java', 'typescript', 'rust'],
+  };
   const TONES = ['amber', 'blue', 'rose', 'green', 'violet'];
 
   function renderHome() {
@@ -460,12 +479,12 @@
     const featured = [
       ['amber', '#/quickstart', 'Quickstart', 'Create an account and deploy your first app in minutes.', 'launch', LANG_LOGOS, LANG_POOL],
       ['blue', '#/' + byKey.agent.children[0].key, 'AI Agent', 'Build and ship by describing what you want in plain language.', 'panels', AI_LOGOS.slice(0, 3), AI_POOL],
-      ['rose', '#/cli-install', 'CLI', 'Install the command line and deploy from your terminal.', 'book'],
+      ['rose', '#/cli-install', 'CLI', 'Install the command line and deploy from your terminal.', 'book', GROUP_LOGOS.cli, GROUP_POOL.cli],
       ['green', '#/' + byKey.mcp.children[0].key, 'MCP Server', 'Let Claude, Cursor or ChatGPT operate your projects.', 'network', AI_LOGOS, ['lovable']],
     ].map((f, i) => card('feat-card', f[0], f[1], f[2], f[3], f[4], 'f' + i, f[5], f[6])).join('');
 
     const cards = NAV.map((g, i) =>
-      card('grid-card', TONES[i % TONES.length], '#/' + g.children[0].key, g.title, GROUP_DESC[g.key] || '', SCENE[g.key] || 'notes', 'g' + i, GROUP_LOGOS[g.key])
+      card('grid-card', TONES[i % TONES.length], '#/' + g.children[0].key, g.title, GROUP_DESC[g.key] || '', SCENE[g.key] || 'notes', 'g' + i, GROUP_LOGOS[g.key], GROUP_POOL[g.key])
     ).join('');
 
     setHero(`
@@ -488,7 +507,7 @@
       </section>
     `;
     wireInternalLinks(content);
-    content.querySelectorAll('.feat-card .card-art').forEach(window.JTArt.motion);
+    content.querySelectorAll('.feat-card .card-art, .grid-card .card-art').forEach(window.JTArt.motion);
   }
 
   // ---------------------------------------------------------------- page render

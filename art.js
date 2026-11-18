@@ -9,7 +9,7 @@
   'use strict';
 
   var LOGO_DIR = 'assets/logos/';
-  var DARK_CHIP = { chatgpt: 1 }; // white marks need a dark chip
+  var DARK_CHIP = { chatgpt: 1, github: 1 }; // white marks need a dark chip
 
   function chip(name, cx, cy, r, i, amp) {
     var s = (r * 1.25).toFixed(1), h = (-r * 0.625).toFixed(1);
@@ -253,7 +253,8 @@
     }
     function tick() {
       if (!svg.isConnected) return;
-      var visible = !document.hidden && svg.getBoundingClientRect().width > 0;
+      var r = svg.getBoundingClientRect(), vh = root.innerHeight || 800;
+      var visible = !document.hidden && r.width > 0 && r.bottom > 0 && r.top < vh;
       if (visible && !busy) { (beat++ % 2 === 0) ? swap() : relogo(); }
       setTimeout(tick, 2600 + Math.random() * 900);
     }

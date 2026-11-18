@@ -1195,3 +1195,8 @@ html[data-theme="dark"] .hero-art{
 .sf-col a:hover{color:#a7f3d0;text-decoration:underline}
 .sf-bottom{max-width:1100px;margin:36px auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:.78rem;color:rgba(255,255,255,.82)}
 @media (min-width:721px){.sf-cols{grid-template-columns:repeat(5,max-content);justify-content:space-between;flex:1 1 auto}.sf-top{flex-wrap:nowrap}.sf{padding-bottom:210px}.sf-art{height:230px}}
+
+/* keep card text clear of the floating logo chips on phones */
+@media (max-width: 720px){
+  .feat-card p, .grid-card p{ max-width: 62%; }
+}
