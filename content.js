@@ -1234,7 +1234,47 @@ Stopping only works on **in-progress** builds. A completed deployment (success o
     title: 'Managing projects', group: 'Projects', eyebrow: 'Projects',
     lede: 'List, inspect, and clean up everything in your workspace.',
     md: `
-## List your projects
+## From the dashboard
+
+Every site you deploy lives under **Projects**. Two short steps show how to find a project and redeploy it. The orange cursor shows where to look, and you can click any screen to enlarge it.
+
+### Step 1 — Open a project
+
+Choose **Projects** in the sidebar. Each project is a card with a live preview, its \`.joytree.site\` address, and the repo, branch and time of its last deploy along the bottom. Click a card to open the project.
+
+:::shot
+step: 1
+title: Click a project card to open it.
+bar: joytree.site <i>/</i> projects
+img: assets/upload/09-projects.webp
+h: 564
+alt: The Projects page with a card for each site showing a preview, the joytree.site address, the repo, branch and last deploy time, and Redeploy, Visit or Logs and delete buttons
+cursor: 90.3,61.7 > 77.3,31.8
+focus: 73.6,29.6,15.6,7.8
+note: **Redeploy** rebuilds the project straight from the card. **Visit** opens the live site, and turns into **Logs** while a deploy is running.
+note: The **bin** icon deletes the project after a confirmation. See **Delete a project** below.
+:::
+
+### Step 2 — Redeploy from the project page
+
+On the project page, scroll to **Redeployment**. For a project deployed by upload, **Redeploy Stored Files** rebuilds from the files you already uploaded, with no re-upload. **Upload New Archive** replaces them with new code on the same address. The build settings (site type, output folder and Node.js version) are listed just above.
+
+:::shot
+step: 2
+title: Press **Redeploy Stored Files**, or **Upload New Archive**.
+bar: joytree.site <i>/</i> project
+img: assets/upload/10-redeploy.webp
+h: 559
+alt: The project page with the build settings, a Redeployment section with Redeploy Stored Files and Upload New Archive buttons, and an Auto-deploy from folder section below
+cursor: 66.2,47.3 > 26.5,66.4
+focus: 20.6,64.0,26.3,5.0
+note: **Auto-deploy from folder** redeploys every time you save into a folder you choose. See **[Auto-deploy from a folder](#/deploy-watch)**.
+note: Environment variables take effect on the next deploy. See **[Environment variables](#/projects-env)**.
+:::
+
+## From the CLI
+
+### List your projects
 
 \`\`\`bash
 joytree projects
@@ -1248,7 +1288,7 @@ docs-site    →  https://docs-site.joytree.site
   repo: https://github.com/you/docs-site  branch: main
 \`\`\`
 
-## Inspect a project
+### Inspect a project
 
 \`\`\`bash
 joytree inspect my-site
@@ -1256,7 +1296,7 @@ joytree inspect my-site
 
 Returns everything saved against the project: ID, subdomain, live URL, repo, branch, build/start commands, whether it's static, auto-deploy state, Node version, and creation date.
 
-## Delete a project
+### Delete a project
 
 \`\`\`bash
 joytree delete my-site
