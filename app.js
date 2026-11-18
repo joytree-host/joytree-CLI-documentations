@@ -389,53 +389,8 @@
     api: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m11-5v3a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
   };
 
-  // ---------------------------------------------------------------- hero art (animated isometric deploy scene)
-  function buildHeroArt() {
-    const U = 22, ox = 190, oy = 70;
-    const P = (x, y, z) => [ox + (x - y) * 0.866 * U, oy + (x + y) * 0.5 * U - z * U];
-    const pts = a => a.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
-    const box = (x, y, z, w, d, h) =>
-      `<polygon class="a-top" points="${pts([P(x,y,z+h),P(x+w,y,z+h),P(x+w,y+d,z+h),P(x,y+d,z+h)])}"/>` +
-      `<polygon class="a-left" points="${pts([P(x,y+d,z+h),P(x+w,y+d,z+h),P(x+w,y+d,z),P(x,y+d,z)])}"/>` +
-      `<polygon class="a-right" points="${pts([P(x+w,y,z+h),P(x+w,y+d,z+h),P(x+w,y+d,z),P(x+w,y,z)])}"/>`;
-    const line = (a, b, cls) => { const A = P(...a), B = P(...b); return `<line class="${cls}" x1="${A[0].toFixed(1)}" y1="${A[1].toFixed(1)}" x2="${B[0].toFixed(1)}" y2="${B[1].toFixed(1)}"/>`; };
-    const pill = (cls, x, y, w, label) =>
-      `<g class="a-pill ${cls}"><rect x="${x}" y="${y}" width="${w}" height="24" rx="12"/><circle cx="${x+13}" cy="${y+12}" r="3.4"/><text x="${x+23}" y="${y+16}">${label}</text></g>`;
-
-    const base = box(0, 0, 0, 6, 6, 0.4);
-    const baseDots = `<polygon class="a-dots" points="${pts([P(0,0,.4),P(6,0,.4),P(6,6,.4),P(0,6,.4)])}"/>`;
-    const mid = box(1, 1, 1.05, 4, 4, 0.34);
-    const bars = [1.3, 2.3, 3.3].map((o, i) => line([1.6, 1 + o + .3, 1.39], [i === 1 ? 3.3 : 4.4, 1 + o + .3, 1.39], 'a-bar b' + (i + 1))).join('');
-    const cube1 = box(1.9, 1.9, 2.2, 1.3, 1.3, 1.3);
-    const cube2 = box(3.7, 1.4, 1.9, .8, .8, .8);
-    const cube3 = box(1.2, 3.8, 1.9, .7, .7, .7);
-
-    return `
-<svg viewBox="0 0 380 236" width="100%" height="100%" role="presentation" focusable="false">
-  <defs>
-    <pattern id="adots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.05" class="a-dot"/></pattern>
-    <radialGradient id="aglow" cx="50%" cy="50%" r="50%"><stop offset="0" class="g0"/><stop offset="1" class="g1"/></radialGradient>
-  </defs>
-  <ellipse class="a-glow" cx="190" cy="138" rx="150" ry="60" fill="url(#aglow)"/>
-  <path id="apathA" class="a-flow" d="M22 150 C52 150 64 142 88 136"/>
-  <path id="apathB" class="a-flow" d="M262 92 C296 88 322 78 338 56"/>
-  <circle class="a-packet pa" r="3.6"/><circle class="a-packet pa p2" r="3.6"/>
-  <circle class="a-packet pb" r="3.6"/><circle class="a-packet pb p2" r="3.6"/>
-  <g class="a-base">${base}${baseDots}</g>
-  <g class="a-float f1">${mid}${bars}</g>
-  <g class="a-float f2">${cube1}</g>
-  <g class="a-float f3">${cube2}</g>
-  <g class="a-float f4">${cube3}</g>
-  <g class="a-node nA"><circle cx="22" cy="150" r="9"/><path d="M18.5 153.5v-7M18.5 149.5c0-2 3-2 3.5 0.5 0.4 1.8 2.6 1.6 3.2 0" /></g>
-  <g class="a-node nB"><circle class="ring" cx="338" cy="56" r="9"/><circle class="core" cx="338" cy="56" r="9"/><path d="M334 56.2l2.8 2.8 5-5.6"/></g>
-  ${pill('pl1', 6, 106, 78, 'git push')}
-  ${pill('pl2', 110, 6, 66, 'build')}
-  ${pill('pl3', 290, 8, 62, 'live')}
-  <g class="a-term"><rect x="222" y="202" width="150" height="28" rx="8"/><text x="234" y="220">$ joytree deploy<tspan class="caret">▍</tspan></text></g>
-  <circle class="a-spark s1" cx="96" cy="74" r="1.8"/><circle class="a-spark s2" cx="322" cy="124" r="1.6"/>
-  <circle class="a-spark s3" cx="262" cy="44" r="1.5"/><circle class="a-spark s4" cx="60" cy="50" r="1.6"/>
-</svg>`;
-  }
+  // ---------------------------------------------------------------- hero art (server fleet + real logos): see art.js
+  const buildHeroArt = window.JTArt.buildHeroArt;
 
   function setHero(html) {
     const body = document.getElementById('heroBody');
@@ -460,91 +415,14 @@
     api: 'Authenticate, call endpoints and handle errors programmatically.',
   };
 
-  // ---- isometric line-art illustrations (drawn from boxes on a dotted slab, Railway-style)
-  const ISO_U = 22;
-  function isoArt(scene, id) {
-    const o = { x: 176, y: 46 }, Z0 = 0.25;
-    const P = (x, y, z) => [o.x + (x - y) * 0.866 * ISO_U, o.y + (x + y) * 0.5 * ISO_U - z * ISO_U];
-    const pt = (a) => a[0].toFixed(1) + ',' + a[1].toFixed(1);
-    const poly = (arr, cls, extra) => `<polygon class="${cls}" points="${arr.map(pt).join(' ')}"${extra || ''}/>`;
-    const line = (a, b, cls) => `<path class="${cls || 'a-ln'}" d="M${pt(a)} L${pt(b)}"/>`;
-    let out = '';
-    const box = (x, y, z, w, d, h, dots) => {
-      out += poly([P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)], 'a-r');
-      out += poly([P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)], 'a-l');
-      out += poly([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)], 'a-t', dots ? ` style="fill:url(#${id}-d)"` : '');
-    };
-    let bi = 0;
-    const bar = (x0, y0, x1, y1, z) => { out += `<path class="a-bar" pathLength="1" style="animation-delay:${(bi++ * 0.45).toFixed(2)}s" d="M${pt(P(x0, y0, z))} L${pt(P(x1, y1, z))}"/>`; };
-    const grp = (cls, style, fn) => { out += `<g class="${cls}" style="${style}">`; fn(); out += '</g>'; };
-    const thin = (x0, y0, x1, y1, z) => { out += line(P(x0, y0, z), P(x1, y1, z), 'a-ln'); };
-    const dash = (a, b) => { out += `<path class="a-ln a-dash" d="M${pt(a)} L${pt(b)}"/>`; };
-    const cyl = (cx, cy, r, h, z) => {
-      const c = P(cx, cy, z), rx = r * ISO_U * 1.2247, ry = r * ISO_U * 0.7071, hh = h * ISO_U;
-      out += `<path class="a-r" d="M${c[0] - rx} ${c[1] - hh} V${c[1]} A${rx} ${ry} 0 0 0 ${c[0] + rx} ${c[1]} V${c[1] - hh} Z"/>`;
-      out += `<ellipse class="a-t" cx="${c[0]}" cy="${c[1] - hh}" rx="${rx}" ry="${ry}"/>`;
-    };
-
-    // base slab (dotted)
-    box(0, 0, 0, 6, 4, Z0, true);
-
-    if (scene === 'launch') {
-      box(0.5, 0.5, Z0, 1.1, 1.1, 1.1); box(2.0, 0.3, Z0, 1.1, 1.1, 1.1);
-      box(3.1, 1.9, Z0, 2.6, 1.8, 0.18);
-      bar(3.6, 2.5, 5.0, 2.5, Z0 + 0.18); bar(3.6, 3.0, 4.4, 3.0, Z0 + 0.18);
-      grp('a-float', '--amp:-7px;--dur:3.6s', () => {
-        box(3.9, 2.2, Z0 + 2.3, 0.9, 0.9, 0.9);
-      });
-      dash(P(4.35, 2.65, Z0 + 2.3), P(4.35, 2.65, Z0 + 0.8));
-      grp('a-blink', '', () => { out += line(P(4.35, 2.65, Z0 + 0.62), P(4.18, 2.5, Z0 + 0.92)) + line(P(4.35, 2.65, Z0 + 0.62), P(4.55, 2.8, Z0 + 0.92)); });
-    } else if (scene === 'panels') {
-      box(0.9, 0.6, Z0, 4.2, 2.8, 0.15);
-      bar(1.5, 1.4, 3.9, 1.4, Z0 + 0.15); bar(1.5, 2.0, 3.0, 2.0, Z0 + 0.15); bar(1.5, 2.6, 3.4, 2.6, Z0 + 0.15);
-      grp('a-pulse', '--dur:3s', () => { box(4.0, 1.0, Z0 + 0.15, 0.6, 0.6, 0.14); });
-      [[1.7, 1.2], [4.7, 1.2], [4.7, 3.1], [1.7, 3.1]].forEach(([x, y]) => dash(P(x, y, Z0 + 1.1), P(x, y, Z0 + 0.15)));
-      grp('a-float', '--amp:-6px;--dur:4.2s', () => {
-        box(1.7, 1.2, Z0 + 1.1, 3.0, 1.9, 0.12);
-        bar(2.2, 1.8, 3.9, 1.8, Z0 + 1.22); bar(2.2, 2.4, 3.1, 2.4, Z0 + 1.22);
-      });
-    } else if (scene === 'book') {
-      box(0.7, 0.4, Z0, 4.8, 3.2, 0.3);
-      box(0.85, 0.55, Z0 + 0.3, 4.5, 2.9, 0.25);
-      for (let i = 0; i < 6; i++) bar(1.3, 0.95 + i * 0.42, 1.3 + (i % 2 ? 2.2 : 3.0), 0.95 + i * 0.42, Z0 + 0.55);
-      grp('a-float', '--amp:-5px;--dur:3.8s', () => {
-        box(2.2, 1.2, Z0 + 0.55, 2.2, 1.5, 0.12);
-        grp('a-blink', '', () => { thin(2.6, 1.75, 3.1, 1.95, Z0 + 0.67); thin(2.6, 2.15, 3.1, 1.95, Z0 + 0.67); });
-        bar(3.35, 2.1, 4.0, 2.1, Z0 + 0.67);
-      });
-    } else if (scene === 'stack') {
-      box(0.8, 0.5, Z0, 4.6, 3.0, 0.4);
-      grp('a-float', '--amp:-4px;--dur:3.4s', () => { box(1.25, 0.85, Z0 + 0.4, 3.7, 2.3, 0.4); });
-      grp('a-float', '--amp:-8px;--dur:3.4s;animation-delay:.35s', () => {
-        box(1.7, 1.2, Z0 + 0.8, 2.8, 1.6, 0.4);
-        bar(2.1, 1.6, 3.9, 1.6, Z0 + 1.2); bar(2.1, 2.1, 3.1, 2.1, Z0 + 1.2);
-      });
-    } else if (scene === 'db') {
-      cyl(0.9, 3.0, 0.5, 0.5, Z0);
-      cyl(3.0, 2.0, 1.5, 0.7, Z0);
-      grp('a-float', '--amp:-4px;--dur:3.4s', () => { cyl(3.0, 2.0, 1.5, 0.7, Z0 + 0.95); });
-      grp('a-float', '--amp:-8px;--dur:3.4s;animation-delay:.35s', () => { cyl(3.0, 2.0, 1.5, 0.7, Z0 + 1.9); });
-    } else if (scene === 'network') {
-      dash(P(1.0, 0.9, Z0 + 0.5), P(4.9, 0.9, Z0 + 0.5)); dash(P(2.9, 3.2, Z0 + 0.5), P(1.0, 0.9, Z0 + 0.5)); dash(P(2.9, 3.2, Z0 + 0.5), P(4.9, 0.9, Z0 + 0.5)); dash(P(5.0, 3.0, Z0 + 0.3), P(4.9, 0.9, Z0 + 0.5));
-      grp('a-pulse', '--dur:3.2s', () => { box(0.5, 0.4, Z0, 1.0, 1.0, 1.0); });
-      grp('a-pulse', '--dur:3.2s;animation-delay:.8s', () => { box(4.4, 0.4, Z0, 1.0, 1.0, 1.0); });
-      grp('a-pulse', '--dur:3.2s;animation-delay:1.6s', () => { box(2.4, 2.7, Z0, 1.0, 1.0, 1.0); });
-      grp('a-pulse', '--dur:3.2s;animation-delay:2.4s', () => { box(4.6, 2.6, Z0, 0.8, 0.8, 0.6); });
-      grp('a-float', '--amp:-5px;--dur:3.6s', () => { box(2.5, 1.2, Z0, 0.8, 0.8, 0.5); });
-    } else { // notes
-      box(0.9, 0.5, Z0, 4.2, 3.0, 0.12);
-      for (let i = 0; i < 3; i++) {
-        grp('a-pulse', `--dur:3s;animation-delay:${i * 0.7}s`, () => { box(1.3, 0.9 + i * 0.85, Z0 + 0.12, 0.45, 0.45, 0.1); });
-        bar(2.1, 1.12 + i * 0.85, 4.2 - (i % 2) * 0.8, 1.12 + i * 0.85, Z0 + 0.12);
-      }
-    }
-    return `<svg class="card-art" viewBox="0 0 280 176" preserveAspectRatio="xMaxYMax meet" aria-hidden="true"><defs><pattern id="${id}-d" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="0.9" class="a-dot"/></pattern></defs>${out}</svg>`;
-  }
+  // ---- isometric line-art illustrations (server fleet, panels, network...) with real logo chips: see art.js
+  const isoArt = window.JTArt.isoArt;
 
   const SCENE = { start: 'launch', dashboard: 'panels', deploy: 'stack', projects: 'notes', databases: 'db', domains: 'network', agent: 'panels', developer: 'book', github: 'network', ssh: 'notes', account: 'notes', cli: 'book', mcp: 'network', api: 'stack' };
+  // real marks (assets/logos): languages from devicon, AI clients from the MCP server's agent list
+  const LANG_LOGOS = ['react', 'python', 'nodejs', 'go', 'docker'];
+  const AI_LOGOS = ['claude', 'cursor', 'chatgpt', 'gemini', 'windsurf'];
+  const GROUP_LOGOS = { start: LANG_LOGOS, deploy: ['typescript', 'php', 'java', 'rust', 'vue'], agent: AI_LOGOS.slice(0, 3), mcp: AI_LOGOS };
   const TONES = ['amber', 'blue', 'rose', 'green', 'violet'];
 
   function renderHome() {
@@ -556,18 +434,18 @@
 
     const byKey = {};
     NAV.forEach(g => { byKey[g.key] = g; });
-    const card = (cls, tone, href, title, text, scene, id) =>
-      `<a class="${cls} tone-${tone}" href="${href}" data-link>${isoArt(scene, id)}<h3>${title}</h3><p>${text}</p></a>`;
+    const card = (cls, tone, href, title, text, scene, id, logos) =>
+      `<a class="${cls} tone-${tone}" href="${href}" data-link>${isoArt(scene, id, logos)}<h3>${title}</h3><p>${text}</p></a>`;
 
     const featured = [
-      ['amber', '#/quickstart', 'Quickstart', 'Create an account and deploy your first app in minutes.', 'launch'],
-      ['blue', '#/' + byKey.agent.children[0].key, 'AI Agent', 'Build and ship by describing what you want in plain language.', 'panels'],
+      ['amber', '#/quickstart', 'Quickstart', 'Create an account and deploy your first app in minutes.', 'launch', LANG_LOGOS],
+      ['blue', '#/' + byKey.agent.children[0].key, 'AI Agent', 'Build and ship by describing what you want in plain language.', 'panels', AI_LOGOS.slice(0, 3)],
       ['rose', '#/cli-install', 'CLI', 'Install the command line and deploy from your terminal.', 'book'],
-      ['green', '#/' + byKey.mcp.children[0].key, 'MCP Server', 'Let Claude, Cursor or ChatGPT operate your projects.', 'network'],
-    ].map((f, i) => card('feat-card', f[0], f[1], f[2], f[3], f[4], 'f' + i)).join('');
+      ['green', '#/' + byKey.mcp.children[0].key, 'MCP Server', 'Let Claude, Cursor or ChatGPT operate your projects.', 'network', AI_LOGOS],
+    ].map((f, i) => card('feat-card', f[0], f[1], f[2], f[3], f[4], 'f' + i, f[5])).join('');
 
     const cards = NAV.map((g, i) =>
-      card('grid-card', TONES[i % TONES.length], '#/' + g.children[0].key, g.title, GROUP_DESC[g.key] || '', SCENE[g.key] || 'notes', 'g' + i)
+      card('grid-card', TONES[i % TONES.length], '#/' + g.children[0].key, g.title, GROUP_DESC[g.key] || '', SCENE[g.key] || 'notes', 'g' + i, GROUP_LOGOS[g.key])
     ).join('');
 
     setHero(`

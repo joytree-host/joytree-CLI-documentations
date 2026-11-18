@@ -716,11 +716,15 @@ svg[hidden]{ display: none; }
 .card-art .a-pulse{ animation: a-pulse var(--dur,3s) ease-in-out infinite; }
 .card-art .a-blink{ animation: a-blink 1.8s steps(1) infinite; }
 .card-art .a-dash{ animation: a-flow 1.6s linear infinite; }
+.card-art .a-led{ fill: #fff; animation: a-blink 2.4s steps(1) infinite; }
+.card-art .a-chip-bg{ fill: #fff; stroke: rgba(255,255,255,.9); stroke-width: 1; }
+.card-art .a-chip-bg.dk{ fill: #0d1117; stroke: rgba(255,255,255,.5); }
+.card-art .a-chip-bg{ filter: drop-shadow(0 2px 3px rgba(0,0,0,.25)); }
 .card-art .a-bar{ stroke-dasharray: 1 1; animation: a-draw 5.4s ease-in-out infinite; }
 .feat-card:hover .card-art .a-float{ animation-duration: calc(var(--dur,4s) * .6); }
 .feat-card:hover .card-art .a-dash, .grid-card:hover .card-art .a-dash{ animation-duration: .8s; }
 @media (prefers-reduced-motion: reduce){
-  .card-art .a-float, .card-art .a-pulse, .card-art .a-blink, .card-art .a-dash, .card-art .a-bar{ animation: none; }
+  .card-art .a-float, .card-art .a-pulse, .card-art .a-blink, .card-art .a-dash, .card-art .a-bar, .card-art .a-led{ animation: none; }
   .card-art .a-bar{ stroke-dasharray: none; }
 }
 
@@ -1020,8 +1024,8 @@ figure.shot.seen .focus.f2{ animation: foc-two 7s ease-out .25s infinite; }
 
 
 /* ==========================================================================
-   Hero art: animated isometric "push -> build -> live" scene that fills the
-   empty right side of every article header. Light + dark, reduced-motion safe.
+   Hero art: an isometric server fleet with the real language logos flowing in
+   (git push > build > live). No gradients. Light + dark, reduced-motion safe.
    ========================================================================== */
 .page-hero{ position: relative; }
 .page-hero .hero-main{ position: relative; z-index: 1; }
@@ -1029,7 +1033,7 @@ figure.shot.seen .focus.f2{ animation: foc-two 7s ease-out .25s infinite; }
   --a-line: #10b981; --a-text: #047857;
   --a-top: #ecfdf5; --a-left: #c7f2de; --a-right: #9fe6c4; --a-edge: rgba(5,150,105,.55);
   --a-dot: rgba(5,150,105,.55); --a-pill: #ffffff; --a-pill-line: #d0d7de; --a-pill-on: #ecfdf5;
-  --a-term-bg: #1f2328; --a-term-text: #6ee7b7; --a-glow0: rgba(16,185,129,.30); --a-glow1: rgba(16,185,129,0);
+  --a-term-bg: #1f2328; --a-term-text: #6ee7b7;
   position: absolute; right: 24px; top: 18px; width: min(380px, 29vw); aspect-ratio: 380 / 236;
   pointer-events: none; z-index: 0;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%); mask-image: linear-gradient(90deg, transparent 0, #000 16%);
@@ -1038,36 +1042,31 @@ html[data-theme="dark"] .hero-art{
   --a-line: #34d399; --a-text: #6ee7b7;
   --a-top: #115e47; --a-left: #0a3d2f; --a-right: #062a21; --a-edge: rgba(52,211,153,.75);
   --a-dot: rgba(52,211,153,.55); --a-pill: #0d1117; --a-pill-line: #30363d; --a-pill-on: #0b3a2c;
-  --a-term-bg: #010409; --a-term-text: #6ee7b7; --a-glow0: rgba(52,211,153,.38); --a-glow1: rgba(52,211,153,0);
+  --a-term-bg: #010409; --a-term-text: #6ee7b7;
 }
 .is-home .hero-art{ display: none; }
 @media (max-width: 1279px){ .hero-art{ display: none; } }
 
 .hero-art svg{ overflow: visible; }
-.hero-art .g0{ stop-color: var(--a-glow0); } .hero-art .g1{ stop-color: var(--a-glow1); }
-.hero-art .a-glow{ transform-box: fill-box; transform-origin: center; animation: a-glow 5s ease-in-out infinite; }
 .hero-art .a-top{ fill: var(--a-top); stroke: var(--a-edge); stroke-width: 1; stroke-linejoin: round; }
 .hero-art .a-left{ fill: var(--a-left); stroke: var(--a-edge); stroke-width: 1; stroke-linejoin: round; }
 .hero-art .a-right{ fill: var(--a-right); stroke: var(--a-edge); stroke-width: 1; stroke-linejoin: round; }
 .hero-art .a-dots{ fill: url(#adots); stroke: none; }
 .hero-art .a-dot{ fill: var(--a-dot); }
-.hero-art .a-bar{ stroke: var(--a-line); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 60; stroke-dashoffset: 60; animation: a-bar 6s ease-in-out infinite; }
-.hero-art .a-bar.b2{ animation-delay: .35s; } .hero-art .a-bar.b3{ animation-delay: .7s; }
 
-.hero-art .a-float{ animation: a-bob 5.2s ease-in-out infinite; }
-.hero-art .a-float.f2{ animation-duration: 4.4s; animation-delay: -1.2s; }
-.hero-art .a-float.f3{ animation-duration: 3.8s; animation-delay: -2.1s; }
-.hero-art .a-float.f4{ animation-duration: 4.9s; animation-delay: -.6s; }
+/* fleet: status LEDs blink out of step, the top unit of one stack lifts like a fresh deploy */
+.hero-art .a-led{ fill: var(--a-line); animation: a-led 2.4s steps(1) infinite; }
+.hero-art .a-slot{ stroke: var(--a-edge); stroke-width: 1.2; stroke-linecap: round; }
+.hero-art .a-float{ animation: a-bob var(--dur, 4.6s) ease-in-out infinite; }
+.hero-art .a-float.f2{ animation-delay: -1.2s; }
 
-/* connectors + data packets */
-.hero-art .a-flow{ fill: none; stroke: var(--a-line); stroke-width: 1.6; stroke-dasharray: 5 6; stroke-linecap: round; opacity: .85; animation: a-dash 1.1s linear infinite; }
-.hero-art .a-packet{ fill: var(--a-line); opacity: 0; offset-rotate: 0deg; filter: drop-shadow(0 0 4px var(--a-line)); }
-@supports (offset-path: path("M0 0")){ .hero-art .a-packet{ animation: a-travel 3s linear infinite; } }
-.hero-art .a-packet.pa{ offset-path: path("M22 150 C52 150 64 142 88 136"); }
-.hero-art .a-packet.pb{ offset-path: path("M262 92 C296 88 322 78 338 56"); animation-delay: 1.5s; }
-.hero-art .a-packet.p2{ animation-delay: 1.5s; } .hero-art .a-packet.pb.p2{ animation-delay: 3s; }
+/* real logos on chips, flowing into the fleet */
+.hero-art .a-chip-bg{ fill: var(--a-pill); stroke: var(--a-pill-line); stroke-width: 1.2; }
+.hero-art .a-chip-bg.dk{ fill: #0d1117; stroke: #30363d; }
+.hero-art .a-flow{ fill: none; stroke: var(--a-line); stroke-width: 1.4; stroke-dasharray: 4 6; stroke-linecap: round; opacity: .7; animation: a-dash 1.1s linear infinite; }
+.hero-art .a-pkt{ fill: var(--a-line); }
 
-/* nodes */
+/* live check node */
 .hero-art .a-node circle{ fill: var(--a-pill); stroke: var(--a-line); stroke-width: 1.8; }
 .hero-art .a-node path{ fill: none; stroke: var(--a-text); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .hero-art .a-node .ring{ fill: none; transform-box: fill-box; transform-origin: center; animation: a-ring 2.6s ease-out infinite; }
@@ -1087,24 +1086,17 @@ html[data-theme="dark"] .hero-art{
 .hero-art .a-term text{ fill: var(--a-term-text); font: 500 11px/1 var(--font-mono); }
 .hero-art .a-term .caret{ animation: a-caret 1s steps(1) infinite; }
 
-.hero-art .a-spark{ fill: var(--a-line); opacity: 0; animation: a-spark 5s ease-in-out infinite; }
-.hero-art .a-spark.s2{ animation-delay: 1.2s; } .hero-art .a-spark.s3{ animation-delay: 2.4s; } .hero-art .a-spark.s4{ animation-delay: 3.4s; }
-
-@keyframes a-bob{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
-@keyframes a-glow{ 0%,100%{ opacity: .55; transform: scale(.94) } 50%{ opacity: 1; transform: scale(1.06) } }
-@keyframes a-dash{ to{ stroke-dashoffset: -11 } }
-@keyframes a-travel{ 0%{ offset-distance: 0%; opacity: 0 } 12%{ opacity: 1 } 88%{ opacity: 1 } 100%{ offset-distance: 100%; opacity: 0 } }
+@keyframes a-bob{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(var(--amp, -6px)) } }
+@keyframes a-led{ 0%,60%{ opacity: 1 } 61%,100%{ opacity: .2 } }
+@keyframes a-dash{ to{ stroke-dashoffset: -10 } }
 @keyframes a-ring{ 0%{ transform: scale(1); opacity: .8; stroke-width: 2 } 100%{ transform: scale(2.4); opacity: 0; stroke-width: .5 } }
 @keyframes a-core{ 0%,62%{ fill: var(--a-pill) } 70%,92%{ fill: var(--a-pill-on) } 100%{ fill: var(--a-pill) } }
-@keyframes a-bar{ 0%{ stroke-dashoffset: 60; opacity: 0 } 20%,80%{ stroke-dashoffset: 0; opacity: 1 } 100%{ stroke-dashoffset: -60; opacity: 0 } }
 @keyframes a-pill{ 0%,4%{ transform: scale(1) } 12%,26%{ transform: scale(1.07) } 34%,100%{ transform: scale(1) } }
 @keyframes a-pill-rect{ 0%,4%{ fill: var(--a-pill); stroke: var(--a-pill-line) } 12%,26%{ fill: var(--a-pill-on); stroke: var(--a-line) } 34%,100%{ fill: var(--a-pill); stroke: var(--a-pill-line) } }
 @keyframes a-pill-dot{ 0%,4%{ fill: var(--a-pill-line) } 12%,26%{ fill: var(--a-line) } 34%,100%{ fill: var(--a-pill-line) } }
 @keyframes a-caret{ 0%,50%{ opacity: 1 } 50.01%,100%{ opacity: 0 } }
-@keyframes a-spark{ 0%{ opacity: 0; transform: translateY(8px) } 30%{ opacity: .9 } 100%{ opacity: 0; transform: translateY(-22px) } }
 
 @media (prefers-reduced-motion: reduce){
   .hero-art *{ animation: none !important; }
-  .hero-art .a-bar{ stroke-dashoffset: 0; }
-  .hero-art .a-packet, .hero-art .a-spark{ display: none; }
+  .hero-art .a-pkt{ display: none; }
 }
