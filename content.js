@@ -1443,20 +1443,109 @@ JOYTREE provisions and manages five database engines, each a real Docker-backed 
 
 ## From the dashboard
 
-1. Go to **Databases** in the sidebar, then click **Create Database**.
-2. Open the **Database Type** dropdown and pick an engine — MongoDB, PostgreSQL, MySQL, Redis, or MariaDB.
-3. Fill in **Configuration**:
-   - **Database Name** *(required)* — lowercase letters, numbers, and hyphens only, max 40 characters.
-   - **Database Username** — not shown for Redis, which has no user/database concept.
-   - **Password** *(required)*.
-   - **Initial Database / Schema Name** — also hidden for Redis.
-4. Open **Advanced** if you want to change anything from the defaults:
-   - **Memory Limit** — 256 MB (minimal) or 512 MB (max on the free tier).
-   - **Link to Project** *(optional)* — auto-injects the connection string into that project as the \`DATABASE_URL\` env var, so you don't have to copy/paste it yourself.
-5. Click **Create**. The instance provisions in under a minute.
+Five short steps take you from nothing to a running database you can query, browse and chart. The orange cursor shows where to look, and you can click any screen to enlarge it.
+
+### Step 1 — Create a database
+
+Open **Databases** in the sidebar and press **Create Database**. Pick an engine card (MongoDB, PostgreSQL, MySQL, Redis or MariaDB). The selected card gets a green tick. The progress tabs at the top show the three stages: **Engine**, **Configure** and **Provision**.
+
+:::shot
+step: 1
+title: Choose your engine, such as **PostgreSQL**.
+bar: joytree.site <i>/</i> db-create
+img: assets/db/01-create.webp
+h: 561
+alt: The Create database page with five engine cards for MongoDB, PostgreSQL, MySQL, Redis and MariaDB, PostgreSQL selected with a green tick, and the Engine, Configure and Provision steps at the top
+cursor: 84.4,75.3 > 66.3,43.8
+focus: 59.2,38.7,27.5,21.9
+note: Each card shows the Docker image version, such as \`postgres:16\`, and what the engine is best for.
+note: Every database is its own Docker container with persistent storage.
+:::
+
+Scroll down to **Configuration** and fill it in:
+
+- **Database Name** *(required)* — lowercase letters, numbers and hyphens only, max 40 characters.
+- **Database Username** — not shown for Redis, which has no user or database concept.
+- **Password** *(required)*.
+- **Initial Database / Schema Name** — also hidden for Redis.
+
+The **Connection Preview** shows what your \`DATABASE_URL\` will look like. Open **Advanced** if you want to change the defaults:
+
+- **Memory Limit** — 256 MB (minimal) or 512 MB (the maximum on the free tier).
+- **Link to Project** *(optional)* — injects the connection string into that project as the \`DATABASE_URL\` env var, so you don't have to copy it yourself.
+
+Then press **Provision Database**. The instance is ready in under a minute.
 
 :::tip
 Linking a database to a project during creation saves a step later — the project gets \`DATABASE_URL\` immediately without a manual **[env push](#/projects-env)**.
+:::
+
+### Step 2 — Copy your connection string
+
+Open your database from **Databases** to see its detail page. Under **Connection String** there are two strings: **Internal** for projects hosted on JOYTREE, and **External** for your laptop or any host outside JOYTREE. The password shows as \`***\` until you press **Reveal**.
+
+:::shot
+step: 2
+title: Press **Copy**, or **Copy External** for use outside JOYTREE.
+bar: joytree.site <i>/</i> db-detail
+img: assets/db/02-connection.webp
+h: 562
+alt: A database detail page with its memory, name, username, created date and running status, a Connection String card with Internal and External strings each with Copy and Reveal buttons, and a Quick SDK panel with Node.js and Python tabs
+cursor: 51.7,75.1 > 29.5,88.5
+focus: 19.9,86.1,23.1,5.0
+note: **Quick SDK** on the right has ready-made Node.js and Python code for the engine, with its own **Copy** button.
+note: **View Logs**, **Edit Credentials** and **Delete Database** are in the actions panel above it. Pick the right string with **[Connection strings](#/db-connecting)**.
+:::
+
+### Step 3 — Run a query
+
+Choose **Data → Data Query** in the sidebar. Pick your database at the top, write SQL in the editor and press **Run**. The tables are listed on the left, and the result appears in the **Terminal** panel at the bottom.
+
+:::shot
+step: 3
+title: Pick your database, write a query and press **Run**.
+bar: joytree.site <i>/</i> db-query
+img: assets/db/03-query.webp
+h: 563
+alt: The Data Query page with a database selector showing a running MySQL database, a toolbar with Explorer, Save and Run, Format, Copy, Clear, CSV, Excel, Import, New Table and Schema Setup, a SQL editor, a tables list and a Terminal panel
+cursor: 74.2,41.8 > 95.7,19.6
+focus: 93.2,16.3,6.4,6.0
+note: The toolbar has **Format**, **Copy** and **Clear** for the editor, **CSV** and **Excel** to export results, and **Import** to bring data in.
+note: **New Table** and **Schema Setup** help you build tables without hand-writing every statement. More in **[Query Studio](#/db-query-studio)**.
+:::
+
+### Step 4 — Browse your data
+
+Back on **Databases**, press **Browse Data** on the database's card. The **Data Browser** lists every table on the left. Choose one and press **Load Data** to see its rows, which you can expand one by one.
+
+:::shot
+step: 4
+title: Choose a table, then press **Load Data**.
+bar: joytree.site <i>/</i> databases
+img: assets/db/04-browser.webp
+h: 561
+alt: The Data Browser listing tables on the left, with a table named aud_audit_log showing 46 rows that can be expanded, and Visualize, Close and Load Data buttons at the top
+cursor: 51.5,88.2 > 5.8,27.9 > 94.6,13.6
+focus: 90.7,10.2,8.6,6.0
+note: The badge beside the table name shows its **row count**.
+note: Some values in this example are blurred to protect private data. See **[Data Browser](#/db-data-browser)** for editing rows in place.
+:::
+
+### Step 5 — See your data as charts
+
+Press **Visualize** in the Data Browser, or choose **Data → Data Visualizer** in the sidebar. Pick a database to see how many records each table holds, the types of its fields, and its schema. Choose a table to explore it.
+
+:::shot
+step: 5
+title: Choose a table to see its **field types** and **schema**.
+bar: joytree.site <i>/</i> db-visualizer
+img: assets/db/05-visualizer.webp
+h: 566
+alt: The Data Visualizer with tables listed by record count and share, a selected payroll_run table, a Field types donut chart and a Schema panel with a field filter
+cursor: 52.4,46.8 > 24.7,28.5
+focus: 6.6,24.2,35.2,9.2
+note: Each bar shows a table's **record count** and its share of all records.
+note: **Schema** lists the selected table's fields. Use **Filter fields** to find one.
 :::
 
 ## From the CLI
