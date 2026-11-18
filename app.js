@@ -353,6 +353,13 @@
       if (el && el.getBoundingClientRect().top < 120) currentId = a.dataset.tocTarget;
     });
     links.forEach(a => a.classList.toggle('active', a.dataset.tocTarget === currentId));
+    // keep the active heading visible inside the rail's own list without moving the page
+    const list = toc.querySelector('.toc-list'), act = list && list.querySelector('a.active');
+    if (act) {
+      const top = act.offsetTop, bottom = top + act.offsetHeight;
+      if (top < list.scrollTop) list.scrollTop = Math.max(0, top - 8);
+      else if (bottom > list.scrollTop + list.clientHeight) list.scrollTop = bottom - list.clientHeight + 8;
+    }
   }
 
   function renderPageNav(key) {
