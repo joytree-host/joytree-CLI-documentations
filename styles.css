@@ -891,16 +891,15 @@ html[data-theme="dark"]{ --btn-edge: rgba(0,0,0,.55); --btn-hi: rgba(255,255,255
   box-shadow: 0 1px 0 var(--btn-hi) inset, 0 3px 0 var(--btn-edge);
 }
 
-/* "primary" buttons share the outlined look of the secondary ones */
+/* filled: dashboard green, raised 3D edge */
 .hero-btn.primary, .drawer-btn.primary{
-  background: transparent; color: var(--text); -webkit-text-fill-color: currentColor;
-  border-color: var(--border-hi); font-weight: 600;
-  box-shadow: 0 1px 0 var(--btn-hi) inset, 0 2px 0 var(--btn-edge);
+  background: #059669; color: #fff; -webkit-text-fill-color: #fff;
+  border-color: #047857;
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 2px 0 #047857;
 }
 .hero-btn.primary:hover, .drawer-btn.primary:hover{
-  background: var(--bg-hover); border-color: var(--border-hi);
-  transform: translateY(-1px);
-  box-shadow: 0 1px 0 var(--btn-hi) inset, 0 3px 0 var(--btn-edge);
+  background: #047857; border-color: #065f46;
+  box-shadow: 0 2px 0 #065f46; transform: translateY(-1px);
 }
 
 /* pressed */
