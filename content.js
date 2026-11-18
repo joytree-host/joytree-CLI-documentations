@@ -673,9 +673,101 @@ Next: **[Deploy from GitHub](#/deploy-github)** for the full walkthrough of the 
     md: `
 ## From the dashboard
 
-Click **+ New Deployment** from the Command Center or the Projects page. It's a 3-step wizard: **Repository → Build config → Launch**.
+Five short steps take a GitHub repository from the dashboard to a live site. The orange cursor shows where to look, and you can click any screen to enlarge it.
 
-**Step 1 — Project Details**
+### Step 1 — Start a new deployment
+
+On the **Dashboard**, press **+ New deployment**. The **+ New Deploy** button in the top bar does the same from any page.
+
+:::shot
+step: 1
+title: Press **+ New deployment** on the Dashboard.
+bar: joytree.site <i>/</i> dashboard
+img: assets/github/01-dashboard.webp
+h: 565
+alt: The JOYTREE Dashboard with project and deployment counts and green Browse repos and New deployment buttons at the top right
+cursor: 60,70 > 92.1,16.9
+focus: 86.6,14.4,11.1,5.2
+note: **Browse repos** — jumps straight to your GitHub repositories if you already know which one to ship.
+note: The cards below show your **Live** and **Failed** counts, so you can see the platform's health at a glance.
+:::
+
+### Step 2 — Let JOYTREE detect your app
+
+Not sure how to describe your app? Keep **Auto Detect** — JOYTREE reads \`package.json\` or your Dockerfile and picks the framework, build and start commands for you. Choose **Static Site** instead if you already know it is plain HTML or a built React/Vite app.
+
+:::shot
+step: 2
+title: Press **Continue** on **Auto Detect**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> new-resource
+img: assets/github/02-new-resource.webp
+h: 564
+alt: The New Resource page with the recommended Auto Detect card and its green Continue button, and a Static Site card with a Choose button below
+cursor: 62,25 > 30.3,48.2
+focus: 24.6,44.9,11.5,6.6
+note: **Auto Detect** is marked *Recommended* and needs nothing from you.
+note: **Static Site** — build output in \`dist/\` or \`out/\`, delivered over the CDN with HTTPS.
+:::
+
+### Step 3 — Import your repository
+
+Your GitHub repositories are listed with their language, visibility, branch and size. Find the one you want and press **Import Repository**. Use the search box or the **Public / Private / Orgs** tabs to narrow a long list.
+
+:::shot
+step: 3
+title: Press **Import Repository** next to your project.
+bar: joytree.site <i>/</i> dashboard <i>/</i> repos
+img: assets/github/03-repositories.webp
+h: 559
+alt: The Repositories page listing private and public GitHub repositories, each with a green Import Repository button
+cursor: 50,60 > 90.5,47.2
+focus: 84.9,44.4,11.2,5.7
+note: **Branch** — the branch shown on the row is the one that gets built (usually \`main\`).
+note: The refresh button next to the search box reloads your list after you create a new repo on GitHub.
+:::
+
+### Step 4 — Review the build settings and deploy
+
+The form is pre-filled for you: install and build commands, output directory, site type and Node.js version. Check them, then press **Deploy Now**. The summary on the right shows the project name, the live URL it will get, the branch and the runtime version.
+
+:::shot
+step: 4
+title: Review the settings, then press **Deploy Now**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> new-deploy
+img: assets/github/04-build-settings.webp
+h: 562
+alt: The New Deployment form with Install and Build commands, Output Directory, Site Type and Node.js Version on the left and the Deployment Summary with a green Deploy Now button on the right
+cursor: 25,15 > 85.1,58.2
+focus: 74.2,54.9,21.9,6.7
+note: **Install / Build Command** — sensible defaults such as \`npm install\` and \`npm run build\`; edit them if your project differs.
+note: **Output Directory** and **Site Type** — a static site publishes the folder your build writes to, such as \`dist\`.
+note: **Working Directory** — optional; set it for monorepos so commands run from a subfolder.
+:::
+
+### Step 5 — Watch the build live
+
+**Live Logs** streams the build as it happens. The left rail ticks off each stage — clone, install, build, publish, clean up — and the log on the right follows along line by line, with filters for **Build** and **App** output.
+
+:::shot
+step: 5
+title: Follow the build progress and stream the logs.
+bar: joytree.site <i>/</i> dashboard <i>/</i> logs
+img: assets/github/05-live-logs.webp
+h: 562
+alt: The Live Logs page with a build progress checklist on the left and the streaming build log on the right
+cursor: 60,75 > 79.4,29.5
+focus: 76.6,27.3,5.6,4.4
+note: **Build progress** — a tick appears as each stage finishes; the timer shows how long it has been running.
+note: **Follow** — keeps the log scrolled to the newest line. **Search**, **Wrap** and **Copy** are right there too.
+:::
+
+When the last stage finishes, your site is live at \`https://<your-project>.joytree.site\`.
+
+## Form reference
+
+Every field on the deployment form, in the order it appears. Click **+ New Deployment** from the Command Center or the Projects page to open it. The form has three parts: **Project Details → Build Settings → Launch**.
+
+**Project Details**
 
 - **Project Name** — becomes part of your subdomain.
 - **Subdomain** — auto-filled from the project name, with a live availability check and a preview of the final \`<subdomain>.joytree.site\` URL. Editable independently of the project name.
@@ -686,7 +778,7 @@ Click **+ New Deployment** from the Command Center or the Projects page. It's a 
 No git repo? The same form has an **"or upload your project"** section right below the repo field — drag a ZIP, \`.tar.gz\`, \`.tgz\`, or a plain \`.html\` file (up to 250 MB) instead. See **[Deploy from a local folder](#/deploy-upload)**.
 :::
 
-**Step 2 — Build Settings** (collapsed by default; expand if you want to override anything)
+**Build Settings** (collapsed by default; expand if you want to override anything)
 
 - **Runtime / Framework** — a long dropdown grouped by language (Node.js, Python, Go, PHP, Ruby, Java/Kotlin, Rust, .NET, Elixir) with framework-specific entries inside each (Next.js, NestJS, Django, FastAPI, Laravel, Spring Boot, Axum, Phoenix, and more). See **[Framework presets](#/deploy-frameworks)**.
 - **Install / Build / Start Command** — pre-filled per framework, always editable. Start Command only appears for Server Apps.
@@ -697,7 +789,7 @@ No git repo? The same form has an **"or upload your project"** section right bel
 - **Working Directory** — for monorepos, point the build at a subfolder.
 - **Environment Variables** — a Name/Value grid with an **Add Variable** button, injected into the build environment.
 
-**Step 3 — Launch**
+**Launch**
 
 The right-hand **Deployment Summary** panel shows the project name, final URL, branch, and runtime version at a glance. Click **Deploy Now** to start the build — a live status line ("Starting deployment pipeline…") appears immediately, followed by streaming build logs.
 
