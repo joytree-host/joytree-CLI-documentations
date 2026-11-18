@@ -205,7 +205,7 @@
       '<g class="a-node nB"><circle class="ring" cx="336" cy="56" r="9"/><circle class="core" cx="336" cy="56" r="9"/><path d="M332 56.2l2.8 2.8 5-5.6"/></g>' +
       chips +
       pill('pl1', 6, 106, 78, 'git push') + pill('pl2', 110, 6, 66, 'build') + pill('pl3', 290, 8, 62, 'live') +
-      '<g class="a-term"><rect x="222" y="202" width="150" height="28" rx="8"/><text x="234" y="220">$ joytree deploy<tspan class="caret">\u258D</tspan></text></g>' +
+      '<g class="a-term"><rect x="222" y="202" width="150" height="28" rx="8"/><text x="234" y="220"><tspan class="prompt">$ </tspan>joytree deploy<tspan class="caret">\u258D</tspan></text></g>' +
       '</svg>';
   }
 
