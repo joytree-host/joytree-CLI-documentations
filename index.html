@@ -124,7 +124,8 @@
 
 <!-- ═══════════════ JOYTREE falling leaves ambiance ═══════════════ -->
 <style>
-  .jt-leaves-fall {
+  .jt-leaves-fall { display: none !important; }
+  .jt-leaves-fall-legacy {
     position: fixed;
     inset: 0;
     pointer-events: none;
@@ -281,7 +282,8 @@
     for (var i = 0; i < count; i++) spawnLeaf(container);
   }
 
-  initLeaves('jtLeavesFall', 30);
+  // falling leaves hidden on the docs site; re-enable by restoring the call below
+  // initLeaves('jtLeavesFall', 30);
 })();
 </script>
 <!-- ═══════════════ /Joytree falling leaves ambiance ═══════════════ -->
