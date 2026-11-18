@@ -487,9 +487,39 @@ JOYTREE uses **API keys** for the CLI and REST API, and a separate session-based
 
 API keys are prefixed \`jtk_\` and are created automatically the first time you view **Settings → API Key** on the dashboard.
 
+:::shot
+step: 1
+title: Press **Copy** next to your Personal API Key.
+bar: joytree.site <i>/</i> dashboard <i>/</i> settings
+img: assets/cli/02-api-key.webp
+alt: The JOYTREE Settings page with the Personal API Key field, a Copy button and a red Rotate button, and the Transfer URL section below
+cursor: 60,75 > 87.5,31.5
+focus: 85,27.8,5.2,7.4
+note: **Personal API Key** — starts with \`jtk_\`. The page also shows when it was last used.
+note: **Rotate** — revokes the current key and issues a new one.
+:::
+
+:::warn
+The **Transfer URL** on the same screen has your key inside it. Treat it like a password and never share it.
+:::
+
+Then give the key to the CLI:
+
 \`\`\`bash
 joytree login --api-key jtk_xxxxxxxxxxxxxxxxxxxxxxxx
 \`\`\`
+
+:::shot
+step: 2
+title: Run **joytree login --api-key** with the key you copied.
+bar: Command Prompt <i>/</i> joytree
+img: assets/cli/03-login.webp
+alt: A terminal running joytree login with an API key, showing the JOYTREE banner, the signed-in account and the number of projects in the workspace
+cursor: 70,40 > 54.5,5.5
+focus: 0.3,1.8,55.5,5.5
+note: **Logged in as** — the account your key belongs to.
+note: **project(s) in your workspace** — a quick sign the key works.
+:::
 
 The CLI validates the key against \`GET /api/v1/ping\` before saving it, and immediately fetches your account and project list so you know it worked.
 
