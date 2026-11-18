@@ -603,8 +603,9 @@ svg[hidden]{ display: none; }
 .doc-content .callout.warn::before{
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.08) 46%, rgba(255,255,255,0) 47%),
-    radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.35), transparent 60%);
+    radial-gradient(rgba(255,255,255,.7) 1px, transparent 1.5px) 0 0 / 22px 22px,
+    linear-gradient(180deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.06) 46%, rgba(255,255,255,0) 47%),
+    radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.3), transparent 60%);
 }
 .doc-content .callout.warn::after{
   content: ""; position: absolute; right: -14px; bottom: -20px; width: 118px; height: 118px; z-index: 0; pointer-events: none;
