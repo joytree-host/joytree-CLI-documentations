@@ -1267,9 +1267,49 @@ Accepted types: \`.zip\`, \`.tar.gz\`, \`.tgz\`, \`.html\` — up to **250 MB**.
 
   'deploy-redeploy': {
     title: 'Redeploy & rollbacks', group: 'Deployments', eyebrow: 'Deployments',
-    lede: 'Trigger a fresh build from a project\'s existing configuration, or check recent deploy history.',
+    lede: 'Roll back to an earlier version from the dashboard, or trigger a fresh build and check deploy history from the CLI.',
     md: `
-## Redeploy
+## Roll back from the dashboard
+
+Something broke after a deploy? Two clicks put an earlier version back. The orange cursor shows where to click, and you can click any screen to enlarge it.
+
+### Step 1 — Find the build you want to go back to
+
+Open **Deployments** in the sidebar. Every build is listed with its project, build number, commit message, short commit, trigger, branch and duration. Find the last build that worked and press **Rollback** on its row.
+
+:::shot
+step: 1
+title: Press **Rollback** on the build you want to restore.
+bar: joytree.site <i>/</i> dashboard <i>/</i> deployments
+img: assets/deployments/01-list.webp
+h: 562
+alt: The Deployments list with successful erp-system builds, each showing a commit message, Auto-Deploy, branch and duration, with Logs and Rollback buttons and icons to open the site and the repository
+cursor: 55,60 > 83.8,36.2
+focus: 80.5,33.8,6.7,4.9
+note: **Logs** — re-read a build's output first if you are not sure which one to restore.
+note: **Success** and the short commit on the right of each row tell you which version you would be going back to.
+:::
+
+### Step 2 — Confirm the rollback
+
+A **Roll Back Deployment** box names the project and the commit. Read it, then press **Roll Back**. Press **Cancel** or the close button to leave everything as it is.
+
+:::shot
+step: 2
+title: Check the commit, then press **Roll Back**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> deployments
+img: assets/deployments/02-confirm.webp
+h: 571
+alt: The Roll Back Deployment dialog asking Roll back erp-system to commit 3a2bbd1, with Cancel and Roll Back buttons
+cursor: 55,80 > 63.3,66.4
+focus: 60.2,64.1,6.2,4.8
+note: **Redeploys this exact commit** — JOYTREE starts a brand-new build pinned to that commit and points the live site at it once it succeeds.
+note: Nothing about your current code, branch or settings is changed, so you can move forward again with a normal deploy.
+:::
+
+## From the CLI
+
+### Redeploy
 
 Re-runs the build using the exact repo, branch, and build/start commands already saved on the project — nothing to re-type.
 
@@ -1279,7 +1319,7 @@ joytree redeploy my-site
 
 This is the fastest way to pick up a new commit on the same branch without going through \`joytree deploy\` again, and it's also the standard way to retry after fixing a failed build.
 
-## Viewing deployment history
+### Viewing deployment history
 
 \`\`\`bash
 joytree deployments my-site
@@ -1295,7 +1335,7 @@ joytree deployments my-site --limit 20
 
 Each row shows status, timestamp, branch, and build duration. Pass a project name to filter, or omit it to see the most recent deployments across your whole workspace.
 
-## Opening the live site
+### Opening the live site
 
 \`\`\`bash
 joytree open my-site
