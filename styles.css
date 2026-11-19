@@ -1271,3 +1271,22 @@ html[data-theme="dark"] .hero-art{
   .doc-content td:last-child code,
   .doc-content td:first-child:nth-last-child(2) code{ white-space: normal; overflow-wrap: anywhere; }
 }
+
+/* ==========================================================================
+   Mobile header: flat, Railway-style. The theme toggle and the menu button sit
+   directly on the bar with no border, no raised edge and no lift on hover.
+   ========================================================================== */
+@media (max-width: 860px){
+  html .topbar .icon-btn,
+  html .topbar .icon-btn:hover,
+  html[data-theme] .topbar .icon-btn:hover{
+    background: transparent; border-color: transparent; box-shadow: none; transform: none;
+    width: 40px; height: 40px; flex: 0 0 40px; border-radius: 10px;
+  }
+  html[data-theme] .topbar .icon-btn:active{
+    background: var(--bg-sunken); border-color: transparent; box-shadow: none; transform: none;
+  }
+  html .topbar .icon-btn svg{ width: 22px; height: 22px; }
+  .theme-toggle{ margin-right: -4px; }
+  .nav-toggle{ margin-right: -8px; }
+}
