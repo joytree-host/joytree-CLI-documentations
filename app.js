@@ -481,7 +481,6 @@
 
     const featured = [
       ['amber', '#/quickstart', 'Quickstart', 'Create an account and deploy your first app in minutes.', 'launch', LANG_LOGOS, LANG_POOL],
-      ['blue', '#/' + byKey.agent.children[0].key, 'AI Agent', 'Build and ship by describing what you want in plain language.', 'panels', AI_LOGOS.slice(0, 3), AI_POOL],
       ['rose', '#/cli-install', 'CLI', 'Install the command line and deploy from your terminal.', 'book', GROUP_LOGOS.cli, GROUP_POOL.cli],
       ['green', '#/' + byKey.mcp.children[0].key, 'MCP Server', 'Let Claude, Cursor or ChatGPT operate your projects.', 'network', AI_LOGOS, ['lovable']],
     ].map((f, i) => card('feat-card', f[0], f[1], f[2], f[3], f[4], 'f' + i, f[5], f[6])).join('');
