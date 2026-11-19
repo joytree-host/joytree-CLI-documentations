@@ -2979,7 +2979,47 @@ Rotating invalidates the previous secret immediately. If you verify incoming pay
     title: 'Managing SSH keys', group: 'SSH Keys', eyebrow: 'SSH Keys',
     lede: 'Generate and manage SSH keys for accessing private resources from your deployments.',
     md: `
-## Listing keys
+## From the dashboard
+
+Open **Developer Tools → SSH Keys** in the sidebar. Create a key in the form at the top, then find it under **Installed Keys**. The orange cursor shows where to click, and you can click the screen to enlarge it.
+
+### Step 1 — Generate a key
+
+Type a **Key Label** that tells you which machine it is for, such as \` my-laptop\`. Choose a **Project** for the key, or leave **No project** selected. Then press **Generate ed25519 Key**.
+
+:::shot
+step: 1
+title: Name the key, then press **Generate ed25519 Key**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> ssh-keys
+img: assets/ssh/01-ssh-keys.webp
+h: 553
+alt: The SSH Keys page with a Key Label field, a Project menu set to No project, a green Generate ed25519 Key button, and an Installed Keys list below
+cursor: 40,8 > 58.6,14.8 > 58.6,36.5
+focus: 20.9,34.0,75.3,5.1
+note: **Key Label** — a name for you to recognise the key by.
+note: **Project** — ties the key to one of your projects, or choose **No project**.
+:::
+
+### Step 2 — Find your key and connect
+
+Every key appears under **Installed Keys** with its name, the start of the public key, and tags showing its type, project and date. The box under each key holds the \` ssh\` command to connect with it. **Copy** and **Revoke** sit on the right of the row.
+
+:::shot
+step: 2
+title: Find the key under **Installed Keys**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> ssh-keys
+img: assets/ssh/01-ssh-keys.webp
+h: 553
+alt: The Installed Keys list showing a key with ed25519, project and date tags, Copy and Revoke buttons and an ssh command underneath
+cursor: 40,80 > 88.4,57.8
+focus: 86.2,55.4,4.2,4.8
+note: **Revoke** — removes a key you no longer use, for example from a laptop you have retired.
+note: The round arrow button next to **Installed Keys** reloads the list.
+:::
+
+## From the CLI
+
+### Listing keys
 
 \`\`\`bash
 joytree ssh list
@@ -2993,7 +3033,7 @@ deploy-key   key_8x2n
    created: 6/12/2026, 9:04:00 AM
 \`\`\`
 
-## Generating a new key
+### Generating a new key
 
 \`\`\`bash
 joytree ssh generate --name deploy-key
@@ -3013,7 +3053,7 @@ Add this public key to your GitHub/GitLab account.
 
 The private key is stored securely on JOYTREE and used on your behalf — only the public key is ever shown, so you can add it to GitHub, GitLab, or any other service that needs to trust your deployments.
 
-## Deleting a key
+### Deleting a key
 
 \`\`\`bash
 joytree ssh delete key_8x2n
