@@ -158,6 +158,80 @@ JOYTREE hosts **static sites** (built HTML/CSS/JS output with no running process
 Every feature in the dashboard has a CLI command and a REST endpoint behind it. If you can click it, you can script it.
 :::
 
+## Create your account
+
+Signing up takes about a minute. Four screens, and you are in the dashboard. The orange cursor shows where to click, and you can click any screen to enlarge it.
+
+### Step 1 — Open joytree.site and press Sign up
+
+Go to **[joytree.site](https://joytree.site)** and press **Sign up** in the top right. Already have an account? Press **Log in** next to it.
+
+:::shot
+step: 1
+title: Press **Sign up** in the top right.
+bar: joytree.site
+img: assets/intro/01-home.webp
+h: 486
+alt: The JOYTREE home page with the headline The cloud platform for deploying apps, building APIs and shipping anything, and green Log in and Sign up buttons in the top right
+cursor: 60,60 > 91.8,6.0
+focus: 88.9,3.1,5.8,6.0
+note: **Ship your first app free** — you can start on the Free plan without adding a card.
+note: **Docs** and **Pricing** in the top bar are there when you want to look around first.
+:::
+
+### Step 2 — Choose how to continue
+
+Pick a sign-in method: **GitHub**, **Google** or **GitLab** in one click, or enter an email and password. Use the **Sign up** and **Sign in** tabs to switch between creating an account and returning to one.
+
+:::shot
+step: 2
+title: Press **Google**, **GitHub** or **GitLab**, or type your email and password.
+bar: joytree.site
+img: assets/intro/02-sign-in.webp
+h: 483
+alt: The JOYTREE sign-in page with Sign up and Sign in tabs, GitHub, Google and GitLab buttons, then Email and Password fields and a green Sign in button
+cursor: 55,70 > 76.9,40.6
+focus: 73.1,37.2,7.8,6.6
+note: **GitHub** and **GitLab** — sign in with the account where your code already lives.
+note: **Forgot?** — next to the Password field, sends you a link to reset it.
+:::
+
+### Step 3 — Approve the sign-in
+
+If you chose Google, a Google page asks you to confirm which account to use. Press **Continue**.
+
+:::shot
+step: 3
+title: Press **Continue** on the Google page.
+bar: accounts.google.com
+img: assets/intro/03-google.webp
+h: 562
+alt: The Sign in with Google page saying You are signing back in to joytree.site, with Cancel and Continue buttons
+cursor: 55,35 > 75.2,66.0
+focus: 67.7,62.9,15.0,6.3
+note: **Account chip** — shows the Google account that will be used. Open it to switch to another one.
+note: **Cancel** — returns you to JOYTREE without signing in.
+:::
+
+### Step 4 — Enter the 6-digit code
+
+JOYTREE sends a 6-digit code to your email to confirm it is you. Type it into the boxes and press **Verify & Continue**. You land in the dashboard.
+
+:::shot
+step: 4
+title: Type the code, then press **Verify & Continue**.
+bar: joytree.site
+img: assets/intro/04-verify.webp
+h: 560
+alt: The Confirm it's you page with six empty boxes for the verification code and a green Verify and Continue button
+cursor: 60,80 > 49.4,56.3 > 49.4,68.7
+focus: 37.9,65.0,23.2,7.3
+note: **Resend code** — sends a fresh code if the first one has not arrived. Check your spam folder too.
+note: **Cancel** — takes you back to the sign-in page.
+:::
+
+Next, follow the **[Quickstart](#/quickstart)** to deploy your first site.
+
 ## Where to start
 
 - New to JOYTREE? Read the **[Quickstart](#/quickstart)**.
