@@ -41,6 +41,8 @@ const NAV = [
       { key: 'projects-manage', title: 'Managing projects' },
       { key: 'projects-env', title: 'Environment variables' },
       { key: 'projects-runtime-logs', title: 'Runtime logs' },
+      { key: 'projects-firewall', title: 'Firewall' },
+      { key: 'projects-cron', title: 'Cron jobs' },
       { key: 'projects-delete', title: 'Deleting a project' },
     ]
   },
@@ -109,6 +111,7 @@ const NAV = [
       { key: 'account-apikey', title: 'API key management' },
       { key: 'account-billing', title: 'Billing' },
       { key: 'account-workspace', title: 'Workspace & activity' },
+      { key: 'account-usage', title: 'Usage & limits' },
       { key: 'account-support', title: 'Support' },
     ]
   },
@@ -1608,6 +1611,85 @@ Only server sites produce runtime logs continuously — static sites have no run
 `
   },
 
+  'projects-firewall': {
+    title: 'Firewall', group: 'Projects', eyebrow: 'Projects',
+    lede: 'Filter, challenge and block traffic at the edge. Rules apply instantly.',
+    md: `
+The **Firewall** page protects one project at a time. It sits in the **Platform** group of the dashboard sidebar. Two steps get you from the overview to configuring a protection.
+
+### Step 1 — Choose the project
+
+Open **Firewall** and pick a project from the menu at the top right. Everything on the page, including the status and the rules, applies to that project only. The tabs along the top split the firewall into its parts.
+
+:::shot
+step: 1
+title: Pick the project from the menu at the top right.
+bar: joytree.site <i>/</i> dashboard <i>/</i> firewall
+img: assets/firewall/01-overview.webp
+h: 558
+alt: The Firewall page with a project menu at the top right, tabs for Overview, Rules, IP Blocking, Bypass, Bots, DDoS, Managed Rules, Insights, Live Traffic and Settings, and a Firewall is active banner
+cursor: 55,45 > 89.3,17.0
+focus: 81.7,14.7,15.3,4.7
+note: **Firewall is active** — the banner shows the state of the firewall, with how many security insights need your attention.
+note: **Security posture** — the number on the right sums up the project's protection. The badge on the **Insights** tab shows the same count of insights.
+:::
+
+### Step 2 — Open a protection to configure it
+
+**Protection status** lists what is currently filtering traffic for the project. Each row shows its state on the right: **Active**, a count such as **0 active** or **0 blocked**, or **Off**. Select a row to configure it.
+
+:::shot
+step: 2
+title: Select a row in **Protection status**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> firewall
+img: assets/firewall/01-overview.webp
+h: 558
+alt: The Protection status list on the Firewall overview with System mitigations, Custom rules, IP blocking, System bypass and Bot protection rows
+cursor: 40,35 > 66.0,67.4
+focus: 44.9,62.3,52.0,10.1
+note: **System mitigations** — per-IP flood protection and network-layer DDoS defence.
+note: **Custom rules** — rules run in order from top to bottom.
+note: **IP blocking** — blocked addresses and CIDR ranges.
+note: **System bypass** — trusted IPs that skip system mitigations.
+note: **Bot protection** — challenges non-browser traffic.
+:::
+
+## The tabs
+
+The tabs are **Overview**, **Rules**, **IP Blocking**, **Bypass**, **Bots**, **DDoS**, **Managed Rules**, **Insights**, **Live Traffic** and **Settings**.
+`
+  },
+
+  'projects-cron': {
+    title: 'Cron jobs', group: 'Projects', eyebrow: 'Projects',
+    lede: 'Schedule URLs and commands, and see every run.',
+    md: `
+**Cron Jobs** runs a command or calls a URL on a repeating schedule. It fires on time, every time, and every run is logged on the same page.
+
+### Step 1 — Create a cron job
+
+Open **Cron Jobs** in the dashboard sidebar. A new account shows **No cron jobs yet**. Press **New Cron Job** at the top right, or **Schedule your first job** in the middle of the page.
+
+:::shot
+step: 1
+title: Press **New Cron Job** at the top right.
+bar: joytree.site <i>/</i> dashboard <i>/</i> cronjobs
+img: assets/cron/01-cron-jobs.webp
+h: 560
+alt: The Cron Jobs page with an empty Active Jobs list reading No cron jobs yet, a Schedule your first job button, and a green New Cron Job button at the top right
+cursor: 55,55 > 92.7,16.9
+focus: 87.8,14.4,9.7,5.2
+note: **Active Jobs** — your scheduled jobs appear here once you add them.
+note: **Recent Executions** — further down the page; this is where every run is logged.
+:::
+
+## What a job can run
+
+- **A URL** — JOYTREE calls it on your schedule.
+- **A command** — JOYTREE runs it on your schedule.
+`
+  },
+
   'projects-delete': {
     title: 'Deleting a project', group: 'Projects', eyebrow: 'Projects',
     lede: 'Remove a project and free its subdomain.',
@@ -3049,6 +3131,57 @@ Recent Activity
 \`\`\`
 
 Shows recent deploys across every project in the workspace, most recent first.
+`
+  },
+
+  'account-usage': {
+    title: 'Usage & limits', group: 'Account & Billing', eyebrow: 'Account',
+    lede: 'Real CPU, memory and network from your running containers, plus how your builds are doing.',
+    md: `
+**Usage & Limits** shows what your running projects are using right now and over the last day. It sits in the **Platform** group of the dashboard sidebar.
+
+### Step 1 — Open Usage & Limits
+
+Open **Platform** in the sidebar and choose **Usage & Limits**. The page loads live figures for your containers.
+
+:::shot
+step: 1
+title: Open **Usage & Limits** under **Platform**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> usage
+img: assets/usage/01-usage.webp
+h: 563
+alt: The Usage and Limits page with CPU, Memory, Network out and Network in figures, three charts, and Usage and Limits highlighted under Platform in the sidebar
+cursor: 55,80 > 8.0,63.5
+focus: 0.2,61.1,15.7,5.0
+note: **Platform** also holds **Team**, **Pricing**, **Activity Log**, **Secrets** and **Firewall**.
+:::
+
+### Step 2 — Pick a resource and a time range
+
+Use the menu at the top right to look at **All resources (total)** or narrow it down. Switch the window between **1h**, **6h** and **24h**. The four cards at the top show the current reading, and the charts below show how it changed.
+
+:::shot
+step: 2
+title: Choose a time range such as **6h**.
+bar: joytree.site <i>/</i> dashboard <i>/</i> usage
+img: assets/usage/01-usage.webp
+h: 563
+alt: The Usage and Limits page with the All resources menu and the 1h, 6h and 24h buttons at the top right above the CPU, Memory, Network out and Network in cards
+cursor: 55,55 > 92.6,10.7
+focus: 76.0,9.0,21.6,4.4
+note: **CPU** — the current vCPU use, and whether a CPU cap applies.
+note: **Memory** — the current use, with how much of your limit it is. The dashed line in the chart sits near that limit.
+note: **Network out / in** — egress and ingress now, with the peak for the window.
+note: Each chart shows the average and the peak for the window you picked.
+:::
+
+## Fresh data
+
+The note under the charts shows when the last sample was taken. Samples are taken every minute from Docker, and the page updates automatically.
+
+## Build results
+
+Further down, **Build results** shows how your deployments are performing. It gives a success rate with a green and red bar, and the figures for your builds underneath.
 `
   },
 
